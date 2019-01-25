@@ -1,0 +1,68 @@
+
+body{
+    background-color: #162341;
+    overflow:hidden;
+}
+
+h1{
+    color: white;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.wrapper{
+    height:295px;
+    padding-top:0px;
+    position:absolute;
+    width:1000px;
+    top:50%;
+    margin-top:-180px;
+    margin-left:-150px;
+    border-radius: 3px;
+    left:0;
+    background-color:#121A36;
+}
+
+.container{
+    margin-top:8%;
+    float:right;
+    text-align:center;
+}
+input{
+    font-family: 'Ubuntu', sans-serif;
+    font-size:30px;
+    text-color:white;
+    background-color: #121A36;
+    border:none;
+    border-bottom:1px solid #757575;
+}
+
+input, select, textarea{
+    color: #ffffff;
+}
+
+button{
+    color:#e49c42;
+    margin-top:10px;
+    outline:none;
+    height: 40px;
+    text-align: center;
+    width: 100px;
+    border-radius:40px;
+    background: #121A36;
+    border: 2px solid #e49c42;
+
+    letter-spacing:1px;
+    text-shadow:0;
+    cursor:pointer;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+button:hover{
+    background:#e49c42;
+    color:#121A36;
+}
+
+button:active{
+    border: 2px solid #785322;
+    background:#785322;
+}
