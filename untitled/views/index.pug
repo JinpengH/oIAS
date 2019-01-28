@@ -10,25 +10,18 @@ html
         script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
         script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
         script(src='/javascripts/login.js')
+        script(src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js")
+
 
     body
 
         section.user
             .user_options-container
-                .user_options-text
-                    .user_options-unregistered
-                        h2.user_unregistered-title Don't have an account?
-                        p.user_unregistered-text
-                            | Join now!
-                        button#signup-button.user_unregistered-signup Sign up
-                    .user_options-registered
-                        h2.user_registered-title Have an account?
-                        p.user_registered-text
-                            | Press login button to login!
-                        button#login-button.user_registered-login Login
-                #user_options-forms.user_options-forms
-                    .user_forms-login
-                        h2.forms_title Login
+                #user_options-forms.user_options-forms.card
+                    .user_forms-login.front
+                        img.logo(src="../images/obEN_logo.png" height=61 width=115 align=middle)
+                        br
+                        h2.forms_title(align = middle) Login
                         form.forms_form
                             fieldset.forms_fieldset
                                 .forms_field
@@ -37,8 +30,13 @@ html
                                     input.forms_field-input(type='password', placeholder='Password', required='')
                             .forms_buttons
                                 button.forms_buttons-forgot(type='button') Forgot password?
+                                br
+                                button.forms_button-flip(type='button') Do not have an account?
                                 input.forms_buttons-action(type='submit', value='Log In')
-                    .user_forms-signup
+
+                    .user_forms-signup.back
+                        img.logo(src="../images/obEN_logo.png" height=61 width=115 align="middle")
+                        br
                         h2.forms_title Sign Up
                         form.forms_form
                             fieldset.forms_fieldset
@@ -49,6 +47,7 @@ html
                                 .forms_field
                                     input.forms_field-input(type='password', placeholder='Password', required='')
                             .forms_buttons
+                                button.forms_button-flip-back(type='button') Already have an account?
                                 input.forms_buttons-action(type='submit', value='Sign up')
 
 
