@@ -67,3 +67,7 @@ fabric.properties
 
 .idea/
 untitled/node_modules/node-sass/vendor/darwin-x64-67/
+
+yarn.lock
+yarn-error.log
+package-lock.json
