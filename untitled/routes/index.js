@@ -14,4 +14,8 @@ router.get('/login3', function(req, res, next) {
     res.render('login3', { title: 'Login' });
 });
 
+router.get('/main', function(req, res, next) {
+    res.render('main', { title: 'main' });
+});
+
 module.exports = router;
