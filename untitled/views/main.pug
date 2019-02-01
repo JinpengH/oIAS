@@ -5,9 +5,17 @@ html
         link(rel='stylesheet', href='/stylesheets/main.css')
         link(href="https://fonts.googleapis.com/css?family=PT+Serif|Poppins|Ubuntu" rel="stylesheet")
         link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous")
+        script(src="https://code.getmdl.io/1.3.0/material.min.js")
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+        script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
+        script(src='/javascripts/main.js')
+        script(src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js")
     body
+
         .wrapper
             .header
+                p.welcome_sentence Hi, Jinpeng
+                a.logout_button Log out
             .content
                 .card
                     h3.name Scheitzer Alexander
@@ -36,6 +44,25 @@ html
                     .line
                     p.type
                         | Invoice from AI Dept.
+                button(onclick="document.getElementById('id01').style.display='block'") upload
+                #id01.modal
+                    form.modal-content.animate(action='/action_page.php')
+                        .imgcontainer
+                            span.close(onclick="document.getElementById('id01').style.display='none'", title='Close Modal') ×
+                        .container
+                            label(for='uname')
+                                b Username
+                            input(type='text', placeholder='Enter Username', name='uname', required='')
+                            label(for='type') Type
+                            select#type(name='type')
+                                option(value='Invoice') Invoice
+                                option(value='Request') Request
+                            input.draginput(type='file' multiple=)
+                            p.drag Drag your files here or click in this area.
+                            button(type='submit') Submit
+                        .container(style='background-color:#f1f1f1')
+                            button.cancelbtn(type='button', onclick="document.getElementById('id01').style.display='none'") Cancel
+
 
 
 

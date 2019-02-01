@@ -1,6 +1,14 @@
 body{
-    background: url("../images/background/line.gif") repeat;
+    background: url("../images/background/city.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 
+}
+
+body .bg{
+    filter:blur(2px);
 }
 
 
@@ -12,6 +20,7 @@ input{
     width:100%;
     height:36px;
     font-size:26px;
+    background: transparent;
 }
 
 input:focus{
@@ -21,7 +30,7 @@ input:focus{
 }
 
 button{
-    border:1px white;
+    border:1px #ffffff0d;
     border-radius: 2px;
     background:transparent;
     padding:5px;
@@ -50,10 +59,12 @@ button:hover{
     left:calc(50% - 200px);
     top: calc(50% - 255px);
     padding: 55px 30px;
-    background-color: white;
+    background-color: #ffffff03;
     box-shadow: 1px 1px 50px rgb(202, 202, 202);
     border-radius: 10px;
 }
+
+
 
 .forms_buttons{
     margin-top: 50px;

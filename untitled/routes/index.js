@@ -10,8 +10,8 @@ router.get('/login2', function(req, res, next) {
     res.render('login2', { title: 'Login' });
 });
 
-router.get('/login3', function(req, res, next) {
-    res.render('login3', { title: 'Login' });
+router.get('/welcome', function(req, res, next) {
+    res.render('welcome', { title: 'Login' });
 });
 
 router.get('/main', function(req, res, next) {
