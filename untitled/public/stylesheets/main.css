@@ -1,5 +1,5 @@
 body{
-    background: url("../images/tiles.gif") repeat;
+    background: url("../images/background/city.jpg") repeat;
 
 }
 p{
@@ -7,81 +7,15 @@ p{
 }
 .wrapper{
     position:absolute;
+    margin:0;
+    border:0;
+    left:0;
+    top:0;
     height:100%;
     width:100%;
-    background-color:#f5f5f5d9;
+    background-color:#f5f5f5cf;
 }
 
-.card button{
-    border:0;
-    padding:0;
-    margin:0;
-    background:transparent;
-}
-
-
-.card p{
-    font-family: lato;
-    margin:0px;
-    color: black;
-    font-weight: 400;
-    font-size:15px;
-    line-height:90%;
-    padding-left: 8%;
-    padding-right: 8%;
-    padding-top:3%;
-    padding-bottom:8%;
-    border-radius:20px;
-    cursor:pointer;
-    transition: ease 1s;
-    -webkit-transition: ease 1s;
-}
-
-.card h3{
-    font-family: lato;
-    margin:0px;
-    color: black;
-    font-weight: 400;
-    font-size:20px;
-    line-height:90%;
-    padding-left: 8%;
-    padding-top:8%;
-    padding-bottom:3%;
-    border-radius:20px;
-    cursor:pointer;
-    transition: ease 1s;
-    -webkit-transition: ease 1s;
-}
-.card buttons{
-    width:100%;
-    position:relative;
-    margin-left:auto;
-    margin-right:auto;
-    padding-bottom:200px;
-    display:flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-.card button{
-    position:absolute;
-    opacity:0;
-
-}
-.card .edit_button{
-
-    left:calc(25% - 25px);
-    top:30%;
-}
-.card .approve_button{
-    color:green;
-    left:calc(50% - 25px);
-    top:30%;
-}
-.card .decline_button{
-    color:red;
-    left:calc(75% - 25px);
-    top:30%;
-}
 h1{
     font-family: lato;
     color:white;
@@ -101,51 +35,25 @@ h1{
     padding-left:0;
 }
 
-.card{
-    width:22%;
-    position:relative;
-    background-color:white;
-    margin:1.13%;
-    border-radius:5px;
-    transition: 1s;
-    -webkit-transition:0.5s;
-    cursor:pointer;
-    flex: 1 1 auto;
-    box-shadow: 1px 1px 30px #c5c5c5;
-}
-
-.card:hover{
-    filter: blur(1px);
-    background-color:#e4e4e4;
-}
-
-.card:hover button{
-    opacity:1;
-}
 .content{
     width:100%;
     position:relative;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left:0;
+    margin-right:0;
     padding-bottom:200px;
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
-.line{
-    height:2px;
-    width:84%;
-    margin:auto;
-    background-color: #f3a800;
-}
+
 
 .header {
+    left:0;
     width:98%;
     height:36px;
     border-radius:2px;
     color: #332c2c;
     background-color:#4fb2ec;
-    margin-left:5px;
     margin-right:5px;
     display: inline-block;
     height:auto;
@@ -167,6 +75,70 @@ h1{
 .logout_button:hover{
     cursor:pointer;
     border-bottom:1px solid red;
+}
+.list_description{
+    padding:0;
+    margin:0;
+    margin-left:40px;
+    font-family:bold;
+}
+#list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    border:0;
+    width:100%;
+}
+.line{
+    background-color:#8a8686;
+    width:100%;
+    height:3px;
+}
+.tile{
+    display:inline-block;
+    position:relative;
+    border:0;
+    padding:0;
+    margin:0;
+    width:100%;
+    background-color:white;
+    transition: transform 1.2s;
+    -webkit-transition: transform .2s;
+
+}
+.tile p{
+    font-size:25px;
+    font-weight:lighter;
+    margin:0;
+    border:0;
+    float:left;
+    margin-left:40px;
+}
+
+
+.tile:hover{
+    box-shadow:1px 1px 50px #c3bfbf;
+    transform:scale(1.01);
+}
+
+.list_button{
+    float:right;
+    margin-right:20px;
+}
+
+.preview{
+    color: #4a63d7;
+}
+
+.download{
+    color: #4CAF50;
+}
+
+.approve{
+    color:green;
+}
+.decline{
+    color:red;
 }
 
 .modal-content input[type=text], input[type=password] {

@@ -17,35 +17,22 @@ html
                 p.welcome_sentence Hi, Jinpeng
                 a.logout_button Log out
             .content
-                .card
-                    h3.name Scheitzer Alexander
-                    .buttons
-                        button.far.fa-edit.fa-3x.edit_button
-                        button.far.fa-thumbs-up.fa-3x.approve_button
-                        button.far.fa-thumbs-down.fa-3x.decline_button
-                    .line
-                    p.type
-                        | Invoice from Finance Dept.
-                .card
-                    h3.name Jinpeng He
-                    .buttons
-                        button.far.fa-edit.fa-3x.edit_button
-                        button.far.fa-thumbs-up.fa-3x.approve_button
-                        button.far.fa-thumbs-down.fa-3x.decline_button
-                    .line
-                    p.type
-                        | Request from UI Dept.
-                .card
-                    h3.name Runwei Li
-                    .buttons
-                        button.far.fa-edit.fa-3x.edit_button
-                        button.far.fa-thumbs-up.fa-3x.approve_button
-                        button.far.fa-thumbs-down.fa-3x.decline_button
-                    .line
-                    p.type
-                        | Invoice from AI Dept.
-                button(onclick="document.getElementById('id01').style.display='block'") upload
-                #id01.modal
+                p.list_description Name               Type             Description
+                .line
+                ul#list
+                    li.tile
+                            p.name Jinpeng He
+                            p.description Meal reimbursement
+                            p.type Finance
+                            .fas.fa-eye.fa-2x.preview.list_button
+                            .fas.fa-arrow-down.fa-2x.download.list_button
+                            .fas.fa-check.fa-2x.approve.list_button
+                            .fas.fa-times.fa-2x.decline.list_button
+
+                            //button(onclick="document.getElementById('id01').style.display='block'") upload
+
+
+                //#id01.modal
                     form.modal-content.animate(action='/action_page.php')
                         .imgcontainer
                             span.close(onclick="document.getElementById('id01').style.display='none'", title='Close Modal') ×
