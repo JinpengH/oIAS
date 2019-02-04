@@ -13,17 +13,20 @@ html
     body
 
         .wrapper
+
             .header
                 p.welcome_sentence Hi, Jinpeng
                 a.logout_button Log out
             .content
-                p.list_description Name               Type             Description
+                p.list_description-name Name
+                p.list_description-type Type
+                p.list_description-description Description
                 .line
                 ul#list
                     li.tile
                             p.name Jinpeng He
-                            p.description Meal reimbursement
                             p.type Finance
+                            p.description Meal reimbursement
                             .fas.fa-eye.fa-2x.preview.list_button
                             .fas.fa-arrow-down.fa-2x.download.list_button
                             .fas.fa-check.fa-2x.approve.list_button
