@@ -1,10 +1,11 @@
 var express = require('express');
-var router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../public/server/config/keys");
 const passport = require("passport");
 const gravatar = require("gravatar");
+
+var router = express.Router();
 
 // Load Input Validation
 const validateRegisterInput = require("../public/server/validation/register.validation.js");
@@ -26,6 +27,7 @@ router.get('/welcome', function(req, res, next) {
 router.get('/main', function(req, res, next) {
     res.render('main', { title: 'main' });
 });
+
 
 router.post("/login", (req, res) => {
     // check validation
@@ -76,5 +78,50 @@ router.post("/login", (req, res) => {
         });
     });
 });
+
+router.post("/register", (req, res) => {
+    // check validation
+    const { errors, isValid } = validateRegisterInput(req.body);
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+    User.findOne({
+        email: req.body.email
+    }).then(user => {
+        console.log("hey");
+        if (user) {
+            return res.status(400).json({ email: "Email already exists" });
+        } else {
+            // obtain user avatar
+            const avatar = gravatar.url(req.body.email, {
+                s: "200", // size
+                r: "pg", // Rating
+                d: "mm" // Default
+            });
+
+            // create User object
+            const newUser = new User({
+                employeeId: req.body.employeeId,
+                fullName: req.body.fullName,
+                password: req.body.password,
+                email: req.body.email,
+                avatar
+            });
+
+            // encrypt
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(newUser.password, salt, (err, hash) => {
+                    if (err) throw err;
+                    newUser.password = hash;
+                    newUser
+                        .save()
+                        .then(user => res.json(user))
+                        .catch(err => console.log(err));
+                });
+            });
+        }
+    });
+});
+
 
 module.exports = router;

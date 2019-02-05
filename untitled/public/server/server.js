@@ -21,20 +21,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// DB Config
-const db = require("./config/keys").mongoURI;
-
-// Connet to MongoDB
-mongoose
-    .connect(
-        db,
-        { useNewUrlParser: true }
-    )
-    .then(() => {
-        console.log("MongoDB Connected");
-    })
-    .catch(err => console.log(err));
-
 // Passport middleware
 app.use(passport.initialize());
 
