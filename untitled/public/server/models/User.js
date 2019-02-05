@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
 
 // SubSchema for comments
@@ -7,16 +8,21 @@ mongoose.connect("mongodb+srv://oics2019:oics2019@cluster0-4fxam.mongodb.net/tes
 var db = mongoose.connection;
 // Create Schema for single User
 const UserSchema = new Schema({
-    username: {
+    employeeId:{
         type: String,
-        required: true
+        required: true,
+    },
+    email: {
+        type: String,
+        required:true,
     },
     password: {
         type: String,
         required: true
     },
-    email: {
-        type: String
+    fullName: {
+        type: String,
+        required: true
     },
     avatar: {
         type: String
@@ -27,5 +33,4 @@ module.exports = User = mongoose.model("users", UserSchema);
 module.exports.createUser = function(newUser, callback) {
     newUser.password = password;
     newUser.save();
-
 };

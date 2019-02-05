@@ -1,10 +1,11 @@
 var express = require('express');
-var router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../public/server/config/keys");
 const passport = require("passport");
 const gravatar = require("gravatar");
+
+var router = express.Router();
 
 // Load Input Validation
 const validateRegisterInput = require("../public/server/validation/register.validation.js");
@@ -27,6 +28,7 @@ router.get('/main', function(req, res, next) {
     res.render('main', { title: 'main' });
 });
 
+
 router.post("/login", (req, res) => {
     // check validation
     const { errors, isValid } = validateLoginInput(req.body);
@@ -37,12 +39,9 @@ router.post("/login", (req, res) => {
     // check password
     const email = req.body.email;
     const password = req.body.password;
-    console.log(email);
-    console.log(password);
 
     User.findOne({ email }).then(user => {
         // check for user
-        console.log("Holw");
         if (!user) {
             errors.email = "User not found";
             return res.status(404).json(errors);
@@ -76,5 +75,48 @@ router.post("/login", (req, res) => {
         });
     });
 });
+
+router.post("/register", (req, res) => {
+    // check validation
+    const { errors, isValid } = validateRegisterInput(req.body);
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+    const employeeId = req.body.employeeId;
+    User.findOne({ employeeId }).then(user => {
+        if (user) {
+            return res.status(400).json({ email: "User already exists" });
+        } else {
+            // obtain user avatar
+            const avatar = gravatar.url(req.body.email, {
+                s: "200", // size
+                r: "pg", // Rating
+                d: "mm" // Default
+            });
+
+            // create User object
+            const newUser = new User({
+                employeeId: req.body.employeeId,
+                fullName: req.body.fullName,
+                password: req.body.password,
+                email: req.body.email,
+                avatar
+            });
+
+            // encrypt
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(newUser.password, salt, (err, hash) => {
+                    if (err) throw err;
+                    newUser.password = hash;
+                    newUser
+                        .save()
+                        .then(user => res.json(user))
+                        .catch(err => console.log(err));
+                });
+            });
+        }
+    });
+});
+
 
 module.exports = router;

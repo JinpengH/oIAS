@@ -38,16 +38,16 @@ html
                         img.logo(src="../images/obEN_logo.png" height=61 width=115 align="middle")
                         br
                         h2.forms_title Sign Up
-                        form.forms_form
+                        form.forms_form(action="/register" method="post")
                             fieldset.forms_fieldset
                                 .forms_field
-                                    input.forms_field-input(type='text', placeholder='Full Name', required='')
+                                    input.forms_field-input(type='text', name="fullName", placeholder='Full Name', required='')
                                 .forms_field
-                                    input.forms_field-input(type='Employee ID', name="EmployeeID", placeholder='Employee ID', required='')
+                                    input.forms_field-input(type='text', name="employeeId", placeholder='Employee ID', required='')
                                 .forms_field
-                                    input.forms_field-input(type='email', placeholder='Email', required='')
+                                    input.forms_field-input(type='email', name="email", placeholder='Email', required='')
                                 .forms_field
-                                    input.forms_field-input(type='password', placeholder='Password', required='')
+                                    input.forms_field-input(type='password', name="password", placeholder='Password', required='')
                             .forms_buttons
                                 button.forms_button-flip-back(type='button') Already have an account?
                                 input.forms_buttons-action(type='submit', value='Sign up')
