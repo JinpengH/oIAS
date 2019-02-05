@@ -22,12 +22,12 @@ html
                         img.logo(src="../images/obEN_logo.png" height=61 width=115 align=middle)
                         br
                         h2.forms_title(align = middle) Login
-                        form.forms_form
+                        form.forms_form(action="/login" method="post")
                             fieldset.forms_fieldset
                                 .forms_field
-                                    input.forms_field-input(type='username', name="username", placeholder='username', required='', autofocus='')
+                                    input.forms_field-input(type='email', name="email", placeholder='email', required='', autofocus='')
                                 .forms_field
-                                    input.forms_field-input(type='password', placeholder='Password', required='')
+                                    input.forms_field-input(type='password', name="password", placeholder='Password', required='')
                             .forms_buttons
                                 button.forms_buttons-forgot(type='button') Forgot password?
                                 br
