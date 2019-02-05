@@ -39,12 +39,9 @@ router.post("/login", (req, res) => {
     // check password
     const email = req.body.email;
     const password = req.body.password;
-    console.log(email);
-    console.log(password);
 
     User.findOne({ email }).then(user => {
         // check for user
-        console.log("Holw");
         if (!user) {
             errors.email = "User not found";
             return res.status(404).json(errors);
@@ -85,12 +82,10 @@ router.post("/register", (req, res) => {
     if (!isValid) {
         return res.status(400).json(errors);
     }
-    User.findOne({
-        email: req.body.email
-    }).then(user => {
-        console.log("hey");
+    const employeeId = req.body.employeeId;
+    User.findOne({ employeeId }).then(user => {
         if (user) {
-            return res.status(400).json({ email: "Email already exists" });
+            return res.status(400).json({ email: "User already exists" });
         } else {
             // obtain user avatar
             const avatar = gravatar.url(req.body.email, {
