@@ -15,23 +15,35 @@ html
         .wrapper
 
             .header
-                p.welcome_sentence Hi, Jinpeng
-                a.logout_button Log out
+                img.logo(src="../images/obEN_logo.png" height=31 width=62.5)
+                a.header_statistic Statistic
+                a.header_profile Profile
+                a.header_dashboard Dashboard
+                a.header_logout Logout
+
             .content
-                p.list_description-name Name
-                p.list_description-type Type
-                p.list_description-description Description
+                .list_description
+                    p.list_description-name Name
+                    p.list_description-type Type
+                    p.list_description-description Description
                 .line
                 ul#list
                     li.tile
-                            p.name Jinpeng He
-                            p.type Finance
-                            p.description Meal reimbursement
-                            .fas.fa-eye.fa-2x.preview.list_button
-                            .fas.fa-arrow-down.fa-2x.download.list_button
-                            .fas.fa-check.fa-2x.approve.list_button
-                            .fas.fa-times.fa-2x.decline.list_button
-
+                        p.name Jinpeng He
+                        p.type Finance
+                        p.description Meal reimbursement
+                        .fas.fa-times.fa-2x.decline.list_button
+                        .fas.fa-check.fa-2x.approve.list_button
+                        .fas.fa-arrow-down.fa-2x.download.list_button
+                        .fas.fa-eye.fa-2x.preview.list_button
+                    li.tile
+                        p.name Runwei Li
+                        p.type Finance
+                        p.description Meal reimbursement
+                        .fas.fa-times.fa-2x.decline.list_button
+                        .fas.fa-check.fa-2x.approve.list_button
+                        .fas.fa-arrow-down.fa-2x.download.list_button
+                        .fas.fa-eye.fa-2x.preview.list_button
                             //button(onclick="document.getElementById('id01').style.display='block'") upload
 
 
