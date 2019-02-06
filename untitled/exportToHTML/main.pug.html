@@ -1,0 +1,93 @@
+<html>
+<head>
+<title>main.pug</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #c792ea; font-style: italic;}
+.s1 { color: #eeffff;}
+.s2 { color: #c3e88d;}
+.s3 { color: #eeffff;}
+.s4 { color: #f07178;}
+.s5 { color: #89ddff;}
+.s6 { color: #eeffff;}
+.s7 { color: #ffcb6b; font-style: italic;}
+.s8 { color: #eeffff; font-style: italic;}
+.s9 { color: #f78c6c;}
+.s10 { color: #616161; font-style: italic;}
+</style>
+</head>
+<body bgcolor="#212121">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.pug</font>
+</center></td></tr></table>
+<pre><span class="s0">doctype </span><span class="s2">html</span>
+<span class="s4">html</span>
+    head
+        title<span class="s5">= </span><span class="s6">title</span>
+        <span class="s4">link</span><span class="s5">(</span><span class="s7">rel</span><span class="s5">=</span><span class="s2">'stylesheet'</span><span class="s5">, </span><span class="s7">href</span><span class="s5">=</span><span class="s2">'/stylesheets/main.css'</span><span class="s5">)</span>
+        <span class="s4">link</span><span class="s5">(</span><span class="s7">href</span><span class="s5">=</span><span class="s2">&quot;https://fonts.googleapis.com/css?family=PT+Serif|Poppins|Ubuntu&quot; </span><span class="s7">rel</span><span class="s5">=</span><span class="s2">&quot;stylesheet&quot;</span><span class="s5">)</span>
+        <span class="s4">link</span><span class="s5">(</span><span class="s7">rel</span><span class="s5">=</span><span class="s2">&quot;stylesheet&quot; </span><span class="s7">href</span><span class="s5">=</span><span class="s2">&quot;https://use.fontawesome.com/releases/v5.7.0/css/all.css&quot; </span><span class="s7">integrity</span><span class="s5">=</span><span class="s2">&quot;sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ&quot; </span><span class="s7">crossorigin</span><span class="s5">=</span><span class="s2">&quot;anonymous&quot;</span><span class="s5">)</span>
+        <span class="s4">script</span><span class="s5">(</span><span class="s7">src</span><span class="s5">=</span><span class="s2">&quot;https://code.getmdl.io/1.3.0/material.min.js&quot;</span><span class="s5">)</span>
+        <span class="s4">script</span><span class="s5">(</span><span class="s7">src</span><span class="s5">=</span><span class="s2">&quot;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&quot;</span><span class="s5">)</span>
+        <span class="s4">script</span><span class="s5">(</span><span class="s7">src</span><span class="s5">=</span><span class="s2">&quot;https://code.jquery.com/ui/1.12.1/jquery-ui.min.js&quot; </span><span class="s7">integrity</span><span class="s5">=</span><span class="s2">&quot;sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=&quot; </span><span class="s7">crossorigin</span><span class="s5">=</span><span class="s2">&quot;anonymous&quot;</span><span class="s5">)</span>
+        <span class="s4">script</span><span class="s5">(</span><span class="s7">src</span><span class="s5">=</span><span class="s2">'/javascripts/main.js'</span><span class="s5">)</span>
+        <span class="s4">script</span><span class="s5">(</span><span class="s7">src</span><span class="s5">=</span><span class="s2">&quot;https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js&quot;</span><span class="s5">)</span>
+    <span class="s4">body</span>
+
+        <span class="s3">.</span><span class="s8">wrapper</span>
+
+            <span class="s3">.</span><span class="s8">header</span>
+                <span class="s4">img</span><span class="s7">#sidebar_button</span><span class="s3">.</span><span class="s8">logo</span><span class="s5">(</span><span class="s7">src</span><span class="s5">=</span><span class="s2">&quot;../images/obEN_logo.png&quot; </span><span class="s7">height</span><span class="s5">=</span><span class="s9">31 </span><span class="s7">width</span><span class="s5">=</span><span class="s9">62.5</span><span class="s5">)</span>
+                <span class="s4">a</span><span class="s3">.</span><span class="s8">upload</span><span class="s3">.</span><span class="s8">fas</span><span class="s3">.</span><span class="s8">fa-upload </span><span class="s2">upload</span>
+                <span class="s4">a</span><span class="s3">.</span><span class="s8">statistic </span><span class="s2">statistic</span>
+                <span class="s4">a</span><span class="s3">.</span><span class="s8">logout_button </span><span class="s2">Log out</span>
+            <span class="s3">.</span><span class="s8">content</span>
+                <span class="s4">p</span><span class="s3">.</span><span class="s8">list_description-name </span><span class="s2">Name</span>
+                <span class="s4">p</span><span class="s3">.</span><span class="s8">list_description-type </span><span class="s2">Type</span>
+                <span class="s4">p</span><span class="s3">.</span><span class="s8">list_description-description </span><span class="s2">Description</span>
+                <span class="s3">.</span><span class="s8">line</span>
+                <span class="s4">ul</span><span class="s7">#list</span>
+                    <span class="s4">li</span><span class="s3">.</span><span class="s8">tile</span>
+                            <span class="s4">p</span><span class="s3">.</span><span class="s8">name </span><span class="s2">Jinpeng He</span>
+                            <span class="s4">p</span><span class="s3">.</span><span class="s8">type </span><span class="s2">Finance</span>
+                            <span class="s4">p</span><span class="s3">.</span><span class="s8">description </span><span class="s2">Meal reimbursement</span>
+                            <span class="s3">.</span><span class="s8">fas</span><span class="s3">.</span><span class="s8">fa-eye</span><span class="s3">.</span><span class="s8">fa-2x</span><span class="s3">.</span><span class="s8">preview</span><span class="s3">.</span><span class="s8">list_button</span>
+                            <span class="s3">.</span><span class="s8">fas</span><span class="s3">.</span><span class="s8">fa-arrow-down</span><span class="s3">.</span><span class="s8">fa-2x</span><span class="s3">.</span><span class="s8">download</span><span class="s3">.</span><span class="s8">list_button</span>
+                            <span class="s3">.</span><span class="s8">fas</span><span class="s3">.</span><span class="s8">fa-check</span><span class="s3">.</span><span class="s8">fa-2x</span><span class="s3">.</span><span class="s8">approve</span><span class="s3">.</span><span class="s8">list_button</span>
+                            <span class="s3">.</span><span class="s8">fas</span><span class="s3">.</span><span class="s8">fa-times</span><span class="s3">.</span><span class="s8">fa-2x</span><span class="s3">.</span><span class="s8">decline</span><span class="s3">.</span><span class="s8">list_button</span>
+
+                            <span class="s10">//button(onclick=&quot;document.getElementById('id01').style.display='block'&quot;) upload</span>
+
+
+                //#id01.modal 
+                    form.modal-content.animate(action='/action_page.php') 
+                        .imgcontainer 
+                            span.close(onclick=&quot;document.getElementById('id01').style.display='none'&quot;, title='Close Modal') × 
+                        .container 
+                            label(for='uname') 
+                                b Username 
+                            input(type='text', placeholder='Enter Username', name='uname', required='') 
+                            label(for='type') Type 
+                            select#type(name='type') 
+                                option(value='Invoice') Invoice 
+                                option(value='Request') Request 
+                            input.draginput(type='file' multiple=) 
+                            p.drag Drag your files here or click in this area. 
+                            button(type='submit') Submit 
+                        .container(style='background-color:#f1f1f1') 
+                            button.cancelbtn(type='button', onclick=&quot;document.getElementById('id01').style.display='none'&quot;) Cancel
+
+
+
+
+
+
+
+
+
+
+</pre>
+</body>
+</html>
