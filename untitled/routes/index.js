@@ -74,6 +74,7 @@ router.post("/login", (req, res) => {
                         });
                     }
                 );
+                return res.redirect('/main');
             } else {
                 errors.password = "Password incorrect";
                 return res.status(400).json(errors);
@@ -88,7 +89,9 @@ router.post("/register", (req, res) => {
     if (!isValid) {
         return res.status(400).json(errors);
     }
+
     const employeeId = req.body.employeeId;
+
     User.findOne({ employeeId }).then(user => {
         if (user) {
             return res.status(400).json({ email: "User already exists" });
@@ -120,9 +123,9 @@ router.post("/register", (req, res) => {
                         .catch(err => console.log(err));
                 });
             });
+            return res.redirect('/main');
         }
     });
 });
-
 
 module.exports = router;
