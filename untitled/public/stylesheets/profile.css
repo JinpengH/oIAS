@@ -1,0 +1,100 @@
+body{
+    background: url("../images/background/city.jpg") repeat;
+
+}
+p{
+    font-family:ubuntu;
+}
+.wrapper{
+    position:absolute;
+    margin:0;
+    border:0;
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    background-color:#e0e0e0cf;
+}
+
+
+.header {
+    display:inline-block;
+    margin-bottom:0;
+    padding-bottom:0;
+    left:0;
+    top:0;
+    width:100%;
+    border-radius:2px;
+    background-color:#fdfdfd;
+    height:auto;
+    box-shadow:1px 1px 20px #988e8e;
+}
+.header .logo{
+    float:left;
+    padding:20px;
+    /* left: 500px; */
+}
+
+.header a{
+    color:#8e8989;
+    font-family:Ubuntu;
+    font-size:30px;
+    float:left;
+    padding:20px;
+}
+.header a:hover{
+    cursor:pointer;
+    color:#000000;
+}
+.header .header_logout:hover{
+    cursor:pointer;
+    color:#ff5a5a;
+}
+
+.content{
+    overflow:scroll;
+    margin:0;
+    padding:inherit;
+    height:90vh;
+
+}
+
+.card{
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:100px;
+    margin-bottom:auto;
+    padding:0;
+
+    height:80%;
+    width: 90%;
+    border-radius:20px;
+    box-shadow:1px 1px 50px #c3bcbc;
+    background-color:white;
+    text-align:center;
+
+}
+.avatar{
+    top:16%;
+    transform:scale(3);
+    position:relative;
+    z-index:100;
+    border-radius:30px;
+    border:1px solid #a5a5a58c;
+}
+.card p{
+    position:relative;
+    top:100px;
+}
+.card a{
+    position:relative;
+    top:100px;
+}
+
+
+
+
+
+
+
+

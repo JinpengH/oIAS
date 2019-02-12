@@ -27,6 +27,12 @@ router.get('/welcome', function(req, res, next) {
 router.get('/main', function(req, res, next) {
     res.render('main', { title: 'main' });
 });
+router.get('/statistic', function(req, res, next) {
+    res.render('statistic', { title: 'stat' });
+});
+router.get('/profile', function(req, res, next) {
+    res.render('profile', { title: 'profile' });
+});
 
 
 router.post("/login", (req, res) => {

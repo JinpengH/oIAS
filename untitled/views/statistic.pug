@@ -1,0 +1,72 @@
+doctype html
+
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/statistic.css')
+        link(href="https://fonts.googleapis.com/css?family=PT+Serif|Poppins|Ubuntu" rel="stylesheet")
+        link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous")
+        script(src="https://code.getmdl.io/1.3.0/material.min.js")
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+        script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
+        script(src='/javascripts/statistic.js')
+        script(src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js")
+    body
+
+        .wrapper
+
+            .header
+                img.logo(src="../images/obEN_logo.png" height=31 width=62.5)
+                a.header_statistic Statistic
+                a.header_profile Profile
+                a.header_dashboard Dashboard
+                a.header_logout Logout
+            .content
+                form.user_filter
+                    p user:
+                    select.user_filter_user(name="user" id="user")
+                        option(value="Jinpeng") Jinpeng He
+                        option(value="Runwei") Runwei Lin
+                        option(value="Yanxi") Yanxi Li
+
+                    p date
+                    select.user_filter_date(name="date" id="date")
+                        option(value="Jinpeng") Daily
+                        option(value="Runwei") Weekly
+                        option(value="Yanxi") Monthly
+
+                    button.user_filter_button submit
+                h1.title report
+                .graph
+                    canvas#trend_graph(width = "800px" height= "400px")
+                    canvas#pie_graph(width = "400px" height= "400px")
+
+                p#submission_text Submission History
+                ul.submissions
+                    li.submission
+                        p.submission_name Jinpeng He
+                        p.submission_date 01/22/2019
+                        p.submission_description Meal ticket
+                        p.submission_status Declined
+                    li.submission
+                        p.submission_name Runwei Lin
+                        p.submission_date 01/22/2019
+                        p.submission_description Meal ticket
+                        p.submission_status Approved
+            .footer
+                .download download
+                .review review
+
+
+
+
+
+
+
+
+
+
+
+
+

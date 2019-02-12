@@ -1,0 +1,43 @@
+doctype html
+
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/stylesheets/profile.css')
+        link(href="https://fonts.googleapis.com/css?family=PT+Serif|Poppins|Ubuntu" rel="stylesheet")
+        link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous")
+        script(src="https://code.getmdl.io/1.3.0/material.min.js")
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+        script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
+        script(src='/javascripts/profile.js')
+        script(src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js")
+    body
+
+        .wrapper
+
+            .header
+                img.logo(src="../images/obEN_logo.png" height=31 width=62.5)
+                a.header_statistic Statistic
+                a.header_profile Profile
+                a.header_dashboard Dashboard
+                a.header_logout Logout
+            .content
+                .card
+                    img.avatar(src="../images/profile-picture.png" height=50 width=50)
+                    .card_description
+                        p.card_name Jinpeng He
+                        br
+                        p.card_position Front-end Developer
+                        br
+                        p.card_team_position team member
+                    a.change_password.fas.fa-key change your password
+                    a.change_profile_image.fas.fa-user-circle change your profile image
+                    a.toggle_day.fas.fa-moon change your theme
+
+
+
+
+
+
+

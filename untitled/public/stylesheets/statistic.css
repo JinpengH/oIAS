@@ -1,0 +1,195 @@
+body{
+    background: url("../images/background/city.jpg") repeat;
+
+}
+p{
+    font-family:ubuntu;
+}
+.wrapper{
+    position:absolute;
+    margin:0;
+    border:0;
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    background-color:#e0e0e0cf;
+}
+
+
+.header {
+    display:inline-block;
+    margin-bottom:0;
+    padding-bottom:0;
+    left:0;
+    top:0;
+    width:100%;
+    border-radius:2px;
+    background-color:#fdfdfd;
+    height:auto;
+    box-shadow:1px 1px 20px #988e8e;
+}
+.header .logo{
+    float:left;
+    padding:20px;
+    /* left: 500px; */
+}
+
+.header a{
+    color:#8e8989;
+    font-family:Ubuntu;
+    font-size:30px;
+    float:left;
+    padding:20px;
+}
+.header a:hover{
+    cursor:pointer;
+    color:#000000;
+}
+.header .header_logout:hover{
+    cursor:pointer;
+    color:#ff5a5a;
+}
+h1{
+    font-family: lato;
+    color:white;
+    font-weight: 400;
+    font-size:35px;
+    line-height:90%;
+    padding-bottom:140px;
+    padding-top:150px;
+    position:relative;
+    text-align:center;
+}
+.content{
+    overflow:scroll;
+    margin:0;
+    padding:inherit;
+    height:90vh;
+
+}
+.user_filter{
+    display:inline-block;
+    width:100%;
+    margin-top:0;
+    padding-top:0;
+    background-color:#f3f3f3;
+    height:100px;
+    box-shadow:1px 5px 20px gray;
+}
+.user_filter p{
+    float:left;
+    margin-left:100px;
+    font-size:35px;
+    padding:auto;
+}
+.user_filter select{
+    float:left;
+    margin-top:calc(50px - 20px);
+    font-size:35px;
+    padding:auto;
+}
+.user_filter_user{
+    width:auto;
+    padding:auto;
+    margin:auto;
+    left:auto;
+}
+.user_filter_button{
+    border:0;
+    font-size:20px;
+    box-shadow:1px 1px 20px #a0a0a0d1;
+    background-color:white;
+    border-radius:3px;
+    margin-top:calc(50px - 10px);
+    margin-left:100px;
+}
+.user_filter_button:hover{
+    cursor:pointer;
+
+}
+.title{
+    font-size:100px;
+    padding:20px;
+    margin:0;
+    color:#525252;
+    font-family:ubuntu;
+}
+
+.graph{
+    display:inline-block;
+}
+#pie_graph{
+    float:left;
+    margin-left:150px;
+}
+#trend_graph{
+    float:left;
+
+}
+#submission_text{
+    float:left;
+    font-size: 50px;
+    margin-left:calc(50% - 150px);
+
+}
+.submission{
+    display:inline-block;
+    position:relative;
+    border-radius:20px;
+    margin-left:20px;
+    width:98%;
+    background-color:white;
+    transition: transform 1.2s;
+    -webkit-transition: transform .2s;
+
+
+}
+.submission p{
+    font-size:25px;
+    font-weight:lighter;
+    margin:0;
+    border:0;
+    float:left;
+    margin-left:20px;
+}
+
+.submission .name{
+    width:150px;
+}
+.submission .type{
+    width:150px;
+}
+
+.submission:hover{
+    box-shadow:1px 1px 50px #c3bfbf;
+    transform:scale(1.01);
+}
+
+.footer{
+    width:100%;
+    background-color:white;
+    box-shadow:1px 1px 20px #9c9c9c;
+    display:inline-block;
+    padding:10px;
+
+
+}
+
+.footer .download, .review{
+    font-family:ubuntu;
+    float:left;
+    padding: 10px;
+    margin-left: 30%;
+    border:1px solid black;
+    border-radius:30px;
+}
+
+.footer .download:hover, .review:hover{
+    box-shadow:1px 1px 10px #9c9c9c;
+    cursor:pointer;
+
+}
+
+
+
