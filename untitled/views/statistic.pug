@@ -18,10 +18,10 @@ html
 
             .header
                 img.logo(src="../images/obEN_logo.png" height=31 width=62.5)
-                a.header_statistic Statistic
-                a.header_profile Profile
-                a.header_dashboard Dashboard
-                a.header_logout Logout
+                a.header_statistic(href="/statistic") Statistic
+                a.header_profile(href="/profile") Profile
+                a.header_dashboard(href="/main") Dashboard
+                a.header_logout(href="/login") Logout
             .content
                 form.user_filter
                     p user:
