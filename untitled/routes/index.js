@@ -109,7 +109,7 @@ router.post("/register", (req, res) => {
                 fullName: req.body.fullName,
                 password: req.body.password,
                 email: req.body.email,
-                avatar
+                // avatar
             });
 
             // encrypt
