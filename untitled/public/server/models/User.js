@@ -24,6 +24,12 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    userType:{
+        type: String,
+    },
+    submissions:{
+        type: [String]
+    },
     avatar: {
         type: String
     }
