@@ -29,6 +29,11 @@ const UserSchema = new Schema({
         default: 0,
         required: true
     },
+    departmentId:{
+        type: Number,
+        default: 0,
+        required: true
+    },
     submissions:{
         type: [String]
     },

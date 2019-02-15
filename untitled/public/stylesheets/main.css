@@ -194,3 +194,61 @@ h1{
 .content.isOpen {
     transform: translate3d(220px,0,0);
 }
+#float_button{
+    position:fixed;
+    background-color:white;
+    color:#4CAF50;
+    border-radius:30px;
+    box-shadow:1px 1px 40px #b3b0b0;
+    padding:15px;
+    top:90%;
+    left:90%;
+}
+#float_button:hover{
+    cursor:pointer;
+    color:#4ac74f;
+}
+
+.submission_form{
+    display:none;
+    background-color:#ffffffdb;
+    box-shadow:1px 1px 50px #a5a5a5;
+    border-radius:30px;
+    position:fixed;
+    left:calc(50% - 235px);
+    padding:50px;
+
+}
+
+.forms_fieldset{
+    border:0;
+    text-align:center;
+}
+.forms_field{
+    position:relative;
+
+}
+.forms_fieldset input{
+    background-color:#e4e4e4;
+    border:0;
+    border-radius:3px;
+    padding:10px;
+}
+.forms_buttons{
+    text-align:center;
+}
+.forms_buttons input,button{
+    background-color:transparent;
+    padding:10px;
+    font-size:20px;
+    text-align:center;
+    border:0;
+
+}
+.forms_buttons input:hover,button:hover{
+    cursor:pointer;
+    color:#a2a2a2;
+}
+
+
+
