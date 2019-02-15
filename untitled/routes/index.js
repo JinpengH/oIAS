@@ -23,10 +23,18 @@ router.get('/login', function(req, res, next) {
 router.get('/welcome', function(req, res, next) {
     res.render('welcome', { title: 'Login' });
 });
-
+function mainGet(req,res,next){
+    //const name = req.name;
+    //const user = req.user;
+    //res.render('main', { title: 'main', name, user});
+    res.render('main', { title: 'main'});
+}
+router.get('/main',mainGet);
+/*
 router.get('/main', function(req, res, next) {
-    res.render('main', { title: 'main' });
-});
+    const email = "hey";
+    res.render('main', { title: 'main', email});
+});*/
 router.get('/statistic', function(req, res, next) {
     res.render('statistic', { title: 'stat' });
 });
@@ -34,7 +42,64 @@ router.get('/profile', function(req, res, next) {
     res.render('profile', { title: 'profile' });
 });
 
+function loginPost(req,res,next){
+    // check validation
+    const { errors, isValid } = validateLoginInput(req.body);
+    if (!isValid) {
+        return res.render('login',{error: errors});
+        //return res.status(400).json(errors);
+    }
 
+    // check password
+    const email = req.body.email;
+    const password = req.body.password;
+
+    User.findOne({ email }).then(user => {
+        // check for user
+        if (!user) {
+            errors.email = "User not found";
+            return res.render('login',{error: errors});
+            //return res.status(404).json(errors);
+        }
+
+        // Check Password
+        bcrypt.compare(password, user.password).then(isMatch => {
+            if (isMatch) {
+                // User Matched
+                const payload = {
+                    id: user.id,
+                    name: user.fullName,
+                    avatar: user.avatar
+                };
+                // Sign Token
+                jwt.sign(
+                    payload,
+                    keys.secretOrKey,
+                    { expiresIn: 3600 },
+                    (err, token) => {
+                        res.json({
+                            success: true,
+                            token: "Bearer " + token
+                        });
+                    }
+                );
+                //req.name = user.fullName;
+                req.user = user;
+                res.render('main', {user});
+                //return next();
+                //res.send()
+                //return res.redirect('/main');
+                //res.render('main', { title: 'main', email});
+            } else {
+                errors.password = "Password incorrect";
+                return res.render('login',{error: errors});
+                //return res.status(400).json(errors);
+            }
+        });
+    });
+}
+router.post("/login", loginPost, mainGet);
+/*
 router.post("/login", (req, res) => {
     // check validation
     const { errors, isValid } = validateLoginInput(req.body);
@@ -74,7 +139,10 @@ router.post("/login", (req, res) => {
                         });
                     }
                 );
+
+                //res.send()
                 return res.redirect('/main');
+                //res.render('main', { title: 'main', email});
             } else {
                 errors.password = "Password incorrect";
                 return res.status(400).json(errors);
@@ -82,6 +150,8 @@ router.post("/login", (req, res) => {
         });
     });
 });
+*/
+
 
 router.post("/register", (req, res) => {
     // check validation

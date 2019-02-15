@@ -24,8 +24,13 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    userType:{
-        type: String,
+    userGroup:{
+        type: Number,
+        required: true
+    },
+    departmentId:{
+        type: Number,
+        required: true
     },
     submissions:{
         type: [String]

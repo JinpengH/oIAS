@@ -27,8 +27,7 @@ router.post(
 
         // get fields
         const submissionFields = {};
-        submissionFields.linked_userid = req.body.id;
-        submissionFields.author = req.body.username;
+        submissionFields.linkedUserId = req.body.id;
         if (req.body.title) submissionFields.title = req.body.title;
         // if (req.body.dateTime) submissionFields.dateTime = req.body.dateTime;
 
@@ -36,7 +35,7 @@ router.post(
         new Submission(submissionFields).save().then(submission => {
             // update User Model
             User.findOneAndUpdate(
-                { _id: submissionFields.linked_userid },
+                { _id: submissionFields.linkedUserId },
                 { $push: { submissions: submission.id } },
                 { safe: true, upsert: true, new: true, useFindAndModify: false },
                 (err) => {
@@ -62,7 +61,7 @@ router.delete(
             .then(submission => {
                 if (submission) {
                     User.findOneAndUpdate(
-                        { _id: submission.linked_userid },
+                        { _id: submission.linkedUserId },
                         { $pull: { submissions: submission._id} },
                         { safe: true, useFindAndModify: false }
                     )
