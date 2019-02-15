@@ -20,10 +20,9 @@ router.get('/login', function(req, res, next) {
     res.render('login', { title: 'Login' });
 });
 
-router.get('/welcome', function(req, res, next) {
-    res.render('welcome', { title: 'Login' });
+router.get('/', function(req, res, next) {
+    res.render('login', { title: 'login' });
 });
-
 router.get('/main', function(req, res, next) {
     res.render('main', { title: 'main' });
 });
