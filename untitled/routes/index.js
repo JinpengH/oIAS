@@ -91,41 +91,51 @@ router.post("/register", (req, res) => {
     }
 
     const employeeId = req.body.employeeId;
+    const email = req.body.employeeId;
 
     User.findOne({ employeeId }).then(user => {
         if (user) {
-            return res.status(400).json({ email: "User already exists" });
-        } else {
-            // obtain user avatar
-            const avatar = gravatar.url(req.body.email, {
-                s: "200", // size
-                r: "pg", // Rating
-                d: "mm" // Default
-            });
+            return res.status(400).json({ email: "This employee ID is associated with an existing account." });
+        }
+        else {
+            User.findOne({ email }).then(user => {
+                if (user) {
+                    return res.status(400).json({ email: "This email address is associated with an existing account." });
+                }
+                else {
+                    // obtain user avatar
+                    const avatar = gravatar.url(req.body.email, {
+                        s: "200", // size
+                        r: "pg", // Rating
+                        d: "mm" // Default
+                    });
 
-            // create User object
-            const newUser = new User({
-                employeeId: req.body.employeeId,
-                fullName: req.body.fullName,
-                password: req.body.password,
-                email: req.body.email,
-                // avatar
-            });
+                    // create User object
+                    const newUser = new User({
+                        employeeId: req.body.employeeId,
+                        fullName: req.body.fullName,
+                        password: req.body.password,
+                        email: req.body.email,
+                        // avatar
+                    });
 
-            // encrypt
-            bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(newUser.password, salt, (err, hash) => {
-                    if (err) throw err;
-                    newUser.password = hash;
-                    newUser
-                        .save()
-                        .then(user => res.json(user))
-                        .catch(err => console.log(err));
-                });
-            });
-            return res.redirect('/main');
+                    // encrypt
+                    bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(newUser.password, salt, (err, hash) => {
+                            if (err) throw err;
+                            newUser.password = hash;
+                            newUser
+                                .save()
+                                .then(user => res.json(user))
+                                .catch(err => console.log(err));
+                        });
+                    });
+                    return res.redirect('/main');
+                }
+            })
         }
     });
 });
+
 
 module.exports = router;

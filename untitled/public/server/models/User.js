@@ -8,7 +8,7 @@ mongoose.connect("mongodb+srv://oics2019:oics2019@cluster0-4fxam.mongodb.net/tes
 var db = mongoose.connection;
 // Create Schema for single User
 const UserSchema = new Schema({
-    employeeId:{
+    employeeId: {
         type: String,
         required: true,
     },
@@ -24,8 +24,10 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    userType:{
-        type: String,
+    userGroup:{
+        type: Number,
+        default: 0,
+        required: true
     },
     submissions:{
         type: [String]
@@ -34,6 +36,7 @@ const UserSchema = new Schema({
         type: String
     }
 });
+
 
 module.exports = User = mongoose.model("users", UserSchema);
 module.exports.createUser = function(newUser, callback) {
