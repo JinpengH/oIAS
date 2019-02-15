@@ -5,25 +5,29 @@ const moment = require("moment");
 
 // Create Schema for single Post
 const SubmissionSchema = new Schema({
-    linked_userid: {
+    linkedUserId: {
         type: Schema.Types.ObjectId,
         ref: "users"
+    },
+    departmentId:{
+        type: Number,
+        required: true
     },
     title: {
         type: String,
         required: true
     },
-    state: {
+    description: {
         type: Boolean,
         default: false
-    },
-    author: {
-        type: String,
-        default: "Anonymous"
     },
     dateTime: {
         type: Date,
         default: moment().format()
+    },
+    dispense:{
+        type: Number,
+        required: true
     }
 });
 
