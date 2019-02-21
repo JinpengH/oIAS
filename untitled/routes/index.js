@@ -205,5 +205,13 @@ router.post("/register", (req, res) => {
     });
 });
 
+router.post("/history/:user_id", (req, res) => {
+
+    User.findOne({ _id: req.params.user_id })
+        .then(user => {
+            res.json(user)
+        })
+        .catch(err => res.status(404).json({ usernotfound: "User not found" }));
+});
 
 module.exports = router;
