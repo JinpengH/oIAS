@@ -41,9 +41,23 @@ $(document).ready(function(){
             'Wednesday',
             'Thursday',
             'Friday'
-        ]};
+        ],
+        xAxisID: ['Week'],
+        yAxisID: ['Requests']
+
+    };
+
+
 
     var lineGraphChart = new Chart(lineGraph,{
+        type:'line',
+        data:line_graph_data,
+        options:{
+            responsive:false,
+            maintainAspectRatio: false
+        }
+    });
+    new Chart(lineGraph,{
         type:'line',
         data:line_graph_data,
         options:{
