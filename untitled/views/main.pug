@@ -15,12 +15,12 @@ html
         .wrapper
 
             .header
+                p#error_message_login= "Hi, " + user.fullName
                 img.logo(src="../images/obEN_logo.png" height=31 width=62.5)
                 a.header_statistic(href="/statistic") Statistic
                 a.header_profile(href="/profile") Profile
                 a.header_dashboard(href="/main") Dashboard
                 a.header_logout(href="/login") Logout
-
 
             .content
                 .list_description

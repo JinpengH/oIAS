@@ -8,8 +8,20 @@ var sassMiddleware = require('node-sass-middleware');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var submissionRouter = require('./routes/submission')
+const session = require("express-session");
 
 var app = express();
+app.use(express.static('public'))
+
+//session
+app.use(cookieParser('1234'));
+app.use(session({
+    name: '_user_cookie',
+    secret: '1234',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {maxAge: 30 * 24 * 3600 * 1000}
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -46,6 +58,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 
 module.exports = app;

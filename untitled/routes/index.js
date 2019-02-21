@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const keys = require("../public/server/config/keys");
 const passport = require("passport");
 const gravatar = require("gravatar");
+const http = require('http');
 
 var router = express.Router();
 
@@ -24,12 +25,18 @@ router.get('/login', function(req, res, next) {
 router.get('/', function(req, res, next) {
     res.render('login', { error: errors });
 });
-function mainGet(req,res,next){
+function mainGet(req,res){
     //const name = req.name;
     //const user = req.user;
     //res.render('main', { title: 'main', name, user});
-    res.render('main', { title: 'main'});
+    const sess = req.session;
+    user = sess.loginUser;
+    return res.render('main', { title: 'main', user: user});
 }
+/*
+router.get('/main',function(req, res, next){
+    res.render('main', { title: 'main'});
+});*/
 router.get('/main',mainGet);
 
 router.get('/statistic', function(req, res, next) {
@@ -80,9 +87,9 @@ function loginPost(req,res,next){
                         });
                     }
                 );
-
+                req.session.loginUser = user;
                 req.user = user;
-                res.render('main', {user});
+                return res.render('main', {user: user});
 
             } else {
                 errors.message = "Email/Password combination incorrect, please check again";
@@ -205,5 +212,40 @@ router.post("/register", (req, res) => {
     });
 });
 
+router.post("/history/:user_id", (req, res) => {
+
+    User.findOne({ _id: req.params.user_id })
+        .then(user => {
+            res.json(user)
+        })
+        .catch(err => res.status(404).json({ usernotfound: "User not found" }));
+});
+
+router.post('/ajax',function(req,res){
+    res.send("hey");
+})
+
+/*
+router.get('/go',directMain);
+
+function directMain(req,res){
+    const sess = req.session;
+    user = sess.loginUser;
+    return res.render('main', {user: user});
+}*/
+
+router.delete('/logout', Logout);
+
+function Logout(req,res){
+    console.log("hey");
+    req.session.destroy(function () {
+        delete req.session;
+        //res.clearCookie('connect.sid', { path: '/' });
+        res.json({status: 1})
+        return res.render('login',{error:error});
+    })
+    return res.render('login');
+    //return res.render('login');
+}
 
 module.exports = router;
