@@ -14,14 +14,15 @@ const validateLoginInput = require("../public/server/validation/login.validation
 // Load User Model
 const User = require("../public/server/models/User");
 //var mongo = require('mangodb');
-
+const errors = {message:"",
+   };
 /* GET home page. */
 router.get('/login', function(req, res, next) {
-    res.render('login', { title: 'Login' });
+    res.render('login', { error: errors });
 });
 
 router.get('/', function(req, res, next) {
-    res.render('login', { title: 'login' });
+    res.render('login', { error: errors });
 });
 function mainGet(req,res,next){
     //const name = req.name;
@@ -30,11 +31,7 @@ function mainGet(req,res,next){
     res.render('main', { title: 'main'});
 }
 router.get('/main',mainGet);
-/*
-router.get('/main', function(req, res, next) {
-    const email = "hey";
-    res.render('main', { title: 'main', email});
-});*/
+
 router.get('/statistic', function(req, res, next) {
     res.render('statistic', { title: 'stat' });
 });
@@ -44,11 +41,12 @@ router.get('/profile', function(req, res, next) {
 
 function loginPost(req,res,next){
     // check validation
-    const { errors, isValid } = validateLoginInput(req.body);
+    /*const { errors, isValid } = validateLoginInput(req.body);
     if (!isValid) {
         return res.render('login',{error: errors});
         //return res.status(400).json(errors);
     }
+    */
 
     // check password
     const email = req.body.email;
@@ -57,9 +55,8 @@ function loginPost(req,res,next){
     User.findOne({ email }).then(user => {
         // check for user
         if (!user) {
-            errors.email = "User not found";
+            errors.message = "Email/Password combination incorrect, please check again";
             return res.render('login',{error: errors});
-            //return res.status(404).json(errors);
         }
 
         // Check Password
@@ -83,15 +80,12 @@ function loginPost(req,res,next){
                         });
                     }
                 );
-                //req.name = user.fullName;
+
                 req.user = user;
                 res.render('main', {user});
-                //return next();
-                //res.send()
-                //return res.redirect('/main');
-                //res.render('main', { title: 'main', email});
+
             } else {
-                errors.password = "Password incorrect";
+                errors.message = "Email/Password combination incorrect, please check again";
                 return res.render('login',{error: errors});
                 //return res.status(400).json(errors);
             }
@@ -165,12 +159,16 @@ router.post("/register", (req, res) => {
 
     User.findOne({ employeeId }).then(user => {
         if (user) {
-            return res.status(400).json({ email: "This employee ID is associated with an existing account." });
+            errors.message = "This employee ID is associated with an existing account.";
+            res.render('login', { error: errors });
+            //return res.status(400).json({ email: "This employee ID is associated with an existing account." });
         }
         else {
             User.findOne({ email }).then(user => {
-                if (user) {
-                    return res.status(400).json({ email: "This email address is associated with an existing account." });
+                if (user){
+                    errors.message = "This employee ID is associated with an existing account.";
+                    res.render('login', { error: errors });
+                    //return res.status(400).json({ email: "This email address is associated with an existing account." });
                 }
                 else {
                     // obtain user avatar

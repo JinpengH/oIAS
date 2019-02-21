@@ -70,3 +70,6 @@ button:hover{
     margin-top: 50px;
 }
 
+#error_message_login, #error_message_signup{
+    color:red;
+}

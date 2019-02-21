@@ -1,4 +1,6 @@
 doctype html
+
+
 html
     head
         title= title
@@ -13,6 +15,8 @@ html
         script(src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js")
 
 
+
+
     body
 
         section.user
@@ -21,8 +25,8 @@ html
                     .user_forms-login.front
                         img.logo(src="../images/obEN_logo.png" height=61 width=115 align=middle)
                         br
-                        h2.forms_title(align = middle) Login !{error}
-                        form.forms_form(action="/login" method="post")
+                        h2.forms_title(align = middle) Login
+                        form#form_login.forms_form(action="/login" method="post")
                             fieldset.forms_fieldset
                                 .forms_field
                                     input.forms_field-input(type='email', name="email", placeholder='email', required='', autofocus='')
@@ -31,8 +35,9 @@ html
                             .forms_buttons
                                 button.forms_buttons-forgot(type='button') Forgot password?
                                 br
-                                button.forms_button-flip(type='button') Do not have an account?
+                                button#forms_button-flip(type='button') Do not have an account?
                                 input.forms_buttons-action(type='submit', value='Log In')
+                                p#error_message_login= error.message
 
                     .user_forms-signup.back
                         img.logo(src="../images/obEN_logo.png" height=61 width=115 align="middle")
@@ -51,6 +56,9 @@ html
                             .forms_buttons
                                 button.forms_button-flip-back(type='button') Already have an account?
                                 input.forms_buttons-action(type='submit', value='Sign up')
+                                p#error_message_signup= error.message
+
+
 
 
 

@@ -1,5 +1,6 @@
 $(document).ready(function(){
-    $(".forms_button-flip").click(function() {
+
+    $("#forms_button-flip").click(function() {
         $(".front").fadeOut("slow", function () {
             $(".back").fadeIn();
         })
@@ -9,4 +10,6 @@ $(document).ready(function(){
             $(".front").fadeIn();
         })
     })
+
+
 });
