@@ -19,6 +19,9 @@ const errors = {message:"",
    };
 /* GET home page. */
 router.get('/login', function(req, res, next) {
+    if(req.session.loginUser){
+        res.render('main', {title: 'main', user: req.session.loginUser});
+    }
     res.render('login', { error: errors });
 });
 
@@ -88,6 +91,7 @@ function loginPost(req,res,next){
                     }
                 );
                 req.session.loginUser = user;
+                req.session.loginUserId = user.id;
                 req.user = user;
                 return res.render('main', {user: user});
 
@@ -234,18 +238,11 @@ function directMain(req,res){
     return res.render('main', {user: user});
 }*/
 
-router.delete('/logout', Logout);
+router.get('/logout', Logout);
 
 function Logout(req,res){
-    console.log("hey");
-    req.session.destroy(function () {
-        delete req.session;
-        //res.clearCookie('connect.sid', { path: '/' });
-        res.json({status: 1})
-        return res.render('login',{error:error});
-    })
-    return res.render('login');
-    //return res.render('login');
+    req.session.destroy();
+    res.redirect('/login');
 }
 
 module.exports = router;
