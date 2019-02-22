@@ -1,7 +1,7 @@
 var express = require('express');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const keys = require("../public/server/config/keys");
+const keys = require("../server/config/keys");
 const passport = require("passport");
 const gravatar = require("gravatar");
 const http = require('http');
@@ -9,11 +9,12 @@ const http = require('http');
 var router = express.Router();
 
 // Load Input Validation
-const validateRegisterInput = require("../public/server/validation/register.validation.js");
-const validateLoginInput = require("../public/server/validation/login.validation.js");
+const validateRegisterInput = require("../server/validation/register.validation.js");
+const validateLoginInput = require("../server/validation/login.validation.js");
 
 // Load User Model
-const User = require("../public/server/models/User");
+const User = require(".." +
+    "/server/models/User");
 //var mongo = require('mangodb');
 const errors = {message:"",
    };
@@ -247,5 +248,33 @@ function Logout(req,res){
     req.session.destroy();
     res.redirect('/login');
 }
+ 
+router.post('/reset', function(req, res, next) {
+    const email = req.body.email;
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email))
+    {
+        User.findOne({ email }).then(user => {
+          if(user) {
+              //TODO send email
+              return res.send({
+                  message: 'Reset email is successfully sent'
+              });
+
+          }
+          else{
+              return res.send({
+                  message: 'User not found'
+              });
+          }
+        });
+
+    }
+    else {
+        return res.send({
+            message: 'This is an error!'
+        });
+    }
+
+});
 
 module.exports = router;

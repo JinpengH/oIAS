@@ -4,12 +4,12 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 
 // Load User Model
-const User = require("../public/server/models/User");
+const User = require("../server/models/User");
 
 //Load Submission Model
-const Submission = require("../public/server/models/Submission");
+const Submission = require("../server/models/Submission");
 
-const validatePostInput = require("../public/server/validation/post.validation.js");
+const validatePostInput = require("../server/validation/post.validation.js");
 
 // @route   POST submission/create
 // @desc    Create Submission

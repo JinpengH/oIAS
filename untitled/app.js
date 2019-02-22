@@ -11,7 +11,7 @@ var submissionRouter = require('./routes/submission');
 const session = require("express-session");
 
 var app = express();
-app.use(express.static('public'))
+app.use(express.static('public'));
 
 //session
 app.use(cookieParser('1234'));
