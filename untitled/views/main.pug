@@ -15,8 +15,6 @@ html
         .wrapper
 
             .header
-                p#error_message_login= "Hi, " + user.fullName
-                img.logo(src="../images/obEN_logo.png" height=31 width=62.5)
                 a.header_statistic(href="/statistic") Statistic
                 a.header_profile(href="/profile") Profile
                 a.header_dashboard(href="/main") Dashboard
@@ -48,6 +46,9 @@ html
                 .fas.fa-upload.fa-2x#float_button
                 form.submission_form(action="/submission/create" method="post")
                     fieldset.forms_fieldset
+                        .forms_field
+                            p Title
+                            input.forms_field-input(type='text', name="title", placeholder='title', required='')
                         .forms_field
                             p Type
                             input.forms_field-input(type='text', name="type", placeholder='Type', required='')

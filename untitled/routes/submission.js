@@ -27,9 +27,10 @@ router.post(
 
         // get fields
         const submissionFields = {};
-        submissionFields.linkedUserId = req.body.id;
-        if (req.body.title) submissionFields.title = req.body.title;
-        // if (req.body.dateTime) submissionFields.dateTime = req.body.dateTime;
+        submissionFields.linkedUserId = req.session.loginUserID;
+        if (req.body.type) submissionFields.title = req.body.type;
+        // if (req.body.dateTime) submission
+        // Fields.dateTime = req.body.dateTime;
 
         // save post
         new Submission(submissionFields).save().then(submission => {

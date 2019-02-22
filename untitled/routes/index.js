@@ -17,6 +17,9 @@ const User = require("../public/server/models/User");
 //var mongo = require('mangodb');
 const errors = {message:"",
    };
+
+//fixed favicon
+router.get('/favicon.ico', (req, res) => res.sendStatus(204));
 /* GET home page. */
 router.get('/login', function(req, res, next) {
     if(req.session.loginUser){

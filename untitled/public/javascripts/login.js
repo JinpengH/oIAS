@@ -11,5 +11,12 @@ $(document).ready(function(){
         })
     })
 
+    function forgetPassword(){
+        var email = $("#login_email").toString();
+        console.log(email);
+
+        alert("Message has been sent to this email");
+    }
+
 
 });
