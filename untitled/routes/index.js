@@ -261,7 +261,6 @@ function Logout(req,res){
     res.redirect('/login');
 }
 
-
 let transporter = nodemailer.createTransport({
     service: 'Gmail',
     port: 465, // SMTP
@@ -277,7 +276,6 @@ router.post('/reset', function(req, res, next) {
     {
         User.findOne({ email }).then(user => {
           if(user) {
-
               let mailOptions = {
                   from: '"OIAS" <oics2019@gmail.com>', // sender address
                   to: email, // list of receivers
