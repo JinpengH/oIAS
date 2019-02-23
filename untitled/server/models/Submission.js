@@ -32,6 +32,10 @@ const SubmissionSchema = new Schema({
     dispense:{
         type: Number,
         required: true
+    },
+    file_url:{
+        type: String,
+        default: ""
     }
 });
 
