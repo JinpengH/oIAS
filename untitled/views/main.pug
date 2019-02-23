@@ -45,7 +45,7 @@ html
                         .fas.fa-arrow-down.fa-2x.download.list_button
                         .fas.fa-eye.fa-2x.preview.list_button
                 .fas.fa-upload.fa-2x#float_button
-                form.submission_form(action="/submission/create" method="post")
+                form.submission_form(action="/submission/create", method="post", enctype='multipart/form-data')
                     fieldset.forms_fieldset
                         .forms_field
                             p Title
@@ -61,7 +61,7 @@ html
                             input.forms_field-input(type='money', name="dispense", placeholder='Dispense Amount', required='')
                         .forms_field
                             p Drag your files here or click in this area.
-                            input.draginput(type='file', multiple=)
+                            input.draginput(type='file', name='file', multiple='')
                             p.error_message
 
                     .forms_buttons
