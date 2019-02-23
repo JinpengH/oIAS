@@ -29,11 +29,11 @@ html
                         form#form_login.forms_form(action="/login" method="post")
                             fieldset.forms_fieldset
                                 .forms_field
-                                    input.forms_field-input(type='email', name="email", placeholder='email', required='', autofocus='')
+                                    input.forms_field-input#login_email(type='email', name="email", placeholder='email', required='', autofocus='')
                                 .forms_field
-                                    input.forms_field-input(type='password', name="password", placeholder='Password', required='')
+                                    input.forms_field-input#login_password(type='password', name="password", placeholder='Password', required='')
                             .forms_buttons
-                                button.forms_buttons-forgot(type='button') Forgot password?
+                                button.forms_buttons-forgot#login_forget_password(type='button') Forgot password?
                                 br
                                 button#forms_button-flip(type='button') Do not have an account?
                                 input.forms_buttons-action(type='submit', value='Log In')
@@ -54,6 +54,9 @@ html
                                     input.forms_field-input(type='email', name="email", placeholder='Email', required='')
                                 .forms_field
                                     input.forms_field-input(type='password', name="password", placeholder='Password', required='')
+                                .forms_field
+                                    input.forms_field-input(type='checkbox', name="agreement", required='')
+                                    | I agree to terms and conditions.
                             .forms_buttons
                                 button.forms_button-flip-back(type='button') Already have an account?
                                 input.forms_buttons-action(type='submit', value='Sign up')

@@ -1,22 +1,29 @@
 var express = require('express');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const keys = require("../public/server/config/keys");
+const keys = require("../server/config/keys");
 const passport = require("passport");
 const gravatar = require("gravatar");
 const http = require('http');
 
 var router = express.Router();
 
+const nodemailer = require("nodemailer");
+
+
 // Load Input Validation
-const validateRegisterInput = require("../public/server/validation/register.validation.js");
-const validateLoginInput = require("../public/server/validation/login.validation.js");
+const validateRegisterInput = require("../server/validation/register.validation.js");
+const validateLoginInput = require("../server/validation/login.validation.js");
 
 // Load User Model
-const User = require("../public/server/models/User");
+const User = require(".." +
+    "/server/models/User");
 //var mongo = require('mangodb');
 const errors = {message:"",
    };
+
+//fixed favicon
+router.get('/favicon.ico', (req, res) => res.sendStatus(204));
 /* GET home page. */
 router.get('/login', function(req, res, next) {
     if(req.session.loginUser){
@@ -253,5 +260,61 @@ function Logout(req,res){
     req.session.destroy();
     res.redirect('/login');
 }
+
+
+let transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    port: 465, // SMTP
+    secureConnection: true,
+    auth: {
+        user: 'oics2019@gmail.com',
+        pass: 'oics@1234'
+    }
+});
+router.post('/reset', function(req, res, next) {
+    const email = req.body.email;
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email))
+    {
+        User.findOne({ email }).then(user => {
+          if(user) {
+
+              let mailOptions = {
+                  from: '"OIAS" <oics2019@gmail.com>', // sender address
+                  to: email, // list of receivers
+                  subject: "Notice from OIAS", // Subject line
+                  html: "<br>Hi Jinpeng,</br> You recently requested to reset your password for invoice control system, Click the link below to reset.<br>" +
+                      "(localhost:3000/resetpassword?user:xxxx)</br>" +
+                      "It you did not request a password reset, please ignore this email or reply to (email) to let us know.</br></br>" +
+                      "Thanks</br>" +
+                      "oBen Financial team</br>" // html body
+              };
+              // send mail with defined transport object
+              transporter.sendMail(mailOptions, (error, info) => {
+                  if (error) {
+                      return console.log(error);
+                  }
+                  console.log("Message sent: %s", info.messageId);
+              });
+
+              return res.send({
+                  message: 'Reset email is successfully sent'
+              });
+
+          }
+          else{
+              return res.send({
+                  message: 'User not found'
+              });
+          }
+        });
+
+    }
+    else {
+        return res.send({
+            message: 'This is an error!'
+        });
+    }
+
+});
 
 module.exports = router;

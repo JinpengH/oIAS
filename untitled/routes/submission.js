@@ -4,12 +4,12 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 
 // Load User Model
-const User = require("../public/server/models/User");
+const User = require("../server/models/User");
 
 //Load Submission Model
-const Submission = require("../public/server/models/Submission");
+const Submission = require("../server/models/Submission");
 
-const validatePostInput = require("../public/server/validation/post.validation.js");
+const validatePostInput = require("../server/validation/post.validation.js");
 
 // @route   POST submission/create
 // @desc    Create Submission
@@ -27,10 +27,14 @@ router.post(
 
         // get fields
         const submissionFields = {};
-        submissionFields.linkedUserId = req.body.id;
-        submissionFields.title = req.body.title;
+
+        submissionFields.linkedUserId = req.session.loginUserID;
+        if (req.body.type) submissionFields.title = req.body.type;
         submissionFields.dispense = req.body.dispense;
-        // if (req.body.dateTime) submissionFields.dateTime = req.body.dateTime;
+        //TODO fixed departmentID
+        submissionFields.departmentId = 1;
+        // if (req.body.dateTime) submission
+        // Fields.dateTime = req.body.dateTime;
 
         // save post
         new Submission(submissionFields).save().then(submission => {
@@ -41,7 +45,10 @@ router.post(
                 { safe: true, upsert: true, new: true, useFindAndModify: false },
                 (err) => {
                     if (err) return res.status(400).json(err);
-                    else return res.json(submission);
+                    else {
+
+                        return res.render("main");
+                    }
                 }
             );
         });

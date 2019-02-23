@@ -1,0 +1,39 @@
+doctype html
+
+
+html
+    head
+        title= title
+        link(href="https://fonts.googleapis.com/css?family=PT+Serif|Poppins|Ubuntu" rel="stylesheet")
+        link(rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons")
+        link(rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css")
+        link(rel='stylesheet', href='/stylesheets/login.css')
+        script(src="https://code.getmdl.io/1.3.0/material.min.js")
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+        script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
+        script(src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js")
+
+
+
+
+    body
+
+        section.user
+            .user_options-container
+                #user_options-forms.user_options-forms.card
+                    .user_forms-login.front
+                        img.logo(src="../images/obEN_logo.png" height=61 width=115 align=middle)
+                        br
+                        h2.forms_title(align = middle) Admin Login
+                        form#form_login.forms_form(action="/login" method="post")
+                            fieldset.forms_fieldset
+                                .forms_field
+                                    input.forms_field-input#login_email(type='email', name="email", placeholder='email', required='', autofocus='')
+                                .forms_field
+                                    input.forms_field-input#login_password(type='password', name="password", placeholder='Password', required='')
+                            .forms_buttons
+                                input.forms_buttons-action(type='submit', value='Log In')
+                                p#error_message_login= error.message
+
+
+
