@@ -9,8 +9,6 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "chart.js": "^2.7.3",
-    "cloudinary": "^1.13.2",
-    "connect-multiparty": "^2.2.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
@@ -26,6 +24,7 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "pug": "2.0.0-beta11",
+    "sweetalert2": "^8.2.3",
     "validator": "^10.11.0"
   }
 }

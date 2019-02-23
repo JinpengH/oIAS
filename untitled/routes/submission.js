@@ -35,6 +35,7 @@ router.post(
 
         // get fields
         const submissionFields = {};
+
         submissionFields.linkedUserId = req.session.loginUserID;
         if (req.body.type) submissionFields.title = req.body.type;
         submissionFields.dispense = req.body.dispense;
@@ -52,7 +53,10 @@ router.post(
                 { safe: true, upsert: true, new: true, useFindAndModify: false },
                 (err) => {
                     if (err) return res.status(400).json(err);
-                    else return res.redirect("main");
+                    else {
+
+                        return res.render("main");
+                    }
                 }
             );
 

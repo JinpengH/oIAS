@@ -169,11 +169,12 @@ router.post("/register", (req, res) => {
     // check validation
     const { errors, isValid } = validateRegisterInput(req.body);
     if (!isValid) {
-        return res.status(400).json(errors);
+        res.render('login', { error: errors });
+        //return res.status(400).json(errors);
     }
 
     const employeeId = req.body.employeeId;
-    const email = req.body.employeeId;
+    const email = req.body.email;
 
     User.findOne({ employeeId }).then(user => {
         if (user) {
@@ -182,9 +183,9 @@ router.post("/register", (req, res) => {
             //return res.status(400).json({ email: "This employee ID is associated with an existing account." });
         }
         else {
-            User.findOne({ email }).then(user => {
-                if (user){
-                    errors.message = "This employee ID is associated with an existing account.";
+            User.findOne({ email }).then(user1 => {
+                if (user1){
+                    errors.message = "This email is associated with an existing account.";
                     res.render('login', { error: errors });
                     //return res.status(400).json({ email: "This email address is associated with an existing account." });
                 }
@@ -216,11 +217,19 @@ router.post("/register", (req, res) => {
                                 .catch(err => console.log(err));
                         });
                     });
-                    return res.redirect('/main');
+                    return res.render('login', {error: errors});
                 }
             })
         }
     });
+    User.findOne({ employeeId }).then(user2 => {
+        if(user2){
+            // req.session.loginUser = user2;
+            // req.session.loginUserId = user2.id;
+            // res.render("main",{user: user2});
+            console.log("hey");
+        }
+    })
 });
 
 router.post("/history/:user_id", (req, res) => {
