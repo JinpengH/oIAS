@@ -270,9 +270,9 @@ router.post('/reset', function(req, res, next) {
           if(user) {
 
               let mailOptions = {
-                  from: '"OICS" <oics2019@gmail.com>', // sender address
+                  from: '"OIAS" <oics2019@gmail.com>', // sender address
                   to: user.email, // list of receivers
-                  subject: "Notice from Bloggy", // Subject line
+                  subject: "Notice from OIAS", // Subject line
                   html: "<br>Hi Jinpeng,</br> You recently requested to reset your password for invoice control system, Click the link below to reset.<br>" +
                       "(localhost:3000/resetpassword?user:xxxx)</br>" +
                       "It you did not request a password reset, please ignore this email or reply to (email) to let us know.</br></br>" +
