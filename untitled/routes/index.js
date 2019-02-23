@@ -254,12 +254,12 @@ function Logout(req,res){
 
 
 let transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: 'Gmail',
     port: 465, // SMTP
     secureConnection: true,
     auth: {
-        user: "oics2019@gmail",
-        pass: "oics@1234"
+        user: 'oics2019@gmail.com',
+        pass: 'oics@1234'
     }
 });
 router.post('/reset', function(req, res, next) {
