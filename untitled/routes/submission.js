@@ -60,7 +60,7 @@ router.post(
                 }
             );
 
-            var filepath = req.files.filename.path;
+            var filepath = req.files.file.path;
             console.log(filepath);
 
             cloudinary.v2.uploader.upload(
