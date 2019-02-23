@@ -252,6 +252,7 @@ function Logout(req,res){
     res.redirect('/login');
 }
 
+
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     port: 465, // SMTP
@@ -261,7 +262,6 @@ let transporter = nodemailer.createTransport({
         pass: "oics@1234"
     }
 });
-
 router.post('/reset', function(req, res, next) {
     const email = req.body.email;
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email))
@@ -271,7 +271,7 @@ router.post('/reset', function(req, res, next) {
 
               let mailOptions = {
                   from: '"OIAS" <oics2019@gmail.com>', // sender address
-                  to: user.email, // list of receivers
+                  to: email, // list of receivers
                   subject: "Notice from OIAS", // Subject line
                   html: "<br>Hi Jinpeng,</br> You recently requested to reset your password for invoice control system, Click the link below to reset.<br>" +
                       "(localhost:3000/resetpassword?user:xxxx)</br>" +
