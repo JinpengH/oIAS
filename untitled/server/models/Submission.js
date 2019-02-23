@@ -17,8 +17,12 @@ const SubmissionSchema = new Schema({
         type: String,
         required: true
     },
+    type_:{
+        type: String,
+        required: true
+    },
     description: {
-        type: Boolean,
+        type: String,
         default: false
     },
     dateTime: {
