@@ -49,7 +49,6 @@ router.post(
 
         // save post
         new Submission(submissionFields).save().then(submission => {
-            console.log("wa");
             // update User Model
             User.findOneAndUpdate(
                 { _id: submissionFields.linkedUserId },
@@ -58,7 +57,6 @@ router.post(
                 (err) => {
                     if (err) return res.status(400).json(err);
                     else {
-                        console.log("ka");
                         return res.render("main",{user: req.session.loginUser});
                     }
                 }
