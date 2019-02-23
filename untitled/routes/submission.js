@@ -28,8 +28,11 @@ router.post(
         // get fields
         const submissionFields = {};
 
-        submissionFields.linkedUserId = req.session.loginUserID;
-        if (req.body.type) submissionFields.title = req.body.type;
+        submissionFields.linkedUserId = req.session.loginUserId;
+        //if (req.body.type)
+        submissionFields.title = req.body.title;
+        submissionFields.type_ = req.body.type;
+        submissionFields.description = req.body.description;
         submissionFields.dispense = req.body.dispense;
         //TODO fixed departmentID
         submissionFields.departmentId = 1;
@@ -38,6 +41,7 @@ router.post(
 
         // save post
         new Submission(submissionFields).save().then(submission => {
+            console.log("wa");
             // update User Model
             User.findOneAndUpdate(
                 { _id: submissionFields.linkedUserId },
@@ -46,8 +50,8 @@ router.post(
                 (err) => {
                     if (err) return res.status(400).json(err);
                     else {
-
-                        return res.render("main");
+                        console.log("ka");
+                        return res.render("main",{user: req.session.loginUser});
                     }
                 }
             );
