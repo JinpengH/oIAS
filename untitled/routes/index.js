@@ -248,7 +248,7 @@ function Logout(req,res){
     req.session.destroy();
     res.redirect('/login');
 }
- 
+
 router.post('/reset', function(req, res, next) {
     const email = req.body.email;
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email))

@@ -29,6 +29,9 @@ router.post(
         const submissionFields = {};
         submissionFields.linkedUserId = req.session.loginUserID;
         if (req.body.type) submissionFields.title = req.body.type;
+        submissionFields.dispense = req.body.dispense;
+        //TODO fixed departmentID
+        submissionFields.departmentId = 1;
         // if (req.body.dateTime) submission
         // Fields.dateTime = req.body.dateTime;
 
@@ -41,7 +44,7 @@ router.post(
                 { safe: true, upsert: true, new: true, useFindAndModify: false },
                 (err) => {
                     if (err) return res.status(400).json(err);
-                    else return res.json(submission);
+                    else return res.redirect("main");
                 }
             );
         });
