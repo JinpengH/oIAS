@@ -28,7 +28,8 @@ router.post(
         // get fields
         const submissionFields = {};
         submissionFields.linkedUserId = req.body.id;
-        if (req.body.title) submissionFields.title = req.body.title;
+        submissionFields.title = req.body.title;
+        submissionFields.dispense = req.body.dispense;
         // if (req.body.dateTime) submissionFields.dateTime = req.body.dateTime;
 
         // save post
