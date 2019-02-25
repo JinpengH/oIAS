@@ -244,19 +244,6 @@ router.post("/history/:user_id", (req, res) => {
         .catch(err => res.status(404).json({ usernotfound: "User not found" }));
 });
 
-router.post('/ajax',function(req,res){
-    res.send("hey");
-})
-
-/*
-router.get('/go',directMain);
-
-function directMain(req,res){
-    const sess = req.session;
-    user = sess.loginUser;
-    return res.render('main', {user: user});
-}*/
-
 router.get('/logout', Logout);
 
 function Logout(req,res){
@@ -283,11 +270,12 @@ router.post('/reset', function(req, res, next) {
                   from: '"OIAS" <oics2019@gmail.com>', // sender address
                   to: email, // list of receivers
                   subject: "Notice from OIAS", // Subject line
-                  html: "<br>Hi Jinpeng,</br> You recently requested to reset your password for invoice control system, Click the link below to reset.<br>" +
-                      "(localhost:3000/resetpassword?user:xxxx)</br>" +
-                      "It you did not request a password reset, please ignore this email or reply to (email) to let us know.</br></br>" +
-                      "Thanks</br>" +
-                      "oBen Financial team</br>" // html body
+                  html: "<br>Hi Jinpeng,<br> You recently requested to reset your password for invoice control system, Click the link below to reset.<br>" +
+                      "(https://www.w3schools.com)  <br>" +
+                      "It you did not request a password reset, please ignore this email or reply to (email) to let us know.<br>" +
+                      "<br><br><br>"+
+                      "Thanks<br>" +
+                      "oBen Financial team<br>" // html body
               };
               // send mail with defined transport object
               transporter.sendMail(mailOptions, (error, info) => {
