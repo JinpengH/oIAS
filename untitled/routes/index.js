@@ -233,8 +233,11 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/history/:user_id", (req, res) => {
-
-    User.findOne({ _id: req.params.user_id })
+    if(req.session.loginUserId == null){
+        return res.status(404).json("You are not logged babe");
+    }
+    const id = req.session.loginUserId;
+    User.findOne({ _id: id})
         .then(user => {
             res.json(user)
         })

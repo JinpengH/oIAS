@@ -1,9 +1,9 @@
 $(document).ready(function(){
 });
 
-function directDashboard(){
+function getSubmissions(){
     $.ajax({
-        url:'localhost:3000/ajax',
+        url:'localhost:3000/',
         type: 'post',
         success: function(data) {
             console.log(data);
