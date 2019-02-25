@@ -43,7 +43,9 @@ router.post(
         submissionFields.description = req.body.description;
         submissionFields.dispense = req.body.dispense;
         //TODO fixed departmentID
-        submissionFields.departmentId = 1;
+        submissionFields.departmentId = req.session.loginUser.departmentId;
+
+        console.log(req.body.departmentId);
         // if (req.body.dateTime) submission
         // Fields.dateTime = req.body.dateTime;
 
@@ -61,15 +63,15 @@ router.post(
                     }
                 }
             );
-
-            var filepath = req.files.file.path;
+            // console.log(req);
+            const filepath = req.files.file.path;
             console.log(filepath);
 
             cloudinary.v2.uploader.upload(
                 filepath,
                 { public_id: submission.id },
                 function(error, result) {
-                    res.json(result);
+                    // res.json(result);
                     console.log(result, error);
                     var new_url = result.url;
                     console.log(new_url);
@@ -79,8 +81,8 @@ router.post(
                         // { $set: postFields },
                         { new: true, useFindAndModify: false }
                     )
-                        .then(submission => res.json(submission))
-                        .catch(err => res.status(400).json(err));
+                        // .then(submission => res.json(submission))
+                        // .catch(err => res.status(400).json(err));
                 });
             });
 
