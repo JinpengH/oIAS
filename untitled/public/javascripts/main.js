@@ -1,18 +1,7 @@
 $(document).ready(function(){
-});
+    getSubmissions();
 
-function directDashboard(){
-    $.ajax({
-        url:'localhost:3000/ajax',
-        type: 'post',
-        success: function(data) {
-            console.log(data);
-        }
-    });
-    $(".header_dashboard").click(function(){
-        // alert(user.fullName);
-    })
-}
+
 
 
 // When the user clicks anywhere outside of the modal, close it
@@ -31,3 +20,18 @@ window.onclick = function(event) {
     });
 
 };
+});
+
+
+function getSubmissions(userId){
+    $.ajax({
+        url:'localhost:3000/',
+        type: 'post',
+        success: function(data) {
+            console.log(data);
+        }
+    });
+    $(".header_dashboard").click(function(){
+        // alert(user.fullName);
+    })
+}
