@@ -45,7 +45,6 @@ router.post(
         //TODO fixed departmentID
         submissionFields.departmentId = req.session.loginUser.departmentId;
 
-        console.log(req.body.departmentId);
         // if (req.body.dateTime) submission
         // Fields.dateTime = req.body.dateTime;
 
