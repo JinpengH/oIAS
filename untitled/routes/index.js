@@ -6,7 +6,7 @@ const passport = require("passport");
 const gravatar = require("gravatar");
 const http = require('http');
 
-var router = express.Router();
+const router = express.Router();
 
 const nodemailer = require("nodemailer");
 
@@ -18,6 +18,7 @@ const validateLoginInput = require("../server/validation/login.validation.js");
 // Load User Model
 const User = require(".." +
     "/server/models/User");
+const Submission = require(".." + "/server/models/Submission");
 //var mongo = require('mangodb');
 const errors = {message:"",
    };
@@ -232,14 +233,15 @@ router.post("/register", (req, res) => {
     })
 });
 
-router.post("/history/:user_id", (req, res) => {
+router.post("/history", (req, res) => {
     if(req.session.loginUserId == null){
-        return res.status(404).json("You are not logged babe");
+        alert("User not logged in");
+        return res.render('login',{error:errors});
     }
     const id = req.session.loginUserId;
     User.findOne({ _id: id})
         .then(user => {
-            res.json(user)
+            Submission.find({})
         })
         .catch(err => res.status(404).json({ usernotfound: "User not found" }));
 });
@@ -270,9 +272,9 @@ router.post('/reset', function(req, res, next) {
                   from: '"OIAS" <oics2019@gmail.com>', // sender address
                   to: email, // list of receivers
                   subject: "Notice from OIAS", // Subject line
-                  html: "<br>Hi Jinpeng,<br> You recently requested to reset your password for invoice control system, Click the link below to reset.<br>" +
-                      "(https://www.w3schools.com)  <br>" +
-                      "It you did not request a password reset, please ignore this email or reply to (email) to let us know.<br>" +
+                  html: "<br>Hi oBen user,<br> You recently requested to reset your password for invoice control system, Click the link below to reset.<br>" +
+                      "(http://localhost:3000/request" + ":" + email + ")"  + "<br>" +
+                      "It you did not request a password reset, please ignore this email or reply to (obEN@gmail.com) to let us know.<br>" +
                       "<br><br><br>"+
                       "Thanks<br>" +
                       "oBen Financial team<br>" // html body
