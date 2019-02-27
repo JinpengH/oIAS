@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
     getSubmissions();
 
 
@@ -23,9 +24,9 @@ window.onclick = function(event) {
 });
 
 
-function getSubmissions(userId){
+function getSubmissions(){
     $.ajax({
-        url:'localhost:3000/',
+        url:'localhost:3000/history',
         type: 'post',
         success: function(data) {
             console.log(data);
