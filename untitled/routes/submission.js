@@ -66,6 +66,12 @@ router.post(
             const filepath = req.files.file.path;
             console.log(filepath);
 
+            const email = req.session.loginUser.email;
+            console.log(req.session.loginUser.fullName);
+            User.findOne({ email }).then(user => {
+                req.session.loginUser = user;
+            })
+
             cloudinary.v2.uploader.upload(
                 filepath,
                 { public_id: submission.id },
@@ -84,7 +90,6 @@ router.post(
                         // .catch(err => res.status(400).json(err));
                 });
             });
-
     }
 );
 
