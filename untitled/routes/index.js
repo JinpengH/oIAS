@@ -1,32 +1,27 @@
-var express = require('express');
+const express = require('express');
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../server/config/keys");
 const passport = require("passport");
 const gravatar = require("gravatar");
 const http = require('http');
-
 const router = express.Router();
-const mongoose = require("mongoose");
+
 const nodemailer = require("nodemailer");
-const commentSchema = mongoose.Schema({}, { _id: false });
-mongoose.connect("mongodb+srv://oics2019:oics2019@cluster0-4fxam.mongodb.net/test?retryWrites=true", {useNewUrlParser: true});
-let db = mongoose.connection;
+
 
 // Load Input Validation
 const validateRegisterInput = require("../server/validation/register.validation.js");
 const validateLoginInput = require("../server/validation/login.validation.js");
 
 // Load User Model
-const User = require(".." +
-    "/server/models/User");
+const User = require(".." + "/server/models/User");
 const Submission = require(".." + "/server/models/Submission");
-//var mongo = require('mangodb');
-const errors = {message:"",
-   };
+const errors = {message:"",};
 
 //fixed favicon
 router.get('/favicon.ico', (req, res) => res.sendStatus(204));
+
 /* GET home page. */
 router.get('/login', function(req, res, next) {
     if(req.session.loginUser){
@@ -35,9 +30,32 @@ router.get('/login', function(req, res, next) {
     res.render('login', { error: errors });
 });
 
-router.get('/', function(req, res, next) {
-    res.render('login', { error: errors });
+
+// Get Statistics
+router.get('/statistic', function(req, res, next) {
+    res.render('statistic', { title: 'stat' });
 });
+
+
+// Get Profile
+router.get('/profile', function(req, res, next) {
+    res.render('profile', { title: 'profile' });
+});
+
+
+// Logout current user and go to login page
+router.get('/logout', Logout);
+function Logout(req,res){
+    req.session.destroy();
+    res.redirect('/login');
+}
+
+
+// Login an existing user
+router.post("/login", loginPost, mainGet);
+
+router.get('/main',mainGet);
+
 function mainGet(req,res){
     //const name = req.name;
     //const user = req.user;
@@ -54,6 +72,7 @@ function mainGet(req,res){
         });
     }
 }
+<<<<<<< HEAD
 
 /*
 router.get('/main',function(req, res, next){
@@ -121,6 +140,7 @@ function loginPost(req,res,next){
                 );
                 req.session.loginUser = user;
                 req.session.loginUserId = user.id;
+                req.session.loginUserGroup = user.userGroup;
                 req.user = user;
                 //mainGet();
                 //TODO has to be refreshed once to display
@@ -134,10 +154,8 @@ function loginPost(req,res,next){
         });
     });
 }
-router.post("/login", loginPost, mainGet);
 
-
-
+// Register a new user
 router.post("/register", (req, res) => {
     // check validation
     const { errors, isValid } = validateRegisterInput(req.body);
@@ -205,15 +223,7 @@ router.post("/register", (req, res) => {
     })
 });
 
-
-
-router.get('/logout', Logout);
-
-function Logout(req,res){
-    req.session.destroy();
-    res.redirect('/login');
-}
-
+// Set up transporter for resetting email
 let transporter = nodemailer.createTransport({
     service: 'Gmail',
     port: 465, // SMTP
@@ -223,6 +233,8 @@ let transporter = nodemailer.createTransport({
         pass: 'oics@1234'
     }
 });
+
+// Reset password by email
 router.post('/reset', function(req, res, next) {
     const email = req.body.email;
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email))
@@ -233,12 +245,12 @@ router.post('/reset', function(req, res, next) {
                   from: '"OIAS" <oics2019@gmail.com>', // sender address
                   to: email, // list of receivers
                   subject: "Notice from OIAS", // Subject line
-                  html: "<br>Hi oBen user,<br> You recently requested to reset your password for invoice control system, Click the link below to reset.<br>" +
+                  html: "<br>Hi ObEN Invoice Management System user,<br>To rest your password, please click the following link.<br>" +
                       "(http://localhost:3000/request" + ":" + email + ")"  + "<br>" +
-                      "It you did not request a password reset, please ignore this email or reply to (obEN@gmail.com) to let us know.<br>" +
+                      "It you did not request a password reset, please disregard this email.<br>" +
                       "<br><br><br>"+
-                      "Thanks<br>" +
-                      "oBen Financial team<br>" // html body
+                      "Thank you,<br>" +
+                      "ObEN, Inc.<br>" // html body
               };
               // send mail with defined transport object
               transporter.sendMail(mailOptions, (error, info) => {

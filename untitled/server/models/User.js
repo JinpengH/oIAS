@@ -14,10 +14,12 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
+        default: "",
         required:true,
     },
     password: {
         type: String,
+        default: "",
         required: true
     },
     fullName: {
@@ -26,7 +28,7 @@ const UserSchema = new Schema({
     },
     userGroup:{
         type: Number,
-        default: 0,
+        default: 1,
         required: true
     },
     departmentId:{

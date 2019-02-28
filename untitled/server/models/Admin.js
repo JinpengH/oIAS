@@ -8,38 +8,23 @@ mongoose.connect("mongodb+srv://oics2019:oics2019@cluster0-4fxam.mongodb.net/tes
 var db = mongoose.connection;
 // Create Schema for single User
 const AdminSchema = new Schema({
-    employeeId: {
+    username: {
         type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        required:true,
+        required: true
     },
     password: {
         type: String,
         required: true
     },
-    fullName: {
+    email: {
         type: String,
-        required: true
+        required:true,
     },
     userGroup:{
         type: Number,
         default: 0,
         required: true
     },
-    departmentId:{
-        type: Number,
-        default: 0,
-        required: true
-    },
-    submissions:{
-        type: [String]
-    },
-    avatar: {
-        type: String
-    }
 });
 
 //admin exists on database only and cannot be changed otherwise
