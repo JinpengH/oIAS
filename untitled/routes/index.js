@@ -72,7 +72,6 @@ function mainGet(req,res){
         });
     }
 }
-<<<<<<< HEAD
 
 /*
 router.get('/main',function(req, res, next){
