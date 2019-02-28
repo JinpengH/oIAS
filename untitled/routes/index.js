@@ -18,7 +18,6 @@ const validateLoginInput = require("../server/validation/login.validation.js");
 const User = require(".." + "/server/models/User");
 const Submission = require(".." + "/server/models/Submission");
 const errors = {message:"",};
-
 //fixed favicon
 router.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
@@ -30,11 +29,6 @@ router.get('/login', function(req, res, next) {
     res.render('login', { error: errors });
 });
 
-
-// Get Statistics
-router.get('/statistic', function(req, res, next) {
-    res.render('statistic', { title: 'stat' });
-});
 
 
 // Get Profile
@@ -280,4 +274,8 @@ router.post('/reset', function(req, res, next) {
 
 });
 
+
+router.get('/resetPassword',function(req,res,next){
+    res.render('resetPassword');
+});
 module.exports = router;
