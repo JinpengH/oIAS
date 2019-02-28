@@ -7,9 +7,11 @@ const gravatar = require("gravatar");
 const http = require('http');
 
 const router = express.Router();
-
+const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
-
+const commentSchema = mongoose.Schema({}, { _id: false });
+mongoose.connect("mongodb+srv://oics2019:oics2019@cluster0-4fxam.mongodb.net/test?retryWrites=true", {useNewUrlParser: true});
+let db = mongoose.connection;
 
 // Load Input Validation
 const validateRegisterInput = require("../server/validation/register.validation.js");
@@ -42,8 +44,17 @@ function mainGet(req,res){
     //res.render('main', { title: 'main', name, user});
     const sess = req.session;
     user = sess.loginUser;
-    return res.render('main', { title: 'main', user: user});
+    if(typeof user === 'undefined'){
+        const errors = {message: ""};
+        res.render('login',{error:errors});
+    }
+    else {
+        const submissions = Submission.find({linkedUserId: sess.loginUserId}).then(list =>{
+            return res.render('main',{list:list});
+        });
+    }
 }
+
 /*
 router.get('/main',function(req, res, next){
     res.render('main', { title: 'main'});
@@ -51,7 +62,17 @@ router.get('/main',function(req, res, next){
 router.get('/main',mainGet);
 
 router.get('/statistic', function(req, res, next) {
-    res.render('statistic', { title: 'stat' });
+    let user = req.session.loginUser;
+    if(typeof user === 'undefined'){
+        const errors = {message: ""};
+        res.render('login',{error:errors});
+    }
+    else {
+        const submissions = Submission.find({linkedUserId: req.session.loginUserId}).then(list => {
+            return res.render('statistic', {list: list});
+        });
+
+    }
 });
 router.get('/profile', function(req, res, next) {
     res.render('profile', { title: 'profile' });
@@ -101,7 +122,9 @@ function loginPost(req,res,next){
                 req.session.loginUser = user;
                 req.session.loginUserId = user.id;
                 req.user = user;
-                return res.render('main', {user: user});
+                //mainGet();
+                //TODO has to be refreshed once to display
+                return res.render('main', {list: []});
 
             } else {
                 errors.message = "Email/Password combination incorrect, please check again";
@@ -112,58 +135,7 @@ function loginPost(req,res,next){
     });
 }
 router.post("/login", loginPost, mainGet);
-/*
-router.post("/login", (req, res) => {
-    // check validation
-    const { errors, isValid } = validateLoginInput(req.body);
-    if (!isValid) {
-        return res.status(400).json(errors);
-    }
 
-    // check password
-    const email = req.body.email;
-    const password = req.body.password;
-
-    User.findOne({ email }).then(user => {
-        // check for user
-        if (!user) {
-            errors.email = "User not found";
-            return res.status(404).json(errors);
-        }
-
-        // Check Password
-        bcrypt.compare(password, user.password).then(isMatch => {
-            if (isMatch) {
-                // User Matched
-                const payload = {
-                    id: user.id,
-                    name: user.name,
-                    avatar: user.avatar
-                };
-                // Sign Token
-                jwt.sign(
-                    payload,
-                    keys.secretOrKey,
-                    { expiresIn: 3600 },
-                    (err, token) => {
-                        res.json({
-                            success: true,
-                            token: "Bearer " + token
-                        });
-                    }
-                );
-
-                //res.send()
-                return res.redirect('/main');
-                //res.render('main', { title: 'main', email});
-            } else {
-                errors.password = "Password incorrect";
-                return res.status(400).json(errors);
-            }
-        });
-    });
-});
-*/
 
 
 router.post("/register", (req, res) => {
@@ -233,18 +205,7 @@ router.post("/register", (req, res) => {
     })
 });
 
-router.post("/history", (req, res) => {
-    if(req.session.loginUserId == null){
-        alert("User not logged in");
-        return res.render('login',{error:errors});
-    }
-    const id = req.session.loginUserId;
-    User.findOne({ _id: id})
-        .then(user => {
-            Submission.find({})
-        })
-        .catch(err => res.status(404).json({ usernotfound: "User not found" }));
-});
+
 
 router.get('/logout', Logout);
 

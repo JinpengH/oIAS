@@ -43,17 +43,16 @@ html
                     canvas#pie_graph(width = "400px" height= "400px")
 
                 p#submission_text Submission History
-                ul.submissions
-                    li.submission
-                        p.submission_name Jinpeng He
-                        p.submission_date 01/22/2019
-                        p.submission_description Meal ticket
-                        p.submission_status Declined
-                    li.submission
-                        p.submission_name Runwei Lin
-                        p.submission_date 01/22/2019
-                        p.submission_description Meal ticket
-                        p.submission_status Approved
+                ul.submissions#list
+                    if list
+                        each val in list
+                            li.submission
+                                p.submission_name=val.title
+                                p.submission_date=val.dateTime
+                                p.submission_description=val.description
+                                p.submission_status Approved
+
+
             .footer
                 .download download
                 .review review
