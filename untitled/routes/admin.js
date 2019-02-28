@@ -11,8 +11,22 @@ const User = require("../server/models/User");
 const Submission = require("../server/models/Submission");
 const ValidateSubmissionFields = require("../server/validation/post.validation.js");
 
+const validatePostInput = require("../server/validation/post.validation.js");
+
+// Load User Model
+const Admin = require(".." +
+    "/server/models/Admin");
+//var mongo = require('mangodb');
+const errors = {message:"",
+};
+
+//fixed favicon
+
+router.get('/', function(req, res, next) {
+
 // Fix favicon 500 error
 router.get('/admin', function(req, res, next) {
+
     if(req.session.loginUser){
         res.render('main', {title: 'main', user: req.session.loginUser});
     }

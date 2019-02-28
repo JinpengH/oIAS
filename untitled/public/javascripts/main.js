@@ -22,14 +22,5 @@ window.onclick = function(event) {
 
 
 function getSubmissions(){
-    $.ajax({
-        url:'localhost:3000/history',
-        type: 'post',
-        success: function(data) {
-            console.log(data);
-        }
-    });
-    $(".header_dashboard").click(function(){
-        // alert(user.fullName);
-    })
+
 }

@@ -6,7 +6,9 @@ const passport = require("passport");
 const gravatar = require("gravatar");
 const http = require('http');
 const router = express.Router();
+
 const nodemailer = require("nodemailer");
+
 
 // Load Input Validation
 const validateRegisterInput = require("../server/validation/register.validation.js");
@@ -60,8 +62,40 @@ function mainGet(req,res){
     //res.render('main', { title: 'main', name, user});
     const sess = req.session;
     user = sess.loginUser;
-    return res.render('main', { title: 'main', user: user});
+    if(typeof user === 'undefined'){
+        const errors = {message: ""};
+        res.render('login',{error:errors});
+    }
+    else {
+        const submissions = Submission.find({linkedUserId: sess.loginUserId}).then(list =>{
+            return res.render('main',{list:list});
+        });
+    }
 }
+<<<<<<< HEAD
+
+/*
+router.get('/main',function(req, res, next){
+    res.render('main', { title: 'main'});
+});*/
+router.get('/main',mainGet);
+
+router.get('/statistic', function(req, res, next) {
+    let user = req.session.loginUser;
+    if(typeof user === 'undefined'){
+        const errors = {message: ""};
+        res.render('login',{error:errors});
+    }
+    else {
+        const submissions = Submission.find({linkedUserId: req.session.loginUserId}).then(list => {
+            return res.render('statistic', {list: list});
+        });
+
+    }
+});
+router.get('/profile', function(req, res, next) {
+    res.render('profile', { title: 'profile' });
+});
 
 function loginPost(req,res,next){
     // check validation
@@ -108,7 +142,9 @@ function loginPost(req,res,next){
                 req.session.loginUserId = user.id;
                 req.session.loginUserGroup = user.userGroup;
                 req.user = user;
-                return res.render('main', {user: user});
+                //mainGet();
+                //TODO has to be refreshed once to display
+                return res.render('main', {list: []});
 
             } else {
                 errors.message = "Email/Password combination incorrect, please check again";
@@ -186,21 +222,6 @@ router.post("/register", (req, res) => {
         }
     })
 });
-
-// Retrieve submission history
-router.post("/history", (req, res) => {
-    if(req.session.loginUserId == null){
-        alert("Your session has expired. Please login to continue.");
-        return res.render('login',{error:errors});
-    }
-    const id = req.session.loginUserId;
-    User.findOne({ _id: id})
-        .then(user => {
-            Submission.find({})
-        })
-        .catch(err => res.status(404).json({ usernotfound: "User not found" }));
-});
-
 
 // Set up transporter for resetting email
 let transporter = nodemailer.createTransport({

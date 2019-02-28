@@ -1,9 +1,13 @@
 $(document).ready(function(){
     //generating graph
+    let dispense = 50;
+    $.get('/history',function(data){
+        dispense = data.dispense;
+    });
     var pieGraph = $("#pie_graph");
     var lineGraph = $("#trend_graph");
     var pie_graph_data = {datasets: [{
-            data: [55,45],
+            data: [dispense,100-dispense],
             backgroundColor:[
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
