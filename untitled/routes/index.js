@@ -106,6 +106,7 @@ function loginPost(req,res,next){
                 );
                 req.session.loginUser = user;
                 req.session.loginUserId = user.id;
+                req.session.loginUserGroup = user.userGroup;
                 req.user = user;
                 return res.render('main', {user: user});
 
