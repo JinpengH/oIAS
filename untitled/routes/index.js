@@ -67,7 +67,6 @@ function mainGet(req,res){
     }
 }
 
-
 /*
 router.get('/main',function(req, res, next){
     res.render('main', { title: 'main'});
