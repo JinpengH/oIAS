@@ -33,8 +33,6 @@ html
                         each val in list
                             li.tile
                                 p.name=val.fullName
-                                p.type=val.userGroup
-                                p.description=val.departmentId
                                 select.user_filter_user(name="department" id="department")
                                     option(value="1") Finanace
                                     option(value="2") Nature Language processing
@@ -63,6 +61,4 @@ html
                             input.forms_buttons-submit(type='submit', value='Add Employee')
                             br
                             button.forms_buttons-cancel cancel
-
-
-
+                            
