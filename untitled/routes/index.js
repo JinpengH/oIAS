@@ -29,7 +29,9 @@ router.get('/login', function(req, res, next) {
     res.render('login', { error: errors });
 });
 
-
+router.get('/admin', function (req, res) {
+    res.render('admin', {title: 'admin'});
+});
 
 // Get Profile
 router.get('/profile', function(req, res, next) {
