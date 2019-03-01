@@ -85,8 +85,7 @@ router.post("/add-employee", (req, res) => {
                         // res.render('login', { error: errors });
                     }
                     else {
-                        const newUser = new User(
-                            {
+                        const newUser = new User({
                             employeeId: req.body.employeeId,
                             fullName: req.body.fullName,
                             userGroup: req.body.userGroup,
