@@ -33,8 +33,6 @@ html
                         each val in list
                             li.tile
                                 p.name=val.fullName
-                                p.type=val.userGroup
-                                p.description=val.departmentId
                                 select.user_filter_user(name="department" id="department")
                                     option(value="1") Finanace
                                     option(value="2") Nature Language processing
@@ -44,25 +42,25 @@ html
                                     option(value="2") Team Manager
                                 button.user_filter_button submit
                 .fas.fa-upload.fa-2x#float_button
-                    form.submission_form(action="/admin/add-employee", method="post")
-                        fieldset.forms_fieldset
-                            .forms_field
-                                p Name
-                                input.forms_field-input(type='text', name="name", placeholder='Name', required='')
-                            .forms_field
-                                p Type
-                                input.forms_field-input(type='text', name="type", placeholder='Type', required='')
-                            .forms_field
-                                p Description
-                                input.forms_field-input(type='text', name="description", placeholder='Description', required='')
-                            .forms_field
-                                p Dispense
-                                input.forms_field-input(type='money', name="dispense", placeholder='Dispense Amount', required='')
+                form.submission_form(action="/admin/add-employee", method="post")
+                    fieldset.forms_fieldset
+                        .forms_field
+                            p Name
+                            input.forms_field-input(type='text', name="name", placeholder='Name', required='')
+                        .forms_field
+                            p Type
+                            input.forms_field-input(type='text', name="type", placeholder='Type', required='')
+                        .forms_field
+                            p Description
+                            input.forms_field-input(type='text', name="description", placeholder='Description', required='')
+                        .forms_field
+                            p Dispense
+                            input.forms_field-input(type='money', name="dispense", placeholder='Dispense Amount', required='')
 
-                        .forms_buttons
-                            input.forms_buttons-submit(type='submit', value='Submit')
-                            br
-                            button.forms_buttons-cancel cancel
+                    .forms_buttons
+                        input.forms_buttons-submit(type='submit', value='Submit')
+                        br
+                        button.forms_buttons-cancel cancel
 
 
 
