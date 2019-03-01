@@ -27,11 +27,11 @@ html
                 .card
                     img.avatar(src="../images/profile-picture.png" height=50 width=50)
                     .card_description
-                        p.card_name Jinpeng He
+                        p.card_name=user.fullName
                         br
-                        p.card_position Front-end Developer
+                        p.card_position=department
                         br
-                        p.card_team_position team member
+                        p.card_team_position=position
                     a.change_password.fas.fa-key.fa-3x(href="/resetPassword")
                         p change your password
                     a.change_profile_image.fas.fa-user-circle.fa-3x

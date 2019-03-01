@@ -36,7 +36,38 @@ router.get('/admin', function (req, res) {
 
 // Get Profile
 router.get('/profile', function(req, res, next) {
-    res.render('profile', { title: 'Profile' });
+    let user = req.session.loginUser;
+    if(typeof user === 'undefined'){
+        const errors = {message: ""};
+        res.render('login',{error:errors});
+    }
+    let position = "Admin";
+    let department = "Finanace";
+    switch(user.userGroup){
+        case 1:
+            position = "Employee";
+            break;
+        case 2:
+            position = "Team Manager";
+            break;
+        case 3:
+            position = "CFO";
+            break;
+
+    }
+    switch(user.departmentId){
+        case 1:
+            department = "Finance";
+            break;
+        case 2:
+            department = "Machine Learning";
+            break;
+        case 3:
+            department = "AI";
+            break;
+
+    }
+    res.render('profile', { title: 'Profile',user:user,position:position,department:department});
 });
 
 
