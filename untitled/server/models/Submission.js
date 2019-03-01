@@ -2,7 +2,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const moment = require("moment");
-
+const commentSchema = mongoose.Schema({}, { _id: false });
+mongoose.connect("mongodb+srv://oics2019:oics2019@cluster0-4fxam.mongodb.net/test?retryWrites=true", {useNewUrlParser: true});
+var db = mongoose.connection;
 // Create Schema for single Post
 const SubmissionSchema = new Schema({
     linkedUserId: {

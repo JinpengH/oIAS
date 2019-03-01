@@ -1,26 +1,32 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const errors = {message:"",};
 
 // Load User Model
 const User = require("../server/models/User");
+// const Admin = require(".." + "/server/models/Admin");
 
 // Load Submission Model
 const Submission = require("../server/models/Submission");
 const ValidateSubmissionFields = require("../server/validation/post.validation.js");
 
-// Fix favicon 500 error
+const validatePostInput = require("../server/validation/post.validation.js");
+
 router.get('/admin', function(req, res, next) {
     if(req.session.loginUser){
-        res.render('main', {title: 'main', user: req.session.loginUser});
+        res.render('overview', {title: 'Admin Overview', user: req.session.loginUser});
     }
-    res.render('admin', { error: errors });
+    res.render('admin', { title: 'Admin Login', error: errors });
 });
 
+// Fix favicon 500 error
+router.get('/favicon.ico', (req, res) => res.sendStatus(204));
+
 // Admin login
-router.post("/login-admin", (req, res) => {
+router.post("/login", (req, res) => {
     // TODO check empty fields
     /*const { errors, isValid } = validateLoginInput(req.body);
     if (!isValid) {
@@ -36,7 +42,7 @@ router.post("/login-admin", (req, res) => {
         // check admin
         if (!user) {
             errors.message = "Username/Password combination incorrect, please check again";
-            return res.render('adminlogin',{error: errors}); // TODO adminlogin: login page only for admin
+            return res.render('admin',{ title: 'Admin Login', error: errors }); // TODO admin: login page only for admin
         }
 
         // Check Password
@@ -46,22 +52,23 @@ router.post("/login-admin", (req, res) => {
                 req.session.loginUserId = user.id;
                 req.session.loginUserGroup = user.userGroup;
                 req.user = user;
-                return res.render('controlpanel', {user: user}); // TODO controlpanel: landing page only for admin\
+                console.log("admin login successful");
+                return res.render('overview', { title: 'Admin Overview', user: user}); // TODO overview: landing page only for admin\
             }
             else {
                 errors.message = "Username/Password combination incorrect, please check again";
-                return res.render('login',{error: errors});
+                return res.render('admin',{ title: 'Admin Login', error: errors });
                 // return res.status(400).json(errors);
             }
         });
     });
-}
+});
 
 // Add an employee with employeeId and departmentId
 router.post("/add-employee", (req, res) => {
     if (req.session.loginUserId == null) {
         alert("Your session has expired. Please login to continue.");
-        return res.render('adminlogin', {error: errors});
+        return res.render('admin', { title: 'Admin Login', error: errors });
     }
     const id = req.session.loginUserId;
     const userGroup = req.session.loginUserGroup;
@@ -73,8 +80,10 @@ router.post("/add-employee", (req, res) => {
                     if (user) {
                         errors.message = "This employee ID already exists. No need to add it again.";
                         // res.render('login', { error: errors });
-                    } else {
-                        const newUser = new User({
+                    }
+                    else {
+                        const newUser = new User(
+                            {
                             employeeId: req.body.employeeId,
                             fullName: req.body.fullName,
                             userGroup: req.body.userGroup,
@@ -89,12 +98,12 @@ router.post("/add-employee", (req, res) => {
             }
             else {
                 errors.message = "You don't have permissions. Please contact your admin.";
-                res.render('login', { error: errors });
+                res.render('login', { title: 'Login', error: errors });
             }
 
         })
         .catch(err => res.status(404).json({usernotfound: "User not found."}));
-}
+});
 
 
 module.exports = router;

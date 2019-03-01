@@ -6,7 +6,9 @@ const passport = require("passport");
 const gravatar = require("gravatar");
 const http = require('http');
 const router = express.Router();
+
 const nodemailer = require("nodemailer");
+
 
 // Load Input Validation
 const validateRegisterInput = require("../server/validation/register.validation.js");
@@ -16,28 +18,25 @@ const validateLoginInput = require("../server/validation/login.validation.js");
 const User = require(".." + "/server/models/User");
 const Submission = require(".." + "/server/models/Submission");
 const errors = {message:"",};
-
 //fixed favicon
 router.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
 /* GET home page. */
 router.get('/login', function(req, res, next) {
     if(req.session.loginUser){
-        res.render('main', {title: 'main', user: req.session.loginUser});
+        res.render('main', {title: 'Main', user: req.session.loginUser});
     }
     res.render('login', { error: errors });
 });
 
-
-// Get Statistics
-router.get('/statistic', function(req, res, next) {
-    res.render('statistic', { title: 'stat' });
+// Go to admin login page
+router.get('/admin', function (req, res) {
+    res.render('admin', {title: 'Admin Login'});
 });
-
 
 // Get Profile
 router.get('/profile', function(req, res, next) {
-    res.render('profile', { title: 'profile' });
+    res.render('profile', { title: 'Profile' });
 });
 
 
@@ -60,8 +59,39 @@ function mainGet(req,res){
     //res.render('main', { title: 'main', name, user});
     const sess = req.session;
     user = sess.loginUser;
-    return res.render('main', { title: 'main', user: user});
+    if(typeof user === 'undefined'){
+        const errors = {message: ""};
+        res.render('login',{error:errors});
+    }
+    else {
+        const submissions = Submission.find({linkedUserId: sess.loginUserId}).then(list =>{
+            return res.render('main',{list:list});
+        });
+    }
 }
+
+/*
+router.get('/main',function(req, res, next){
+    res.render('main', { title: 'main'});
+});*/
+router.get('/main',mainGet);
+
+router.get('/statistic', function(req, res, next) {
+    let user = req.session.loginUser;
+    if(typeof user === 'undefined'){
+        const errors = {message: ""};
+        res.render('login',{error:errors});
+    }
+    else {
+        const submissions = Submission.find({linkedUserId: req.session.loginUserId}).then(list => {
+            return res.render('statistic', {list: list});
+        });
+
+    }
+});
+router.get('/profile', function(req, res, next) {
+    res.render('profile', { title: 'Profile' });
+});
 
 function loginPost(req,res,next){
     // check validation
@@ -108,7 +138,9 @@ function loginPost(req,res,next){
                 req.session.loginUserId = user.id;
                 req.session.loginUserGroup = user.userGroup;
                 req.user = user;
-                return res.render('main', {user: user});
+                //mainGet();
+                //TODO has to be refreshed once to display
+                return res.render('main', {list: []});
 
             } else {
                 errors.message = "Email/Password combination incorrect, please check again";
@@ -187,21 +219,6 @@ router.post("/register", (req, res) => {
     })
 });
 
-// Retrieve submission history
-router.post("/history", (req, res) => {
-    if(req.session.loginUserId == null){
-        alert("Your session has expired. Please login to continue.");
-        return res.render('login',{error:errors});
-    }
-    const id = req.session.loginUserId;
-    User.findOne({ _id: id})
-        .then(user => {
-            Submission.find({})
-        })
-        .catch(err => res.status(404).json({ usernotfound: "User not found" }));
-});
-
-
 // Set up transporter for resetting email
 let transporter = nodemailer.createTransport({
     service: 'Gmail',
@@ -225,7 +242,7 @@ router.post('/reset', function(req, res, next) {
                   to: email, // list of receivers
                   subject: "Notice from OIAS", // Subject line
                   html: "<br>Hi ObEN Invoice Management System user,<br>To rest your password, please click the following link.<br>" +
-                      "(http://localhost:3000/request" + ":" + email + ")"  + "<br>" +
+                      "(http://localhost:3000/changePassword" + ":" + email + ")"  + "<br>" +
                       "It you did not request a password reset, please disregard this email.<br>" +
                       "<br><br><br>"+
                       "Thank you,<br>" +
@@ -260,4 +277,27 @@ router.post('/reset', function(req, res, next) {
 
 });
 
+
+router.get('/resetPassword',function(req,res,next){
+    res.render('resetPassword');
+});
+
+router.post('/changePassword',function(req,res,next){
+    let originalPassword = req.body.oldPassword;
+    let newPassword = req.body.newPassword;
+    if(originalPassword === newPassword){
+        res.render('resetPassword',{error:{message:"password can't be the same!"}})
+    }
+    else{
+        let id = req.session.loginUserId;
+        let query = {employeeId:id};
+        console.log(id);
+        User.find(query).then(user =>{
+            console.log(user);
+        });
+        res.render('login');
+
+    }
+
+});
 module.exports = router;
