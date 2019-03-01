@@ -29,13 +29,10 @@ router.get('/login', function(req, res, next) {
     res.render('login', { error: errors });
 });
 
-<<<<<<< HEAD
-=======
 // Go to admin login page
 router.get('/admin', function (req, res) {
     res.render('admin', {title: 'Admin Login'});
 });
->>>>>>> ce00d0faf7396d90445cc73a63d500a00506d407
 
 // Get Profile
 router.get('/profile', function(req, res, next) {
