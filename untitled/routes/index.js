@@ -241,7 +241,7 @@ router.post('/reset', function(req, res, next) {
                   to: email, // list of receivers
                   subject: "Notice from OIAS", // Subject line
                   html: "<br>Hi ObEN Invoice Management System user,<br>To rest your password, please click the following link.<br>" +
-                      "(http://localhost:3000/request" + ":" + email + ")"  + "<br>" +
+                      "(http://localhost:3000/changePassword" + ":" + email + ")"  + "<br>" +
                       "It you did not request a password reset, please disregard this email.<br>" +
                       "<br><br><br>"+
                       "Thank you,<br>" +
@@ -279,5 +279,19 @@ router.post('/reset', function(req, res, next) {
 
 router.get('/resetPassword',function(req,res,next){
     res.render('resetPassword');
+});
+
+router.post('/changePassword',function(req,res,next){
+    let originalPassword = req.body.oldPassword;
+    let newPassword = req.body.newPassword;
+    if(originalPassword === newPassword){
+        res.render('resetPassword',{error:{message:"password can't be the same!"}})
+    }
+    else{
+        let id = req.session.loginUserId;
+        User.find({})
+
+    }
+
 });
 module.exports = router;
