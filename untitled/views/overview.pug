@@ -47,20 +47,20 @@ html
                     form.submission_form(action="/admin/add-employee", method="post")
                         fieldset.forms_fieldset
                             .forms_field
-                                p Name
-                                input.forms_field-input(type='text', name="name", placeholder='Name', required='')
+                                p EmployeeId
+                                input.forms_field-input(type='text', name="employeeId", placeholder='', required='')
                             .forms_field
-                                p Type
-                                input.forms_field-input(type='text', name="type", placeholder='Type', required='')
+                                p Full Name
+                                input.forms_field-input(type='text', name="fullName", placeholder='', required='')
                             .forms_field
-                                p Description
-                                input.forms_field-input(type='text', name="description", placeholder='Description', required='')
+                                p User Group
+                                input.forms_field-input(type='number', name="userGroup", placeholder='', required='')
                             .forms_field
-                                p Dispense
-                                input.forms_field-input(type='money', name="dispense", placeholder='Dispense Amount', required='')
+                                p Department ID
+                                input.forms_field-input(type='number', name="departmentId", placeholder='', required='')
 
                         .forms_buttons
-                            input.forms_buttons-submit(type='submit', value='Submit')
+                            input.forms_buttons-submit(type='submit', value='Add Employee')
                             br
                             button.forms_buttons-cancel cancel
 
