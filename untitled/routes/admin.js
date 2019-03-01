@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const errors = {message:"",};
@@ -25,7 +26,7 @@ router.get('/admin', function(req, res, next) {
 router.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
 // Admin login
-router.post("/login-admin", (req, res) => {
+router.post("/login", (req, res) => {
     // TODO check empty fields
     /*const { errors, isValid } = validateLoginInput(req.body);
     if (!isValid) {
@@ -51,6 +52,7 @@ router.post("/login-admin", (req, res) => {
                 req.session.loginUserId = user.id;
                 req.session.loginUserGroup = user.userGroup;
                 req.user = user;
+                console.log("admin login successful");
                 return res.render('overview', { title: 'Admin Overview', user: user}); // TODO overview: landing page only for admin\
             }
             else {
