@@ -14,14 +14,15 @@ const ValidateSubmissionFields = require("../server/validation/post.validation.j
 
 const validatePostInput = require("../server/validation/post.validation.js");
 
+router.get('/admin', function(req, res, next) {
+    if(req.session.loginUser){
+        res.render('overview', {title: 'Admin Overview', user: req.session.loginUser});
+    }
+    res.render('admin', { error: errors });
+});
+
 // Fix favicon 500 error
-// router.get('/admin', function(req, res, next) {
-//
-//     if(req.session.loginUser){
-//         res.render('main', {title: 'main', user: req.session.loginUser});
-//     }
-//     res.render('admin', { error: errors });
-// });
+router.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
 // Admin login
 router.post("/login-admin", (req, res) => {
@@ -71,7 +72,7 @@ router.post("/add-employee", (req, res) => {
     const userGroup = req.session.loginUserGroup;
     User.findOne({_id: id})
         .then(user => {
-            if (userGroup == 0) {
+            if (userGroup === 0) {
                 const employeeId = req.body.employeeId;
                 User.findOne({employeeId}).then(user => {
                     if (user) {
