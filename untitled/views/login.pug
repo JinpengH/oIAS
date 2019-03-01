@@ -38,7 +38,8 @@ html
                                 br
                                 button#forms_button-flip(type='button') Do not have an account?
                                 input.forms_buttons-action(type='submit', value='Log In')
-                                p#error_message_login= error.message
+                                if error
+                                    p#error_message_login= error.message
 
 
                     .user_forms-signup.back
@@ -61,7 +62,8 @@ html
                             .forms_buttons
                                 button.forms_button-flip-back(type='button') Already have an account?
                                 input.forms_buttons-action(type='submit', value='Sign up')
-                                p#error_message_signup= error.message
+                                if error
+                                    p#error_message_signup= error.message
 
 
 
