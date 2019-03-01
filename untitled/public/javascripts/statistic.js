@@ -1,9 +1,6 @@
 $(document).ready(function(){
     //generating graph
     let dispense = 50;
-    $.get('/history',function(data){
-        dispense = data.dispense;
-    });
     var pieGraph = $("#pie_graph");
     var lineGraph = $("#trend_graph");
     var pie_graph_data = {datasets: [{
