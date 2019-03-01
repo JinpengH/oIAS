@@ -25,10 +25,10 @@ html
                         img.logo(src="../images/obEN_logo.png" height=61 width=115 align=middle)
                         br
                         h2.forms_title(align = middle) Admin Login
-                        form#form_login.forms_form(action="/login-admin" method="post")
+                        form#form_login.forms_form(action="/admin/login" method="post")
                             fieldset.forms_fieldset
                                 .forms_field
-                                    input.forms_field-input#login_email(type='email', name="email", placeholder='email', required='', autofocus='')
+                                    input.forms_field-input#login_email(type='text', name="username", placeholder='Username', required='', autofocus='')
                                 .forms_field
                                     input.forms_field-input#login_password(type='password', name="password", placeholder='Password', required='')
                             .forms_buttons
