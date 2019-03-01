@@ -53,7 +53,10 @@ router.post("/login", (req, res) => {
                 req.session.loginUserGroup = user.userGroup;
                 req.user = user;
                 console.log("admin login successful");
-                return res.render('overview', { title: 'Admin Overview', user: user}); // TODO overview: landing page only for admin\
+                User.find().then
+                {
+                    return res.render('overview', {title: 'Admin Overview', user: user, list: list}); // TODO overview: landing page only for admin\
+                }
             }
             else {
                 errors.message = "Username/Password combination incorrect, please check again";
