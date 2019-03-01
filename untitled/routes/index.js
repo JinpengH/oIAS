@@ -287,7 +287,12 @@ router.post('/changePassword',function(req,res,next){
     }
     else{
         let id = req.session.loginUserId;
-        User.find({})
+        let query = {employeeId:id};
+        console.log(id);
+        User.find(query).then(user =>{
+            console.log(user);
+        });
+        res.render('login');
 
     }
 
