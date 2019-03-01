@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 
-const users = require("../../routes/users");
-const index = require("../../routes/index");
-const submission = require("../../routes/submission");
-const admin = require("../../routes/admin");
+const users = require("../routes/users");
+const index = require("../routes/index");
+const submission = require("../routes/submission");
+const admin = require("../routes/admin");
 const app = express();
 
 // Body parser middleware
@@ -30,9 +30,9 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 
 // Use Routes
-// app.use("/User", User);
+app.use("/users", users);
 app.use("/submission", submission);
-app.use("/admin", admin);
+app.use("/adminlogin", admin);
 
 const port = process.env.PORT || 8081;
 

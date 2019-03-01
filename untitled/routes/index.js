@@ -24,16 +24,19 @@ router.get('/favicon.ico', (req, res) => res.sendStatus(204));
 /* GET home page. */
 router.get('/login', function(req, res, next) {
     if(req.session.loginUser){
-        res.render('main', {title: 'main', user: req.session.loginUser});
+        res.render('main', {title: 'Main', user: req.session.loginUser});
     }
     res.render('login', { error: errors });
 });
 
-
+// Go to admin login page
+router.get('/admin', function (req, res) {
+    res.render('admin', {title: 'Admin Login'});
+});
 
 // Get Profile
 router.get('/profile', function(req, res, next) {
-    res.render('profile', { title: 'profile' });
+    res.render('profile', { title: 'Profile' });
 });
 
 
@@ -87,7 +90,7 @@ router.get('/statistic', function(req, res, next) {
     }
 });
 router.get('/profile', function(req, res, next) {
-    res.render('profile', { title: 'profile' });
+    res.render('profile', { title: 'Profile' });
 });
 
 function loginPost(req,res,next){
