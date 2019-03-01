@@ -18,22 +18,59 @@ const validateLoginInput = require("../server/validation/login.validation.js");
 const User = require(".." + "/server/models/User");
 const Submission = require(".." + "/server/models/Submission");
 const errors = {message:"",};
-
 //fixed favicon
 router.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
 /* GET home page. */
 router.get('/login', function(req, res, next) {
     if(req.session.loginUser){
-        res.render('main', {title: 'main', user: req.session.loginUser});
+        res.render('main', {title: 'Main', user: req.session.loginUser});
     }
     res.render('login', { error: errors });
 });
 
+<<<<<<< HEAD
+=======
+// Go to admin login page
+router.get('/admin', function (req, res) {
+    res.render('admin', {title: 'Admin Login'});
+});
+>>>>>>> ce00d0faf7396d90445cc73a63d500a00506d407
 
 // Get Profile
 router.get('/profile', function(req, res, next) {
-    res.render('profile', { title: 'profile' });
+    let user = req.session.loginUser;
+    if(typeof user === 'undefined'){
+        const errors = {message: ""};
+        res.render('login',{error:errors});
+    }
+    let position = "Admin";
+    let department = "Finanace";
+    switch(user.userGroup){
+        case 1:
+            position = "Employee";
+            break;
+        case 2:
+            position = "Team Manager";
+            break;
+        case 3:
+            position = "CFO";
+            break;
+
+    }
+    switch(user.departmentId){
+        case 1:
+            department = "Finance";
+            break;
+        case 2:
+            department = "Machine Learning";
+            break;
+        case 3:
+            department = "AI";
+            break;
+
+    }
+    res.render('profile', { title: 'Profile',user:user,position:position,department:department});
 });
 
 
@@ -190,7 +227,7 @@ router.get('/weekly',function(req,res){
     res.json(listOfTimes);
 });
 router.get('/profile', function(req, res, next) {
-    res.render('profile', { title: 'profile' });
+    res.render('profile', { title: 'Profile' });
 });
 
 function loginPost(req,res,next){
@@ -342,7 +379,7 @@ router.post('/reset', function(req, res, next) {
                   to: email, // list of receivers
                   subject: "Notice from OIAS", // Subject line
                   html: "<br>Hi ObEN Invoice Management System user,<br>To rest your password, please click the following link.<br>" +
-                      "(http://localhost:3000/request" + ":" + email + ")"  + "<br>" +
+                      "(http://localhost:3000/changePassword" + ":" + email + ")"  + "<br>" +
                       "It you did not request a password reset, please disregard this email.<br>" +
                       "<br><br><br>"+
                       "Thank you,<br>" +
@@ -377,4 +414,27 @@ router.post('/reset', function(req, res, next) {
 
 });
 
+
+router.get('/resetPassword',function(req,res,next){
+    res.render('resetPassword');
+});
+
+router.post('/changePassword',function(req,res,next){
+    let originalPassword = req.body.oldPassword;
+    let newPassword = req.body.newPassword;
+    if(originalPassword === newPassword){
+        res.render('resetPassword',{error:{message:"password can't be the same!"}})
+    }
+    else{
+        let id = req.session.loginUserId;
+        let query = {employeeId:id};
+        console.log(id);
+        User.find(query).then(user =>{
+            console.log(user);
+        });
+        res.render('login');
+
+    }
+
+});
 module.exports = router;

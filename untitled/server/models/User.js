@@ -10,12 +10,14 @@ var db = mongoose.connection;
 const UserSchema = new Schema({
     employeeId: {
         type: String,
+        trim: true,
         required: true,
     },
     email: {
         type: String,
         default: "",
-        required:true,
+        trim: true,
+        required: true,
     },
     password: {
         type: String,
@@ -24,6 +26,7 @@ const UserSchema = new Schema({
     },
     fullName: {
         type: String,
+        trim: true,
         required: true
     },
     userGroup:{

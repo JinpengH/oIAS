@@ -1,6 +1,7 @@
 $(document).ready(function(){
     //generating graph
     let dispense = 50;
+
     var pieGraph = $("#pie_graph");
     var lineGraph = $("#trend_graph");
     var pie_graph_data = {datasets: [{
