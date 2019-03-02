@@ -114,11 +114,114 @@ router.get('/statistic', function(req, res, next) {
         res.render('login',{error:errors});
     }
     else {
-        const submissions = Submission.find({linkedUserId: req.session.loginUserId}).then(list => {
-            return res.render('statistic', {list: list});
+        var time;
+        let d = new Date();
+        console.log(d.getDay());
+        let day = d.getDay(),
+            diff = d.getDate() - day + (day === 0 ? -6 : 4);
+        let monday = new Date(d.setDate(diff));
+        console.log(monday.getDay());
+        Submission.find({linkedUserId: req.session.loginUserId}).then(list => {
+            let number = 0;
+            for (let i = 0; i < list.length; i++) {
+                if(list[i].dateTime.getDay() === monday.getDay()){
+                    console.log(list[i].dateTime.getDay());
+                    number+=1;
+                }
+            }
+            console.log(number);
+            return res.render('statistic', {title: 'stat', list: list});
         });
-
     }
+});
+router.get('/weekly',function(req,res){
+    //Monday
+    var listOfTimes = [];
+    var d = new Date();
+    var day = d.getDay(),
+        diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    var monday = new Date(d.setDate(diff));
+    diff = d.getDate() - day + (day === 0 ? -6 : 2);
+    var tuesday = new Date(d.setDate(diff));
+    diff = d.getDate() - day + (day === 0 ? -6 : 3);
+    var wednesday = new Date(d.setDate(diff));
+    diff = d.getDate() - day + (day === 0 ? -6 : 4);
+    var thursday = new Date(d.setDate(diff));
+    diff = d.getDate() - day + (day === 0 ? -6 : 5);
+    var friday = new Date(d.setDate(diff));
+    Submission.find({linkedUserId: req.session.loginUserId}).then(list => {
+        var number = 0;
+        for (var i = 0; i < list.length; i++) {
+            if(list[i].dateTime.getDay() === monday.getDay()){
+                number+=1;
+            }
+        }
+        listOfTimes.push(number);
+        number = 0;
+        for (var i = 0; i < list.length; i++) {
+            if(list[i].dateTime.getDay() === tuesday.getDay()){
+                number+=1;
+            }
+        }
+        listOfTimes.push(number);
+        number = 0;
+        for (var i = 0; i < list.length; i++) {
+            if(list[i].dateTime.getDay() === wednesday.getDay()){
+                number+=1;
+            }
+        }
+        listOfTimes.push(number);
+        number = 0;
+        for (var i = 0; i < list.length; i++) {
+            if(list[i].dateTime.getDay() === thursday.getDay()){
+                number+=1;
+            }
+        }
+        listOfTimes.push(number);
+        number = 0;
+        for (var i = 0; i < list.length; i++) {
+            if(list[i].dateTime.getDay() === friday.getDay()){
+                number+=1;
+            }
+        }
+        listOfTimes.push(number);
+    });
+
+    /*
+    var monday = new Date(d.setDate(diff));
+    Submission.find({linkedUserId: req.session.loginUserId, dateTime: monday}).then(list=>{
+        listOfTimes.push(list.length);
+    });
+
+    //Tuesday
+    diff = d.getDate() - day + (day == 0 ? -5 : 1);
+    var tuesday = new Date(d.setDate(diff));
+    Submission.find({linkedUserId: req.session.loginUserId, dateTime: tuesday}).then(list=>{
+        listOfTimes.push(list.length);
+    });
+
+    //Wednesday
+    diff = d.getDate() - day + (day == 0 ? -4 : 1);
+    var wednesday = new Date(d.setDate(diff));
+    Submission.find({linkedUserId: req.session.loginUserId, dateTime: wednesday}).then(list=>{
+        listOfTimes.push(list.length);
+    });
+
+    //Thursday
+    diff = d.getDate() - day + (day == 0 ? -3 : 1);
+    var thursday = new Date(d.setDate(diff));
+    Submission.find({linkedUserId: req.session.loginUserId, dateTime: thursday}).then(list=>{
+        listOfTimes.push(list.length);
+    });
+
+    //Friday
+    diff = d.getDate() - day + (day == 0 ? -2 : 1);
+    var friday = new Date(d.setDate(diff));
+    Submission.find({linkedUserId: req.session.loginUserId, dateTime: friday}).then(list=>{
+        listOfTimes.push(list.length);
+    });
+    */
+    res.json(listOfTimes);
 });
 router.get('/profile', function(req, res, next) {
     res.render('profile', { title: 'Profile' });
