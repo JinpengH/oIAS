@@ -3,7 +3,6 @@ const errors = {message:"",};
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../server/config/keys");
-const gravatar = require("gravatar");
 const validateRegisterInput = require("../server/validation/register.validation.js");
 const nodemailer = require("nodemailer");
 
@@ -92,13 +91,6 @@ exports.register = function(req,res){
                     //return res.status(400).json({ email: "This email address is associated with an existing account." });
                 }
                 else {
-                    // obtain user avatar
-                    const avatar = gravatar.url(req.body.email, {
-                        s: "200", // size
-                        r: "pg", // Rating
-                        d: "mm" // Default
-                    });
-
                     // create User object
                     const newUser = new User({
                         employeeId: req.body.employeeId,
@@ -123,11 +115,13 @@ exports.register = function(req,res){
             })
         }
     });
+    /*
     User.findOne({ employeeId }).then(user2 => {
         if(user2){
             console.log("hey");
         }
     })
+    */
 };
 
 exports.sendPassword = function(req, res) {
