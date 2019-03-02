@@ -1,5 +1,9 @@
 $(document).ready(function(){
     //generating graph
+    $.get("/weekly",function (data){
+
+    });
+
     let dispense = 50;
 
     var pieGraph = $("#pie_graph");

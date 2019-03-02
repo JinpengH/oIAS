@@ -42,7 +42,6 @@ router.post(
         submissionFields.type_ = req.body.type;
         submissionFields.description = req.body.description;
         submissionFields.dispense = req.body.dispense;
-        //TODO fixed departmentID
         submissionFields.departmentId = req.session.loginUser.departmentId;
 
         // if (req.body.dateTime) submission
@@ -64,13 +63,16 @@ router.post(
             );
             // console.log(req);
             const filepath = req.files.file.path;
-            console.log(filepath);
 
+            console.log("uploading...  " + filepath);
+
+            /* why we have to do req.session again?
             const email = req.session.loginUser.email;
             console.log(req.session.loginUser.fullName);
             User.findOne({ email }).then(user => {
                 req.session.loginUser = user;
-            })
+            });
+            */
 
             cloudinary.v2.uploader.upload(
                 filepath,
