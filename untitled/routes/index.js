@@ -5,7 +5,6 @@ const login_controller = require("../controllers/loginController");
 // Load Model
 const User = require(".." + "/server/models/User");
 const Submission = require(".." + "/server/models/Submission");
-const errors = {message:"",};
 //fixed favicon
 router.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
@@ -93,7 +92,7 @@ router.get('/statistic', function(req, res, next) {
         res.render('login',{error:errors});
     }
     else {
-        var time;
+        let time;
         let d = new Date();
         //console.log(d.getDay());
         let day = d.getDay(),
@@ -116,22 +115,22 @@ router.get('/statistic', function(req, res, next) {
 });
 router.get('/weekly',function(req,res){
     //Monday
-    var listOfTimes = [];
-    var d = new Date();
-    var day = d.getDay(),
+    let listOfTimes = [];
+    let d = new Date();
+    let day = d.getDay(),
         diff = d.getDate() - day + (day === 0 ? -6 : 1);
-    var monday = new Date(d.setDate(diff));
+    let monday = new Date(d.setDate(diff));
     diff = d.getDate() - day + (day === 0 ? -6 : 2);
-    var tuesday = new Date(d.setDate(diff));
+    let tuesday = new Date(d.setDate(diff));
     diff = d.getDate() - day + (day === 0 ? -6 : 3);
-    var wednesday = new Date(d.setDate(diff));
+    let wednesday = new Date(d.setDate(diff));
     diff = d.getDate() - day + (day === 0 ? -6 : 4);
-    var thursday = new Date(d.setDate(diff));
+    let thursday = new Date(d.setDate(diff));
     diff = d.getDate() - day + (day === 0 ? -6 : 5);
-    var friday = new Date(d.setDate(diff));
+    let friday = new Date(d.setDate(diff));
     Submission.find({linkedUserId: req.session.loginUserId}).then(list => {
-        var number = 0;
-        for (var i = 0; i < list.length; i++) {
+        let number = 0;
+        for (let i = 0; i < list.length; i++) {
             if(list[i].dateTime.getDay() === monday.getDay()){
                 number+=1;
             }
@@ -167,48 +166,13 @@ router.get('/weekly',function(req,res){
         listOfTimes.push(number);
     });
 
-    /*
-    var monday = new Date(d.setDate(diff));
-    Submission.find({linkedUserId: req.session.loginUserId, dateTime: monday}).then(list=>{
-        listOfTimes.push(list.length);
-    });
-
-    //Tuesday
-    diff = d.getDate() - day + (day == 0 ? -5 : 1);
-    var tuesday = new Date(d.setDate(diff));
-    Submission.find({linkedUserId: req.session.loginUserId, dateTime: tuesday}).then(list=>{
-        listOfTimes.push(list.length);
-    });
-
-    //Wednesday
-    diff = d.getDate() - day + (day == 0 ? -4 : 1);
-    var wednesday = new Date(d.setDate(diff));
-    Submission.find({linkedUserId: req.session.loginUserId, dateTime: wednesday}).then(list=>{
-        listOfTimes.push(list.length);
-    });
-
-    //Thursday
-    diff = d.getDate() - day + (day == 0 ? -3 : 1);
-    var thursday = new Date(d.setDate(diff));
-    Submission.find({linkedUserId: req.session.loginUserId, dateTime: thursday}).then(list=>{
-        listOfTimes.push(list.length);
-    });
-
-    //Friday
-    diff = d.getDate() - day + (day == 0 ? -2 : 1);
-    var friday = new Date(d.setDate(diff));
-    Submission.find({linkedUserId: req.session.loginUserId, dateTime: friday}).then(list=>{
-        listOfTimes.push(list.length);
-    });
-    */
+    
     console.log(listOfTimes);
     res.send(listOfTimes);
 });
 router.get('/profile', function(req, res, next) {
     res.render('profile', { title: 'Profile' });
 });
-
-
 router.get('/resetPassword',function(req,res,next){
     res.render('resetPassword');
 });
@@ -216,14 +180,17 @@ router.get('/resetPassword',function(req,res,next){
 router.post('/changePassword',function(req,res,next){
     let originalPassword = req.body.oldPassword;
     let newPassword = req.body.newPassword;
+
     if(originalPassword === newPassword){
         res.render('resetPassword',{error:{message:"password can't be the same!"}})
     }
     else{
         let id = req.session.loginUserId;
-        let query = {employeeId:id};
-        console.log(id);
-        User.find(query).then(user =>{
+        let query = {id_:id};
+        User.findOneAndUpdate(
+            query,
+            { $set: { password: newPassword } },
+        ).then(user =>{
             console.log(user);
         });
         res.render('login');
