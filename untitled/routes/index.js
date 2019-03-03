@@ -285,14 +285,19 @@ router.get('/resetPassword',function(req,res,next){
 router.post('/changePassword',function(req,res,next){
     let originalPassword = req.body.oldPassword;
     let newPassword = req.body.newPassword;
+
+    console.log(originalPassword);
+    console.log(newPassword)
     if(originalPassword === newPassword){
         res.render('resetPassword',{error:{message:"password can't be the same!"}})
     }
     else{
         let id = req.session.loginUserId;
+        console.log('wtfffffffff')
+        console.log(id)
         let query = {employeeId:id};
         console.log(id);
-        User.find(query).then(user =>{
+        User.findOne(query).then(user =>{
             console.log(user);
         });
         res.render('login');
