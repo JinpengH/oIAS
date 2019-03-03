@@ -15,17 +15,41 @@ const ValidateSubmissionFields = require("../server/validation/post.validation.j
 
 const validatePostInput = require("../server/validation/post.validation.js");
 
-router.get('/admin', function(req, res, next) {
-    if(req.session.loginUser){
-        res.render('overview', {title: 'Admin Overview', user: req.session.loginUser});
+var checkLoggedIn = function (req, res, next) {
+    console.log("Checking if there is a valid logged in user");
+    if (!req.session) {
+        alert("Your session has expired. Please login to continue.");
+        res.redirect('/admin');
     }
-    res.render('admin', { title: 'Admin Login', error: errors });
+    next();
+};
+
+var checkAdmin = function (req, res, next) {
+    console.log("Checking if there is a valid admin user");
+    if (req.session.loginUserGroup !== 0) {
+        alert("You don't have permissions. Please contact your admin.");
+        req.session.destroy();
+        res.redirect('/admin');
+    }
+    next();
+};
+
+router.get('/admin', function(req, res) {
+    if (!req.session) {
+        return res.render("admin");
+    }
+    else if (req.session.loginUserGroup !== 0) {
+        req.session.destroy();
+        return res.render("admin");
+    }
+    return res.render("admin");
 });
 
 // Fix favicon 500 error
 router.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
 // Admin login
+// request parameter: username, password
 router.post("/login", (req, res) => {
     // TODO check empty fields
     /*const { errors, isValid } = validateLoginInput(req.body);
@@ -42,7 +66,7 @@ router.post("/login", (req, res) => {
         // check admin
         if (!user) {
             errors.message = "Username/Password combination incorrect, please check again";
-            return res.render('admin',{ title: 'Admin Login', error: errors }); // TODO admin: login page only for admin
+            res.redirect("/admin");
         }
 
         // Check Password
@@ -53,21 +77,20 @@ router.post("/login", (req, res) => {
                 req.session.loginUserGroup = user.userGroup;
                 req.user = user;
                 console.log("admin login successful");
-                User.find().then(list =>
-                {
-                    return res.render('overview', {title: 'Admin Overview', user: user, list: list}); // TODO overview: landing page only for admin\
-                });
+                console.log(req.user);
+                console.log(req.session);
+                res.redirect('/admin/overview');
             }
             else {
                 errors.message = "Username/Password combination incorrect, please check again";
                 return res.render('admin',{ title: 'Admin Login', error: errors });
-                // return res.status(400).json(errors);
             }
         });
     });
 });
 
-// Add an employee with employeeId and departmentId
+// Add an employee into the database
+// request parameters: employeeId, fullName, userGroup, departmentId
 router.post("/add-employee", (req, res) => {
     if (req.session.loginUserId == null) {
         alert("Your session has expired. Please login to continue.");
@@ -81,8 +104,7 @@ router.post("/add-employee", (req, res) => {
                 const employeeId = req.body.employeeId;
                 User.findOne({employeeId}).then(user => {
                     if (user) {
-                        errors.message = "This employee ID already exists. No need to add it again.";
-                        // res.render('login', { error: errors });
+                        alert("This employee ID already exists. No need to add it again.");
                     }
                     else {
                         const newUser = new User({
@@ -95,17 +117,28 @@ router.post("/add-employee", (req, res) => {
                             .save()
                             .then(user => res.json(user))
                             .catch(err => console.log(err));
+                        User.find().then(list => {
+                            return res.render('overview', {title: 'Admin Overview', list: list});
+                        });
                     }
                 })
             }
             else {
-                errors.message = "You don't have permissions. Please contact your admin.";
-                res.render('login', { title: 'Login', error: errors });
+                alert("You don't have permissions. Please contact your admin.");
+                res.redirect("/admin");
             }
 
         })
         .catch(err => res.status(404).json({usernotfound: "User not found."}));
 });
+
+router.get("/overview", [checkLoggedIn, checkAdmin], (req, res) => {
+    console.log("In admin overview");
+    User.find().then(list => {
+        return res.render('overview', {title: 'Admin Overview', list: list});
+    });
+});
+
 
 
 module.exports = router;
