@@ -101,6 +101,16 @@ router.get("/overview", [checkLoggedIn, checkAdmin], (req, res) => {
     });
 });
 
+// =======
+// const admin_controller = require("../controllers/adminController");
+// //Admin login
+// router.get('/', admin_controller.login);
+// router.post("/login", admin_controller.login);
+
+// // Add an employee with employeeId and departmentId
+// router.post("/add-employee", admin_controller.add);
+// >>>>>>> master
+
 // Add an employee into the database and send an activation email
 // request parameters: employeeId, fullName, userGroup, departmentId
 router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
