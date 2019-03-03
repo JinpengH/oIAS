@@ -6,9 +6,7 @@ const passport = require("passport");
 const gravatar = require("gravatar");
 const http = require('http');
 const router = express.Router();
-
 const nodemailer = require("nodemailer");
-
 
 // Load Input Validation
 const validateRegisterInput = require("../server/validation/register.validation.js");
@@ -434,4 +432,56 @@ router.post('/changePassword',function(req,res,next){
     }
 
 });
+
+router.get("/activation", (req, res) => {
+    const employeeId = req.query.employeeId;
+
+    User.findOne({ employeeId }).then(user => {
+        if (user) {
+            const fullName = user.fullName;
+            const userGroup = user.userGroup;
+            const departmentId = user.departmentId;
+
+            return res.render('activation', { employeeId: employeeId, fullName: fullName, userGroup: userGroup, departmentId: departmentId });
+        }
+        else {
+            alert("This employee ID does not exist in the system.");
+            res.redirect("/login");
+        }
+    });
+});
+
+router.post("/activate", (req, res) => {
+    const employeeId = req.body.employeeId;
+    const email = req.body.email;
+
+    User.findOne({ employeeId }).then(user => {
+        if (user) {
+            User.findOne({ email }).then(user1 => {
+                if (user1){
+                    errors.message = "This email is associated with an existing account.";
+                    res.render('login', { error: errors });
+                }
+                else {
+                    // encrypt password
+                    bcrypt.genSalt(10, (err, salt) => {
+                        bcrypt.hash(req.body.password, salt, (err, hash) => {
+                            if (err) {
+                                throw err;
+                            }
+                            User.findOneAndUpdate(employeeId, { email: email, password: hash });
+                        });
+                    });
+                    res.redirect("/login");
+                }
+            })
+        }
+        else {
+            errors.message = "This employee ID does not exist in the system.";
+            res.render('/activation', { error: errors });
+        }
+    });
+});
+
+
 module.exports = router;

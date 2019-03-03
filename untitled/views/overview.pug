@@ -1,7 +1,7 @@
 doctype html
 html
     head
-        title= title
+        title="Admin Overview"
         link(rel='stylesheet', href='/stylesheets/main.css')
         link(rel='stylesheet', href='/stylesheets/resetPassword.css')
         link(href="https://fonts.googleapis.com/css?family=PT+Serif|Poppins|Ubuntu" rel="stylesheet")
@@ -50,6 +50,9 @@ html
                             .forms_field
                                 p Full Name
                                 input.forms_field-input(type='text', name="fullName", placeholder='', required='')
+                            .forms_field
+                                p Email
+                                input.forms_field-input(type='email', name="email", placeholder='', required='')
                             .forms_field
                                 p User Group
                                 input.forms_field-input(type='number', name="userGroup", placeholder='', required='')
