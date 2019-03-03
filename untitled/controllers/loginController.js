@@ -115,13 +115,6 @@ exports.register = function(req,res){
             })
         }
     });
-    /*
-    User.findOne({ employeeId }).then(user2 => {
-        if(user2){
-            console.log("hey");
-        }
-    })
-    */
 };
 
 exports.sendPassword = function(req, res) {

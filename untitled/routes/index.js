@@ -164,11 +164,11 @@ router.get('/weekly',function(req,res){
             }
         }
         listOfTimes.push(number);
+        res.send(listOfTimes);
     });
 
-    
-    console.log(listOfTimes);
-    res.send(listOfTimes);
+
+
 });
 router.get('/profile', function(req, res, next) {
     res.render('profile', { title: 'Profile' });

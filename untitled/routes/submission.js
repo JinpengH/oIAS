@@ -64,7 +64,7 @@ router.post(
             // console.log(req);
             const filepath = req.files.file.path;
 
-            console.log("uploading...  " + filepath);
+            //console.log("uploading...  " + filepath);
 
             /* why we have to do req.session again?
             const email = req.session.loginUser.email;
@@ -79,9 +79,9 @@ router.post(
                 { public_id: submission.id },
                 function(error, result) {
                     // res.json(result);
-                    console.log(result, error);
+                    //console.log(result, error);
                     var new_url = result.url;
-                    console.log(new_url);
+                   
                     Submission.findOneAndUpdate(
                         { _id: submission.id },
                         { $set: { file_url: new_url } },
