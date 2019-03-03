@@ -39,6 +39,7 @@ html
                                 .fas.fa-arrow-down.fa-2x.download.list_button
                                 .fas.fa-eye.fa-2x.preview.list_button
                 .fas.fa-upload.fa-2x#float_button
+
                 form.submission_form(action="/submission/create", method="post", enctype='multipart/form-data')
                     fieldset.forms_fieldset
                         .forms_field
@@ -63,28 +64,6 @@ html
                         br
                         button.forms_buttons-cancel cancel
 
-
-
-                //button(onclick="document.getElementById('id01').style.display='block'") upload
-
-
-                //#id01.modal
-                    form.modal-content.animate(action='/action_page.php')
-                        .imgcontainer
-                            span.close(onclick="document.getElementById('id01').style.display='none'", title='Close Modal') ×
-                        .container
-                            label(for='uname')
-                                b Username
-                            input(type='text', placeholder='Enter Username', name='uname', required='')
-                            label(for='type') Type
-                            select#type(name='type')
-                                option(value='Invoice') Invoice
-                                option(value='Request') Request
-                            input.draginput(type='file' multiple=)
-                            p.drag Drag your files here or click in this area.
-                            button(type='submit') Submit
-                        .container(style='background-color:#f1f1f1')
-                            button.cancelbtn(type='button', onclick="document.getElementById('id01').style.display='none'") Cancel
 
 
 
