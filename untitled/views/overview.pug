@@ -1,7 +1,7 @@
 doctype html
 html
     head
-        title= title
+        title="Admin Overview"
         link(rel='stylesheet', href='/stylesheets/main.css')
         link(rel='stylesheet', href='/stylesheets/resetPassword.css')
         link(href="https://fonts.googleapis.com/css?family=PT+Serif|Poppins|Ubuntu" rel="stylesheet")
@@ -42,6 +42,23 @@ html
                                     option(value="2") Team Manager
                                 button.user_filter_button submit
                 .fas.fa-upload.fa-2x#float_button
+                    form.submission_form(action="/admin/add-employee", method="post")
+                        fieldset.forms_fieldset
+                            .forms_field
+                                p EmployeeId
+                                input.forms_field-input(type='text', name="employeeId", placeholder='', required='')
+                            .forms_field
+                                p Full Name
+                                input.forms_field-input(type='text', name="fullName", placeholder='', required='')
+                            .forms_field
+                                p Email
+                                input.forms_field-input(type='email', name="email", placeholder='', required='')
+                            .forms_field
+                                p User Group
+                                input.forms_field-input(type='number', name="userGroup", placeholder='', required='')
+                            .forms_field
+                                p Department ID
+                                input.forms_field-input(type='number', name="departmentId", placeholder='', required='')
                 form.submission_form(action="/admin/add-employee", method="post")
                     fieldset.forms_fieldset
                         .forms_field
