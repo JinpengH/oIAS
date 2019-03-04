@@ -9,6 +9,8 @@ html
         script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
         script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
         script(src='/javascripts/main.js')
+        script(src="https://unpkg.com/popper.js@1/dist/umd/popper.min.js")
+        script(src="https://unpkg.com/tippy.js@4")
         script(src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js")
     body
 
@@ -31,16 +33,17 @@ html
                     if list
                         each val in list
                             li.tile
-                                p.name=val.title
-                                p.type=val.type_
-                                p.description=val.description
+                                p.name(data-tippy-content=val.title)=val.title
+                                p.type(data-tippy-content=val.type_)=val.type_
+                                p.description(data-tippy-content=val.description)=val.description
                                 a.fas.fa-times.fa-2x.decline.list_button
                                 a.fas.fa-check.fa-2x.approve.list_button
                                 a.fas.fa-arrow-down.fa-2x.download.list_button(href=val.file_url download=val.file_url)
                                 a.fas.fa-eye.fa-2x.preview.list_button(href=val.file_url)
                 .fas.fa-upload.fa-2x#float_button
 
-                form.submission_form(name = "submission" action="/submission/create", method="post", enctype='multipart/form-data' onsubmit="return checkForm();")
+
+form.submission_form(name = "submission" action="/submission/create", method="post", enctype='multipart/form-data' onsubmit="return checkForm();")
                     fieldset.forms_fieldset
                         .forms_field
                             p Title

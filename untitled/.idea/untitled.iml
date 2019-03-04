@@ -13,5 +13,6 @@
     <orderEntry type="library" name="material" level="application" />
     <orderEntry type="library" name="jquery.flip" level="application" />
     <orderEntry type="library" name="Chart.bundle" level="application" />
+    <orderEntry type="library" name="popper" level="application" />
   </component>
 </module>
