@@ -1,11 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const nodemailer = require("nodemailer");
-
-// Load Input Validation
-const validateRegisterInput = require("../server/validation/register.validation.js");
-const validateLoginInput = require("../server/validation/login.validation.js");
-
+const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
+mongoose.set('useFindAndModify', false);
 // Load User Model
 const login_controller = require("../controllers/loginController");
 const main_controller = require("../controllers/mainController");
@@ -79,7 +76,7 @@ router.get('/statistic', function(req, res, next) {
     let user = req.session.loginUser;
     if(typeof user === 'undefined'){
         const errors = {message: ""};
-        res.render('login',{error:errors});
+        res.redirect('/login');
     }
     else {
         let time;
@@ -191,15 +188,24 @@ router.post('/changePassword',function(req,res,next){
         res.render('resetPassword',{error:{message:"password can't be the same!"}})
     }
     else{
+        //TODO changepassword notworking miao
         let id = req.session.loginUserId;
-        let query = {id_:id};
-        User.findOneAndUpdate(
-            query,
-            { $set: { password: newPassword } },
-        ).then(user =>{
-            console.log(user);
+        let query = {id_:req.session.loginUserId};
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(newPassword, salt, (err, hash) => {
+                if (err) throw err;
+                newPassword = hash;
+                User.findOneAndUpdate(
+                    query,
+                    { $set: { password: newPassword } },
+                    { new: true, useFindAndModify: false }
+                ).then(user =>{
+                    res.json(user);
+                });
+            });
         });
-        res.render('login');
+
+        res.redirect('/login');
 
     }
 
