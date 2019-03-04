@@ -104,62 +104,78 @@ router.get('/statistic', function(req, res, next) {
     }
 });
 router.get('/weekly',function(req,res){
-    //Monday
     let listOfTimes = [];
     let d = new Date();
     let day = d.getDay(),
         diff = d.getDate() - day + (day === 0 ? -6 : 1);
     let monday = new Date(d.setDate(diff));
+    d = new Date();
     diff = d.getDate() - day + (day === 0 ? -6 : 2);
     let tuesday = new Date(d.setDate(diff));
+    d = new Date();
     diff = d.getDate() - day + (day === 0 ? -6 : 3);
     let wednesday = new Date(d.setDate(diff));
+    d = new Date();
     diff = d.getDate() - day + (day === 0 ? -6 : 4);
     let thursday = new Date(d.setDate(diff));
+    d = new Date();
     diff = d.getDate() - day + (day === 0 ? -6 : 5);
     let friday = new Date(d.setDate(diff));
+    d = new Date();
     Submission.find({linkedUserId: req.session.loginUserId}).then(list => {
         let number = 0;
-        for (let i = 0; i < list.length; i++) {
-            if(list[i].dateTime.getDay() === monday.getDay()){
-                number+=1;
+        if(d.getDay() >= monday.getDay()){
+            for (let i = 0; i < list.length; i++) {
+                if(list[i].dateTime.getDay() === monday.getDay()){
+                    number+=1;
+                }
             }
         }
         listOfTimes.push(number);
         number = 0;
-        for (let i = 0; i < list.length; i++) {
-            if(list[i].dateTime.getDay() === tuesday.getDay()){
-                number+=1;
+        if(d.getDay() >= tuesday.getDay()){
+            for (let i = 0; i < list.length; i++) {
+                if(list[i].dateTime.getDay() === tuesday.getDay()){
+                    number+=1;
+                }
             }
         }
         listOfTimes.push(number);
         number = 0;
-        for (let i = 0; i < list.length; i++) {
-            if(list[i].dateTime.getDay() === wednesday.getDay()){
-                number+=1;
+        if(d.getDay() >= wednesday.getDay()){
+            for (let i = 0; i < list.length; i++) {
+                if(list[i].dateTime.getDay() === wednesday.getDay()){
+                    number+=1;
+                }
             }
         }
         listOfTimes.push(number);
         number = 0;
-        for (let i = 0; i < list.length; i++) {
-            if(list[i].dateTime.getDay() === thursday.getDay()){
-                number+=1;
+        if(d.getDay() >= thursday.getDay()){
+            for (let i = 0; i < list.length; i++) {
+                if(list[i].dateTime.getDay() === thursday.getDay()){
+                    number+=1;
+                }
             }
         }
         listOfTimes.push(number);
         number = 0;
-        for (let i = 0; i < list.length; i++) {
-            if(list[i].dateTime.getDay() === friday.getDay()){
-                number+=1;
+        if(d.getDay() >= friday.getDay()){
+            for (let i = 0; i < list.length; i++) {
+                if(list[i].dateTime.getDay() === friday.getDay()){
+                    number+=1;
+                }
             }
         }
         listOfTimes.push(number);
         res.send(listOfTimes);
     });
+});
 
-
+router.get('dispense',function(req,res){
 
 });
+
 router.get('/profile', function(req, res, next) {
     res.render('profile', { title: 'Profile' });
 });
