@@ -79,23 +79,11 @@ router.get('/statistic', function(req, res, next) {
         res.redirect('/login');
     }
     else {
-        let time;
         let d = new Date();
-        //console.log(d.getDay());
         let day = d.getDay(),
-            diff = d.getDate() - day + (day === 0 ? -6 : 4);
+            diff = d.getDate() - day + (day === 0 ? -6 : 1);
         let monday = new Date(d.setDate(diff));
-        //console.log(monday.getDay());
         Submission.find({linkedUserId: req.session.loginUserId}).then(list => {
-            let number = 0;
-            for (let i = 0; i < list.length; i++) {
-                if(list[i].dateTime.getDay() === monday.getDay()){
-                    console.log(list[i].dateTime.getDay());
-                    number+=1;
-                }
-            }
-            //console.log(number);
-
             return res.render('statistic', {title: 'stat', list: list});
         });
     }
@@ -123,7 +111,9 @@ router.get('/weekly',function(req,res){
         let number = 0;
         if(d.getDay() >= monday.getDay()){
             for (let i = 0; i < list.length; i++) {
-                if(list[i].dateTime.getDay() === monday.getDay()){
+                if(list[i].dateTime.getDate() === monday.getDate() &&
+                    list[i].dateTime.getMonth() === monday.getMonth() &&
+                    list[i].dateTime.getFullYear() === monday.getFullYear()){
                     number+=1;
                 }
             }
@@ -132,7 +122,9 @@ router.get('/weekly',function(req,res){
         number = 0;
         if(d.getDay() >= tuesday.getDay()){
             for (let i = 0; i < list.length; i++) {
-                if(list[i].dateTime.getDay() === tuesday.getDay()){
+                if(list[i].dateTime.getDate() === tuesday.getDate() &&
+                    list[i].dateTime.getMonth() === tuesday.getMonth() &&
+                    list[i].dateTime.getFullYear() === tuesday.getFullYear()){
                     number+=1;
                 }
             }
@@ -141,7 +133,9 @@ router.get('/weekly',function(req,res){
         number = 0;
         if(d.getDay() >= wednesday.getDay()){
             for (let i = 0; i < list.length; i++) {
-                if(list[i].dateTime.getDay() === wednesday.getDay()){
+                if(list[i].dateTime.getDate() === wednesday.getDate() &&
+                    list[i].dateTime.getMonth() === wednesday.getMonth() &&
+                    list[i].dateTime.getFullYear() === wednesday.getFullYear()){
                     number+=1;
                 }
             }
@@ -150,7 +144,9 @@ router.get('/weekly',function(req,res){
         number = 0;
         if(d.getDay() >= thursday.getDay()){
             for (let i = 0; i < list.length; i++) {
-                if(list[i].dateTime.getDay() === thursday.getDay()){
+                if(list[i].dateTime.getDate() === thursday.getDate() &&
+                    list[i].dateTime.getMonth() === thursday.getMonth() &&
+                    list[i].dateTime.getFullYear() === thursday.getFullYear()){
                     number+=1;
                 }
             }
@@ -159,7 +155,9 @@ router.get('/weekly',function(req,res){
         number = 0;
         if(d.getDay() >= friday.getDay()){
             for (let i = 0; i < list.length; i++) {
-                if(list[i].dateTime.getDay() === friday.getDay()){
+                if(list[i].dateTime.getDate() === friday.getDate() &&
+                    list[i].dateTime.getMonth() === friday.getMonth() &&
+                    list[i].dateTime.getFullYear() === friday.getFullYear()){
                     number+=1;
                 }
             }
@@ -169,8 +167,97 @@ router.get('/weekly',function(req,res){
     });
 });
 
-router.get('dispense',function(req,res){
-
+router.get('/dispense',function(req,res){
+    let dispense = 0;
+    let d = new Date();
+    let day = d.getDay(),
+        diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    let monday = new Date(d.setDate(diff));
+    d = new Date();
+    diff = d.getDate() - day + (day === 0 ? -6 : 2);
+    let tuesday = new Date(d.setDate(diff));
+    d = new Date();
+    diff = d.getDate() - day + (day === 0 ? -6 : 3);
+    let wednesday = new Date(d.setDate(diff));
+    d = new Date();
+    diff = d.getDate() - day + (day === 0 ? -6 : 4);
+    let thursday = new Date(d.setDate(diff));
+    d = new Date();
+    diff = d.getDate() - day + (day === 0 ? -6 : 5);
+    let friday = new Date(d.setDate(diff));
+    d = new Date();
+    diff = d.getDate() - day + (day === 0 ? -6 : 6);
+    let saturday = new Date(d.setDate(diff));
+    d = new Date();
+    diff = d.getDate() - day + (day === 0 ? -6 : 7);
+    let sunday = new Date(d.setDate(diff));
+    d = new Date();
+    Submission.find({linkedUserId: req.session.loginUserId}).then(list => {
+        if(d.getDay() >= monday.getDay()){
+            for (let i = 0; i < list.length; i++) {
+                if(list[i].dateTime.getDate() === monday.getDate() &&
+                    list[i].dateTime.getMonth() === monday.getMonth() &&
+                    list[i].dateTime.getFullYear() === monday.getFullYear()){
+                    dispense += list[i].dispense;
+                }
+            }
+        }
+        if(d.getDay() >= tuesday.getDay()){
+            for (let i = 0; i < list.length; i++) {
+                if(list[i].dateTime.getDate() === tuesday.getDate() &&
+                    list[i].dateTime.getMonth() === tuesday.getMonth() &&
+                    list[i].dateTime.getFullYear() === tuesday.getFullYear()){
+                    dispense += list[i].dispense;
+                }
+            }
+        }
+        if(d.getDay() >= wednesday.getDay()){
+            for (let i = 0; i < list.length; i++) {
+                if(list[i].dateTime.getDate() === wednesday.getDate() &&
+                    list[i].dateTime.getMonth() === wednesday.getMonth() &&
+                    list[i].dateTime.getFullYear() === wednesday.getFullYear()){
+                    dispense += list[i].dispense;
+                }
+            }
+        }
+        if(d.getDay() >= thursday.getDay()){
+            for (let i = 0; i < list.length; i++) {
+                if(list[i].dateTime.getDate() === thursday.getDate() &&
+                    list[i].dateTime.getMonth() === thursday.getMonth() &&
+                    list[i].dateTime.getFullYear() === thursday.getFullYear()){
+                    dispense += list[i].dispense;
+                }
+            }
+        }
+        if(d.getDay() >= friday.getDay()){
+            for (let i = 0; i < list.length; i++) {
+                if(list[i].dateTime.getDate() === friday.getDate() &&
+                    list[i].dateTime.getMonth() === friday.getMonth() &&
+                    list[i].dateTime.getFullYear() === friday.getFullYear()){
+                    dispense += list[i].dispense;
+                }
+            }
+        }
+        if(d.getDay() >= saturday.getDay()){
+            for (let i = 0; i < list.length; i++) {
+                if(list[i].dateTime.getDay() === saturday.getDay() &&
+                    list[i].dateTime.getMonth() === saturday.getMonth() &&
+                    list[i].dateTime.getFullYear() === saturday.getFullYear()){
+                    dispense += list[i].dispense;
+                }
+            }
+        }
+        if(d.getDay() >= sunday.getDay()){
+            for (let i = 0; i < list.length; i++) {
+                if(list[i].dateTime.getDay() === sunday.getDay() &&
+                    list[i].dateTime.getMonth() === sunday.getMonth() &&
+                    list[i].dateTime.getFullYear() === sunday.getFullYear()){
+                    dispense += list[i].dispense;
+                }
+            }
+        }
+        res.send(dispense);
+    });
 });
 
 router.get('/profile', function(req, res, next) {
