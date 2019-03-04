@@ -38,6 +38,10 @@ const SubmissionSchema = new Schema({
     file_url:{
         type: String,
         default: ""
+    },
+    status:{
+        type: String,
+        default: "Pending"
     }
 });
 

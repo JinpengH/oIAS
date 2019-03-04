@@ -5,6 +5,9 @@ const jwt = require("jsonwebtoken");
 const keys = require("../server/config/keys");
 const validateRegisterInput = require("../server/validation/register.validation.js");
 const nodemailer = require("nodemailer");
+const main_controller = require("../controllers/mainController");
+const Submission = require("../server/models/Submission");
+
 
 exports.index = function(req,res){
     //TODO when user is logged in, let them into the main page.
@@ -42,7 +45,7 @@ exports.login = function(req,res){
                 jwt.sign(
                     payload,
                     keys.secretOrKey,
-                    { expiresIn: 3600 },
+                    {expiresIn: 3600},
                     (err, token) => {
                         res.json({
                             success: true,
@@ -56,17 +59,23 @@ exports.login = function(req,res){
                 req.session.loginUserGroup = user.userGroup;
                 req.user = user;
                 //TODO has to be refreshed once to display
-                return res.render('main', {list: []});
+                console.log(mainGet(req, res));
+                return res.redirect('/main');
+
 
             } else {
                 errors.message = "Email/Password combination incorrect, please check again";
-                return res.render('login',{error: errors});
+                return res.render('login',{error:errors});
                 //return res.status(400).json(errors);
             }
         });
     });
 };
-
+function mainGet(req,res){
+    Submission.find({linkedUserId: req.session.loginUserId}).then(list =>{
+        return list;
+    });
+}
 exports.register = function(req,res){
     const { errors, isValid } = validateRegisterInput(req.body);
     if (!isValid) {

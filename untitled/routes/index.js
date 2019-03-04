@@ -8,6 +8,7 @@ const validateLoginInput = require("../server/validation/login.validation.js");
 
 // Load User Model
 const login_controller = require("../controllers/loginController");
+const main_controller = require("../controllers/mainController");
 
 // Load Model
 const User = require(".." + "/server/models/User");
@@ -72,25 +73,7 @@ router.get('/profile', function(req, res, next) {
 
 
 
-router.get('/main',mainGet);
-
-function mainGet(req,res){
-    //const name = req.name;
-    //const user = req.user;
-    //res.render('main', { title: 'main', name, user});
-    const sess = req.session;
-    user = sess.loginUser;
-    if(typeof user === 'undefined'){
-        const errors = {message: ""};
-        res.render('login',{error:errors});
-    }
-    else {
-        const submissions = Submission.find({linkedUserId: sess.loginUserId}).then(list =>{
-            return res.render('main',{list:list});
-        });
-    }
-}
-router.get('/main',mainGet);
+router.get('/main',main_controller.index);
 
 router.get('/statistic', function(req, res, next) {
     let user = req.session.loginUser;
