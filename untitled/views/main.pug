@@ -34,13 +34,13 @@ html
                                 p.name=val.title
                                 p.type=val.type_
                                 p.description=val.description
-                                .fas.fa-times.fa-2x.decline.list_button
-                                .fas.fa-check.fa-2x.approve.list_button
-                                .fas.fa-arrow-down.fa-2x.download.list_button
-                                .fas.fa-eye.fa-2x.preview.list_button
+                                a.fas.fa-times.fa-2x.decline.list_button
+                                a.fas.fa-check.fa-2x.approve.list_button
+                                a.fas.fa-arrow-down.fa-2x.download.list_button(href=val.file_url download=val.file_url)
+                                a.fas.fa-eye.fa-2x.preview.list_button(href=val.file_url)
                 .fas.fa-upload.fa-2x#float_button
 
-                form.submission_form(action="/submission/create", method="post", enctype='multipart/form-data')
+                form.submission_form(name = "submission" action="/submission/create", method="post", enctype='multipart/form-data' onsubmit="return checkForm();")
                     fieldset.forms_fieldset
                         .forms_field
                             p Title

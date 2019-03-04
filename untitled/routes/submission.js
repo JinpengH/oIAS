@@ -41,7 +41,7 @@ router.post(
         submissionFields.title = req.body.title;
         submissionFields.type_ = req.body.type;
         submissionFields.description = req.body.description;
-        submissionFields.dispense = req.body.dispense;
+        submissionFields.dispense = parseFloat(req.body.dispense);
         submissionFields.departmentId = req.session.loginUser.departmentId;
 
         // if (req.body.dateTime) submission
@@ -66,14 +66,14 @@ router.post(
 
             //console.log("uploading...  " + filepath);
 
-            /* why we have to do req.session again?
+
             const email = req.session.loginUser.email;
             console.log(req.session.loginUser.fullName);
             User.findOne({ email }).then(user => {
                 req.session.loginUser = user;
             });
-            */
 
+            console.log("submission id is " + submission.id);
             cloudinary.v2.uploader.upload(
                 filepath,
                 { public_id: submission.id },
@@ -81,14 +81,14 @@ router.post(
                     // res.json(result);
                     //console.log(result, error);
                     var new_url = result.url;
-                   
+
                     Submission.findOneAndUpdate(
                         { _id: submission.id },
                         { $set: { file_url: new_url } },
                         // { $set: postFields },
                         { new: true, useFindAndModify: false }
                     )
-                        // .then(submission => res.json(submission))
+                         .then(submission => res.json(submission))
                         // .catch(err => res.status(400).json(err));
                 });
             });
