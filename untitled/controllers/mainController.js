@@ -12,9 +12,12 @@ exports.index =
             const errors = {message: ""};
             res.render('login',{error:errors});
         }
-        else {
+        else if(user.userGroup === 1){
             const submissions = Submission.find({linkedUserId: sess.loginUserId}).then(list =>{
                 return res.render('main',{list:list});
             });
+        }
+        else if(user.userGroup === 2){
+
         }
     };
