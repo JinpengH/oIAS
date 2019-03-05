@@ -29,7 +29,7 @@ const SubmissionSchema = new Schema({
     },
     dateTime: {
         type: Date,
-        default: moment().format()
+        default: new Date()
     },
     dispense:{
         type: Number,

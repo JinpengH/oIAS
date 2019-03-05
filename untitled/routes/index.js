@@ -1,3 +1,6 @@
+
+const moment = require("moment");
+const callback = require("callback");
 const express = require('express');
 const router = express.Router();
 const bcrypt = require("bcryptjs");
@@ -81,7 +84,47 @@ router.get('/statistic', function(req, res, next) {
         });
     }
 });
-router.get('/weekly',function(req,res){
+
+router.get('/getchart/:n',function(req,res){
+    let days = req.params.n;
+    let data = [];
+    let listOfTimes = [];
+    let dispense = 0;
+    let i = 1;
+    let d = new Date();
+    let before = new Date();
+    function asyncLoop(i, date, cb){
+        if(i <= days){
+            before = new Date(d.getTime()- (24 * 60 * 60 * 1000));
+            Submission.find({linkedUserId: req.session.loginUserId, dateTime: {$gte:before, $lte:d}}).then(list => {
+                console.log(list.length);
+                listOfTimes.push(list.length);
+                for(let j=0; j<list.length; j++){
+                    dispense += list[j].dispense;
+                }
+                asyncLoop(i+1,cb);
+            });
+            d = before;
+        }else{
+            listOfTimes = listOfTimes.reverse();
+            data.push(listOfTimes);
+            data.push(dispense);
+            res.send(data);
+        }
+    }
+    asyncLoop(i,function(){
+        callback({'lists':listOfTimes, 'dispense': dispense});
+    });
+    /*
+    for(let i=1; i<=days; i++){
+        //let d = new Date();
+        let week = new Date(d.getTime() - (i * 24 * 60 * 60 * 1000));
+        Submission.find({linkedUserId: req.session.loginUserId, dateTime: {$gte:week, $lte:d}}).then(list => {
+
+        });
+    }*/
+
+    /*
     let listOfTimes = [];
     let d = new Date();
     let day = d.getDay(),
@@ -157,7 +200,7 @@ router.get('/weekly',function(req,res){
         }
         listOfTimes.push(number);
         res.send(listOfTimes);
-    });
+    });*/
 });
 
 router.get('/dispense/:n',function(req,res){
