@@ -30,32 +30,37 @@ html
                     p.list_description-description Description
                 .line
                 ul#list
-                    if list
-                        each val in list
+                    if departmentList
+                        each val in departmentList
                             li.tile
                                 p.name(data-tippy-content=val.title)=val.title
                                 p.type(data-tippy-content=val.type_)=val.type_
                                 p.description(data-tippy-content=val.description)=val.description
-                                a.fas.fa-times.fa-2x.decline.list_button
-                                a.fas.fa-check.fa-2x.approve.list_button
+                                a.fas.fa-times.fa-2x.decline.list_button(value = "heyheyhey")
+                                a.fas.fa-check.fa-2x.approve.list_button(value = "heyheyhey")
                                 a.fas.fa-arrow-down.fa-2x.download.list_button(href=val.file_url download=val.file_url)
                                 a.fas.fa-eye.fa-2x.preview.list_button(href=val.file_url)
+                    if myList
+                        each val in myList
+                            li.tile
+                                p.name(data-tippy-content=val.title)=val.title
+                                p.type(data-tippy-content=val.type_)=val.type_
+                                p.description(data-tippy-content=val.description)=val.description
+                                a.list_status=val.status
                 .fas.fa-upload.fa-2x#float_button
 
 
 form.submission_form(name = "submission" action="/submission/create", method="post", enctype='multipart/form-data' onsubmit="return checkForm();")
                     fieldset.forms_fieldset
                         .forms_field
-                            p Title
+                            p.list_title Submission
+                        .forms_field
                             input.forms_field-input(type='text', name="title", placeholder='Title', required='')
                         .forms_field
-                            p Type
                             input.forms_field-input(type='text', name="type", placeholder='Type', required='')
                         .forms_field
-                            p Description
                             input.forms_field-input(type='text', name="description", placeholder='Description', required='')
                         .forms_field
-                            p Dispense
                             input.forms_field-input(type='money', name="dispense", placeholder='Dispense Amount', required='')
                         .forms_field
                             p Drag your files here or click in this area.
@@ -63,7 +68,7 @@ form.submission_form(name = "submission" action="/submission/create", method="po
                             p.error_message
 
                     .forms_buttons
-                        input.forms_buttons-submit(type='submit', value='Submit')
+                        button.forms_buttons-submit(type='submit', value='Submit') submit
                         br
                         button.forms_buttons-cancel cancel
 

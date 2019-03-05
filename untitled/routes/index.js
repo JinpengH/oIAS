@@ -327,17 +327,18 @@ router.post('/changePassword',function(req,res,next){
     else{
         //TODO changepassword notworking miao
         let id = req.session.loginUserId;
-        let query = {id_:req.session.loginUserId};
+        let query = {id_:id};
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(newPassword, salt, (err, hash) => {
                 if (err) throw err;
                 newPassword = hash;
+                console.log("new word hash is  " + hash);
                 User.findOneAndUpdate(
                     query,
                     { $set: { password: newPassword } },
                     { new: true, useFindAndModify: false }
                 ).then(user =>{
-                    res.json(user);
+                    console.log(user);
                 });
             });
         });

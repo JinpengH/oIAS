@@ -13,11 +13,15 @@ exports.index =
             res.render('login',{error:errors});
         }
         else if(user.userGroup === 1){
-            const submissions = Submission.find({linkedUserId: sess.loginUserId}).then(list =>{
-                return res.render('main',{list:list});
+            Submission.find({linkedUserId: sess.loginUserId}).then(list =>{
+                return res.render('main',{myList:list});
             });
         }
         else if(user.userGroup === 2){
-
+            Submission.find({linkedUserId: sess.loginUserId}).then(list =>{
+                Submission.find({departmentId: sess.loginUser.departmentId}).then(departmentList=>{
+                    return res.render('main',{myList:list,departmentList:departmentList});
+                })
+            });
         }
     };

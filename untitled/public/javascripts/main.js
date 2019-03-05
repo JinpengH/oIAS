@@ -3,10 +3,39 @@ $(document).ready(function(){
 
 
 //adding tooltips
-    tippy('p',{
+    tippy('.name',{
         arrow:true,
         flip:true,
+    });
+    tippy('.type',{
+        arrow:true,
+        flip:true,
+    });
+    tippy('.description',{
+        arrow:true,
+        flip:true,
+    });
 
+//changing status
+    let list_status_first = $(".list_status:first");
+    let list_status = $(".list_status");
+    switch(list_status_first.text()){
+        case "Pending":
+            list_status.css('color','#F7AE51');
+            break;
+        case "Approved":
+            list_status.css('color','#2FF75C');
+            break;
+        case "Declined":
+            list_status.css('color','#f71b1b');
+            break;
+        default:
+            list_status.css('color','#f71b1b');
+    }
+
+    $(".decline").on('click',function(){
+        let res = $(".decline").val();
+        console.log(res);
     });
 
 // When the user clicks anywhere outside of the modal, close it
