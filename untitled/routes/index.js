@@ -67,9 +67,6 @@ router.get('/profile', function(req, res, next) {
     res.render('profile', { title: 'Profile',user:user,position:position,department:department});
 });
 
-
-
-
 router.get('/main',main_controller.index);
 
 router.get('/statistic', function(req, res, next) {
@@ -79,10 +76,6 @@ router.get('/statistic', function(req, res, next) {
         res.redirect('/login');
     }
     else {
-        let d = new Date();
-        let day = d.getDay(),
-            diff = d.getDate() - day + (day === 0 ? -6 : 1);
-        let monday = new Date(d.setDate(diff));
         Submission.find({linkedUserId: req.session.loginUserId}).then(list => {
             return res.render('statistic', {title: 'stat', list: list});
         });
@@ -167,7 +160,21 @@ router.get('/weekly',function(req,res){
     });
 });
 
-router.get('/dispense',function(req,res){
+router.get('/dispense/:n',function(req,res){
+    let dispense = 0;
+    let days = req.params.n;
+    let d = new Date();
+    Submission.find({linkedUserId: req.session.loginUserId}).then(list => {
+       for(let i=0; i<list.length; i++){
+           let timeDiff = Math.abs(d.getTime() - list[i].dateTime.getTime());
+           let diffDays = Math.ceil(timeDiff / (1000*3600*24));
+           if(diffDays <= days){
+               dispense += list[i].dispense;
+           }
+       }
+       res.send(dispense);
+    });
+    /*
     let dispense = 0;
     let d = new Date();
     let day = d.getDay(),
@@ -257,7 +264,7 @@ router.get('/dispense',function(req,res){
             }
         }
         res.send(dispense);
-    });
+    });*/
 });
 
 router.get('/profile', function(req, res, next) {
@@ -295,7 +302,6 @@ router.post('/changePassword',function(req,res,next){
         res.redirect('/login');
 
     }
-
 });
 
 router.get("/activation", (req, res) => {
