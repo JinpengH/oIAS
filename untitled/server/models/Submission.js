@@ -11,6 +11,10 @@ const SubmissionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "users"
     },
+    name: {
+        type: String,
+        required: true
+    },
     departmentId:{
         type: Number,
         required: true
@@ -34,6 +38,9 @@ const SubmissionSchema = new Schema({
     dispense:{
         type: Number,
         required: true
+    },
+    note: {
+        type: String
     },
     file_url:{
         type: String,

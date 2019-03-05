@@ -33,15 +33,11 @@ exports.delete = (req, res) => {
 };
 
 exports.submit = (req, res) => {
-
-
     // get fields
     const submissionFields = {};
 
     submissionFields.linkedUserId = req.session.loginUserId;
-    console.log("login user is " + req.session.loginUserId);
-
-    //if (req.body.type)
+    submissionFields.name = req.session.loginUser.fullName;
     submissionFields.title = req.body.title;
     submissionFields.type_ = req.body.type;
     submissionFields.description = req.body.description;
