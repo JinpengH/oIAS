@@ -13,8 +13,8 @@ exports.index = function(req,res){
     if(req.session.loginUser){
         res.redirect('/main');
     }
-    res.render('login',{error:errors});
-    res.render("/login");
+    else res.render('login',{error:errors});
+
 };
 
 
@@ -61,8 +61,6 @@ exports.login = function(req,res){
                 req.session.loginUserId = user.id;
                 req.session.loginUserGroup = user.userGroup;
                 req.user = user;
-                //TODO has to be refreshed once to display
-                console.log(mainGet(req, res));
                 return res.redirect('/main');
 
 

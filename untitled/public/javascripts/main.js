@@ -33,6 +33,11 @@ $(document).ready(function(){
             list_status.css('color','#f71b1b');
     }
 
+    $(".decline").on('click',function(){
+        let res = $(".decline").val();
+        console.log(res);
+    });
+
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
 
