@@ -304,6 +304,8 @@ router.post('/changePassword',function(req,res,next){
     }
 });
 
+router.get("/")
+
 router.get("/activation", (req, res) => {
     const employeeId = req.query.employeeId;
 

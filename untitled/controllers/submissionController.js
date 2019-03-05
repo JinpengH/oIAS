@@ -94,7 +94,7 @@ exports.submit = (req, res) => {
                     // { $set: postFields },
                     { new: true, useFindAndModify: false }
                 )
-                    .then(submission => res.json(submission))
+                    .then(submission => console.log(submission))
                 // .catch(err => res.status(400).json(err));
             });
     });

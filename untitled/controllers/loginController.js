@@ -10,7 +10,9 @@ const Submission = require("../server/models/Submission");
 
 
 exports.index = function(req,res){
-    //TODO when user is logged in, let them into the main page.
+    if(req.session.loginUser){
+        res.redirect('/main');
+    }
     res.render('login',{error:errors});
 };
 
