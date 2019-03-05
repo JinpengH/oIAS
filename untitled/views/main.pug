@@ -64,7 +64,7 @@ form.submission_form(name = "submission" action="/submission/create", method="po
                             input.forms_field-input(type='money', name="dispense", placeholder='Dispense Amount', required='')
                         .forms_field
                             p Drag your files here or click in this area.
-                            input.draginput(type='file', name='file', multiple='')
+                            input#forms_file.draginput(type='file', name='file', multiple='' required)
                             p.error_message
 
                     .forms_buttons

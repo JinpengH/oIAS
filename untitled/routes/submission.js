@@ -1,9 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
-const jwt = require("jsonwebtoken");
-const cloudinary = require("cloudinary");
-var multiparty = require("connect-multiparty")();
+const multiparty = require("connect-multiparty")();
 // Load User Model
 const User = require("../server/models/User");
 
@@ -12,7 +9,6 @@ const Submission = require("../server/models/Submission");
 
 //controller
 const submission_controller = require("../controllers/submissionController");
-const validatePostInput = require("../server/validation/post.validation.js");
 
 
 
@@ -33,4 +29,6 @@ router.delete(
     // passport.authenticate("jwt", { session: false }),
 );
 
+
+//router.post("/find/:n",submission_controller.find);
 module.exports = router;

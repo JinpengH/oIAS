@@ -69,10 +69,18 @@ function checkForm(){
     let dispense = document.forms["submission"]["dispense"].value;
     console.log(typeof parseFloat(dispense));
     console.log(parseFloat(dispense));
-    if(parseFloat(dispense)){return true;}
-    else{
+    if(!parseFloat(dispense)){
         alert("Dispense must be numbers!");
         return false;
     }
+
+
+    let ext = $('#forms_file').val().split('.').pop().toLowerCase();
+    if($.inArray(ext, ['png','jpg','jpeg','pdf']) === -1) {
+        alert('Invalid extension! extension must be png,jpg,jpeg or pdf');
+        return false;
+    }
+
+    return true;
 
 }

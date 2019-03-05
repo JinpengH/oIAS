@@ -24,4 +24,9 @@ exports.index =
                 })
             });
         }
+        else if(user.userGroup === 3){
+            Submission.find({departmentId: sess.loginUser.departmentId}).then(departmentList=>{
+                return res.render('main',{departmentList:departmentList});
+            })
+        }
     };

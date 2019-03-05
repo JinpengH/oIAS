@@ -1,13 +1,16 @@
 $(document).ready(function(){
     //generating graph
-    $.get("/weekly",function (data){
-        let submission = data;
-        let dispense = 50;
+    let n = 7;
+    $.get("/getChartData/" + n,function (data){
+        let submission = data[0];
+        let dispense = data[1];
+        let rest = 100 - dispense;
+        if(rest <= 0){rest = 0;}
 
-        var pieGraph = $("#pie_graph");
-        var lineGraph = $("#trend_graph");
-        var pie_graph_data = {datasets: [{
-                data: [dispense,100-dispense],
+        let pieGraph = $("#pie_graph");
+        let lineGraph = $("#trend_graph");
+        let pie_graph_data = {datasets: [{
+                data: [dispense,rest],
                 backgroundColor:[
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -23,7 +26,7 @@ $(document).ready(function(){
                 'money spent',
                 'money left'
             ]};
-        var doughnutChart = new Chart(pieGraph,{
+        let doughnutChart = new Chart(pieGraph,{
             type:"doughnut",
             data:pie_graph_data,
             options:{
@@ -32,7 +35,7 @@ $(document).ready(function(){
             },
             cutoutPercentage: 70
         });
-        var line_graph_data = {datasets: [{
+        let line_graph_data = {datasets: [{
                 data: submission,
                 borderColor:[
                     'rgba(255, 99, 132, 0.2)',
@@ -53,7 +56,7 @@ $(document).ready(function(){
 
 
 
-        var lineGraphChart = new Chart(lineGraph,{
+        let lineGraphChart = new Chart(lineGraph,{
             type:'line',
             data:line_graph_data,
             options:{
