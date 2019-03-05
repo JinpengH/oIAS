@@ -14,6 +14,7 @@ exports.index = function(req,res){
         res.redirect('/main');
     }
     res.render('login',{error:errors});
+    res.render("/login");
 };
 
 
