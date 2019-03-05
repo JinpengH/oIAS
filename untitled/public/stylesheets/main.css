@@ -5,6 +5,9 @@ body{
 p{
     font-family:ubuntu;
 }
+a{
+    font-family:ubuntu;
+}
 .wrapper{
     position:absolute;
     margin:0;
@@ -158,9 +161,16 @@ h1{
 .list_button{
     float:right;
     margin-right:20px;
-    color:#8e8e8e;
+    color:#a2a2a2;
 }
 
+.list_status{
+    float:right;
+    margin-right:20px;
+    padding:auto;
+    font:Ubuntu;
+    font-size:25px;
+}
 .preview:hover{
     color: #4a63d7;
     cursor: pointer;
@@ -230,13 +240,21 @@ h1{
 }
 .forms_field{
     position:relative;
+}
+.list_title{
+    font-size:40px;
+
 
 }
-.forms_fieldset input{
-    background-color:#e4e4e4;
-    border:0;
-    border-radius:3px;
-    padding:10px;
+.forms_field-input{
+    background-color:transparent;
+    padding:10px 0px;
+    width:100%;
+    border-color: #ccc;
+    border-width: 0 0 2px 0;
+    box-shadow: none;
+    font-size:20px;
+
 }
 .forms_buttons{
     text-align:center;
