@@ -15,9 +15,22 @@ $(document).ready(function(){
 });
 
 function submitFilter(){
-    $.post("/filter",function(data){
+    //$.post("/filter",function(data){
+        let days = $("#user_filter_date").val();
+        let searchTerm = $("#user_filter_user").val();
+        generateForm(days);
+        $.post("/submission/search/" + searchTerm,function(data){
+            let submission = $(".submission");
+            submission.empty();
+            //TODO do this tommmorow
+            data.forEach(function(Element){
+                console.log(Element.title);
+                submission.append("<li class=\"submission\">\r\n  " + "<\/li>");
+            })
 
-    })
+        })
+
+    //})
 }
 
 function generateForm(n){
@@ -32,9 +45,13 @@ function generateForm(n){
         for (let i = 0; i < n; i++) {
             labels.push(" ");
         }
-
+        $('#pie_graph').remove(); // this is my <canvas> element
+        $("#trend_graph").remove();
+        $('.graph').append('<canvas id="pie_graph" width="400" height="400"><canvas>').append('<canvas id="trend_graph" width="600" height="400"><canvas>');
         let pieGraph = $("#pie_graph");
         let lineGraph = $("#trend_graph");
+        pieGraph.css('float','left');
+        lineGraph.css('float','left').css('margin-left','150px');
         let pie_graph_data = {datasets: [{
                 data: [dispense,rest],
                 backgroundColor:[

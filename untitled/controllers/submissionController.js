@@ -44,11 +44,6 @@ exports.submit = (req, res) => {
     submissionFields.dispense = parseFloat(req.body.dispense);
     submissionFields.departmentId = req.session.loginUser.departmentId;
 
-    //req.session.loginUser.departmentId;
-
-    // if (req.body.dateTime) submission
-    // Fields.dateTime = req.body.dateTime;
-
     // save post
     new Submission(submissionFields).save().then(submission => {
         // update User Model
@@ -94,4 +89,26 @@ exports.submit = (req, res) => {
                 // .catch(err => res.status(400).json(err));
             });
     });
+};
+
+exports.search = function(req,res){
+    console.log("a");
+    let searchTerm = req.params.searchTerm;
+    console.log("a");
+    if(searchTerm === ""){
+        Submission.find().then(list=>{
+            return res.send(list);
+        })
+    }
+    else if(isNaN(searchTerm)){
+        Submission.find({User:searchTerm}).then(list=>{
+            return res.send(list);
+        })
+    }
+    else{
+        Submission.find({departmentId:searchTerm}).then(list=>{
+            return res.send(list);
+        })
+    }
+
 };

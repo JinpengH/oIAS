@@ -23,7 +23,7 @@ html
                 a.header_dashboard(href="/main") Dashboard
                 a.header_logout(href="/login") Logout
             .content
-                form.user_filter
+                .user_filter
 
                     p User:
                     select#user_filter_user(name="user")
@@ -40,8 +40,8 @@ html
 
                 h1.title report
                 .graph
-                    canvas#trend_graph(width = "800px" height= "400px")
-                    canvas#pie_graph(width = "400px" height= "400px")
+                    canvas#trend_graph(width = 800 height= 400)
+                    canvas#pie_graph(width = 400 height= 400)
 
                 p#submission_text Submission History
                 ul.submissions#list

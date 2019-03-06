@@ -67,9 +67,8 @@ window.onclick = function(event) {
 
 function checkForm(){
     let dispense = document.forms["submission"]["dispense"].value;
-    console.log(typeof parseFloat(dispense));
-    console.log(parseFloat(dispense));
-    if(!parseFloat(dispense)){
+
+    if(isNaN(dispense)){
         alert("Dispense must be numbers!");
         return false;
     }
