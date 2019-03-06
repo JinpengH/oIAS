@@ -24,21 +24,7 @@ html
                 a.header_logout(href="/login") Logout
             .content
                 form.user_filter
-<<<<<<< HEAD
-                    p user:
-                    select.user_filter_user(name="user" id="user")
-                        option(value="Jinpeng") Jinpeng He
-                        option(value="Runwei") Runwei Lin
-                        option(value="Yanxi") Yanxi Li
 
-                    p date
-                    select.user_filter_date(name="date" id="date")
-                        option(value="Daily") Daily
-                        option(value="Weekly") Weekly
-                        option(value="Monthly") Monthly
-
-                    button.user_filter_button submit
-=======
                     p User:
                     select#user_filter_user(name="user")
 
@@ -51,7 +37,7 @@ html
 
 
                     button.user_filter_button(onclick="submitFilter()") submit
->>>>>>> statistic-page-pdf-generator
+
                 h1.title report
                 .graph
                     canvas#trend_graph(width = "800px" height= "400px")
