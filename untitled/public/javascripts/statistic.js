@@ -1,5 +1,4 @@
 
-
 $(document).ready(function(){
     //generating graph
     generateForm(7);
@@ -18,15 +17,15 @@ function submitFilter(){
     //$.post("/filter",function(data){
         let days = $("#user_filter_date").val();
         let searchTerm = $("#user_filter_user").val();
-        generateForm(days);
+
         $.post("/submission/search/" + searchTerm,function(data){
-            let submission = $(".submission");
-            submission.empty();
-            //TODO do this tommmorow
-            data.forEach(function(Element){
-                console.log(Element.title);
-                submission.append("<li class=\"submission\">\r\n  " + "<\/li>");
-            })
+            let submissions = $(".submissions");
+            submissions.empty();
+            console.log(data);
+            data.forEach(function(element){
+                submissions.append("<li class=\"submission\">\r\n  <p class=\"submission_name\"> "+element.name+"<\/p>\r\n  <p class=\"submission_date\">"+element.date+"<\/p>\r\n  <p class=\"submission_description\">"+element.description+"<\/p>\r\n  <p class=\"submission_status\">"+element.status+"<\/p>\r\n<\/li>");
+            });
+            generateForm(days);
 
         })
 

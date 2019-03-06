@@ -32,7 +32,7 @@ html
                     p Date:
                     select#user_filter_date(name="date")
                         option(value = 1) daily
-                        option(value = 7) weekly
+                        option(value = 7 selected='true') weekly
                         option(value = 30) monthly
 
 
@@ -48,7 +48,7 @@ html
                     if list
                         each val in list
                             li.submission
-                                p.submission_name=val.title
+                                p.submission_name=val.name
                                 p.submission_date=val.date
                                 p.submission_description=val.description
                                 p.submission_status=val.status

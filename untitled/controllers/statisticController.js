@@ -13,9 +13,6 @@ exports.index = function(req, res, next) {
     }
     else {
         Submission.find({linkedUserId: req.session.loginUserId}).then(list => {
-            list.forEach(function(element){
-                element.date = moment(element.dateTime).format('MM/DD/YYYY');
-            });
             return res.render('statistic', {title: 'stat', list: list});
         });
     }
