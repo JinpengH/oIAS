@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
+const constDepartment = require('../const/ConstDepartment');
 mongoose.set('useFindAndModify', false);
 // Load User Model
 const login_controller = require("../controllers/loginController");
@@ -82,7 +83,6 @@ router.get('/statistic', function(req, res, next) {
         Submission.find({linkedUserId: req.session.loginUserId}).then(list => {
             list.forEach(function(element){
                 element.date = moment(element.dateTime).format('MM/DD/YYYY');
-                console.log(element.date);
             });
             return res.render('statistic', {title: 'stat', list: list});
         });
@@ -101,7 +101,6 @@ router.get('/getChartData/:n',function(req,res){
         if(i <= days){
             before = new Date(d.getTime()- (24 * 60 * 60 * 1000));
             Submission.find({linkedUserId: req.session.loginUserId, dateTime: {$gte:before, $lte:d}}).then(list => {
-                console.log(list.length);
                 listOfTimes.push(list.length);
                 for(let j=0; j<list.length; j++){
                     dispense += list[j].dispense;
@@ -162,7 +161,33 @@ router.post('/changePassword',function(req,res,next){
     }
 });
 
-router.get("/")
+router.get("/getList", function(req,res){
+    let userGroup = req.session.loginUserGroup;
+    let myList = [];
+    //TODO add userGroup 3 and 4;
+    switch(userGroup){
+        case 1:
+            myList.push([req.session.loginUserId,"me"]);
+            res.send(myList);
+            break;
+        case 2:
+            myList.push([req.session.loginUserId,"me"]);
+            myList.push(["","------User------"]);
+            User.find({departmentId: req.session.departmentId}).then(list=>{
+                list.forEach(function(element){
+                    myList.push([element.id_,element.fullName]);
+                });
+                myList.push(['','-----Department-----']);
+                myList.push([req.session.departmentId,constDepartment.get(1)]);
+                res.send(myList);
+            });
+            break;
+        default:
+            myList.push([req.session.loginUserId,"me"]);
+            res.send(myList);
+            break;
+    }
+});
 
 router.get("/activation", (req, res) => {
     const employeeId = req.query.employeeId;

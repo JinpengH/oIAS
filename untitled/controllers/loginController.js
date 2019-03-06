@@ -60,6 +60,7 @@ exports.login = function(req,res){
                 req.session.loginUser = user;
                 req.session.loginUserId = user.id;
                 req.session.loginUserGroup = user.userGroup;
+                req.session.departmentId = user.departmentId;
                 req.user = user;
                 return res.redirect('/main');
 
