@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
+const constDepartment = require('../const/ConstDepartment');
 mongoose.set('useFindAndModify', false);
 // Load User Model
 const login_controller = require("../controllers/loginController");
@@ -177,7 +178,7 @@ router.get("/getList", function(req,res){
                     myList.push([element.id_,element.fullName]);
                 });
                 myList.push(['','-----Department-----']);
-                myList.push()
+                myList.push([req.session.departmentId,constDepartment.get(1)]);
                 res.send(myList);
             });
             break;
