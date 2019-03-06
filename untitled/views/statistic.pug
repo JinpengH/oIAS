@@ -24,19 +24,18 @@ html
                 a.header_logout(href="/login") Logout
             .content
                 form.user_filter
-                    p user:
-                    select.user_filter_user(name="user" id="user")
-                        option(value="Jinpeng") Jinpeng He
-                        option(value="Runwei") Runwei Lin
-                        option(value="Yanxi") Yanxi Li
+                    p User:
+                    select#user_filter_user(name="user")
 
-                    p date
-                    select.user_filter_date(name="date" id="date")
-                        option(value="Jinpeng") Daily
-                        option(value="Runwei") Weekly
-                        option(value="Yanxi") Monthly
 
-                    button.user_filter_button submit
+                    p Date:
+                    select#user_filter_date(name="date")
+                        option(value = 1) daily
+                        option(value = 7) weekly
+                        option(value = 30) monthly
+
+
+                    button.user_filter_button(onclick="submitFilter()") submit
                 h1.title report
                 .graph
                     canvas#trend_graph(width = "800px" height= "400px")

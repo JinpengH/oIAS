@@ -140,10 +140,9 @@ h1{
     text-overflow:ellipsis;
     font-size:25px;
     font-weight:lighter;
-    margin:0;
     border:0;
     float:left;
-    margin-left:20px;
+    margin: 0 0 0 20px;
 }
 
 .tile .name{
