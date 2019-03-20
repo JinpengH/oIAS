@@ -5,6 +5,10 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
+const fs = require('fs');
+const pdf = require('html-pdf');
+
+const options = { format: 'Letter' };
 
 mongoose.set('useFindAndModify', false);
 // Load User Model
@@ -86,7 +90,7 @@ router.get('/profile', function(req, res, next) {
 router.get('/resetPassword',function(req,res,next){
     res.render('resetPassword');
 });
-
+router.get("/download",statistic_controller.download);
 router.post('/changePassword',function(req,res,next){
     let originalPassword = req.body.oldPassword;
     let newPassword = req.body.newPassword;

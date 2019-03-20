@@ -1,5 +1,6 @@
 
 $(document).ready(function(){
+
     //generating graph
     generateForm(7);
     $.get("/getList",function(data){
@@ -10,27 +11,38 @@ $(document).ready(function(){
             $("#user_filter_user").append(o);
         });
 
-    })
+    });
+
+
 });
+
+function download(){
+    console.log("HI");
+    generatePDF();
+
+
+}
 
 function submitFilter(){
     //$.post("/filter",function(data){
-        let days = $("#user_filter_date").val();
-        let searchTerm = $("#user_filter_user").val();
+    let days = $("#user_filter_date").val();
+    let searchTerm = $("#user_filter_user").val();
 
-        $.post("/submission/search/" + searchTerm,function(data){
-            let submissions = $(".submissions");
-            submissions.empty();
-            console.log(data);
-            data.forEach(function(element){
-                submissions.append("<li class=\"submission\">\r\n  <p class=\"submission_name\"> "+element.name+"<\/p>\r\n  <p class=\"submission_date\">"+element.date+"<\/p>\r\n  <p class=\"submission_description\">"+element.description+"<\/p>\r\n  <p class=\"submission_status\">"+element.status+"<\/p>\r\n<\/li>");
-            });
-            generateForm(days);
+    $.post("/submission/search/" + searchTerm,function(data){
+        let submissions = $(".submissions");
+        submissions.empty();
+        console.log(data);
+        data.forEach(function(element){
+            submissions.append("<li class=\"submission\">\r\n  <p class=\"submission_name\"> "+element.name+"<\/p>\r\n  <p class=\"submission_date\">"+element.date+"<\/p>\r\n  <p class=\"submission_description\">"+element.description+"<\/p>\r\n  <p class=\"submission_status\">"+element.status+"<\/p>\r\n<\/li>");
+        });
+        generateForm(days);
 
-        })
+    });
 
     //})
 }
+
+
 
 function generateForm(n){
 
@@ -126,4 +138,32 @@ function generateForm(n){
         default:
             list_status.css('color','#f71b1b');
     }
+}
+
+
+function generatePDF(){
+    //get all data set
+    let source = $('.submissions')[0];
+    let pdf = new jsPDF('p', 'pt', 'letter');
+    let margins = {
+        top: 80,
+        bottom: 60,
+        left: 40,
+        width: 522
+    };
+    let name;
+    let date;
+    let list;
+    pdf.fromHTML(
+        source, // HTML string or DOM elem ref.
+        margins.left, // x coord
+        margins.top, { // y coord
+            'width': margins.width, // max width of content on PDF
+        },
+        function (dispose) {
+            // dispose: object with X, Y of the last line add to the PDF
+            //          this allow the insertion of new lines after html
+            pdf.save('Test.pdf');
+        }, margins);
+
 }

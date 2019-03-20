@@ -5,6 +5,7 @@ const moment = require("moment");
 
 
 
+
 exports.index = function(req, res, next) {
     let user = req.session.loginUser;
     if(typeof user === 'undefined'){
@@ -80,4 +81,12 @@ exports.getList = function(req,res){
             res.send(myList);
             break;
     }
+};
+
+exports.download = function(req,res){
+    console.log("hi");
+    let doc = new jsPDF();
+
+    doc.text('Hello world!', 10, 10);
+    doc.save('a4.pdf')
 };

@@ -14,5 +14,7 @@
     <orderEntry type="library" name="jquery.flip" level="application" />
     <orderEntry type="library" name="Chart.bundle" level="application" />
     <orderEntry type="library" name="popper" level="application" />
+    <orderEntry type="library" name="jspdf.debug" level="application" />
+    <orderEntry type="library" name="jspdf.plugin.autotable" level="application" />
   </component>
 </module>
