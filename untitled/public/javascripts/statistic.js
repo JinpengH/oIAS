@@ -1,4 +1,4 @@
-
+let dispense;
 $(document).ready(function(){
 
     //generating graph
@@ -32,8 +32,9 @@ function submitFilter(){
         let submissions = $(".submissions");
         submissions.empty();
         console.log(data);
+        submissions.append( "<tbody>\r\n <tr class=\"submission\">\r\n  <th class=\"submission_name\"> "+"Name"+"<\/th>\r\n  <th class=\"submission_date\">"+"Date"+"<\/th>\r\n  <th class=\"submission_dispense\">"+"Dispense"+"<\/th>\r\n  <th class=\"submission_status\">"+"Status"+"<\/th>\r\n<\/tr>");
         data.forEach(function(element){
-            submissions.append("<li class=\"submission\">\r\n  <p class=\"submission_name\"> "+element.name+"<\/p>\r\n  <p class=\"submission_date\">"+element.date+"<\/p>\r\n  <p class=\"submission_description\">"+element.description+"<\/p>\r\n  <p class=\"submission_status\">"+element.status+"<\/p>\r\n<\/li>");
+            submissions.append("<tr class=\"submission\">\r\n  <td class=\"submission_name\"> "+element.name+"<\/td>\r\n  <td class=\"submission_date\">"+element.date+"<\/td>\r\n  <td class=\"submission_dispense\">"+element.dispense+"<\/td>\r\n  <td class=\"submission_status\">"+element.status+"<\/td>\r\n<\/tr>");
         });
         generateForm(days);
 
@@ -48,7 +49,7 @@ function generateForm(n){
 
     $.get("/getChartData/" + n,function (data){
         let submission = data[0];
-        let dispense = data[1];
+        dispense = data[1];
         let rest = 100 - dispense;
         if(rest <= 0){rest = 0;}
         let labels = [];
@@ -123,47 +124,54 @@ function generateForm(n){
 
     });
     //changing status color
-    let list_status_first = $(".submission_status:first");
-    let list_status = $(".submission_status");
-    switch(list_status_first.text()){
-        case "Pending":
-            list_status.css('color','#F7AE51');
-            break;
-        case "Approved":
-            list_status.css('color','#2FF75C');
-            break;
-        case "Declined":
-            list_status.css('color','#f71b1b');
-            break;
-        default:
-            list_status.css('color','#f71b1b');
-    }
+
+    $(".submission_status").each(function() {
+        switch($(this).text()){
+            case "Pending":
+                $(this).css('color','#F7AE51');
+                break;
+            case "Approved":
+                $(this).css('color','#2FF75C');
+                break;
+            case "Declined":
+                $(this).css('color','#f71b1b');
+                break;
+            default:
+                $(this).css('color','#000000');
+        }
+    });
+
 }
 
 
 function generatePDF(){
     //get all data set
-    let source = $('.submissions')[0];
-    let pdf = new jsPDF('p', 'pt', 'letter');
-    let margins = {
-        top: 80,
-        bottom: 60,
-        left: 40,
-        width: 522
-    };
-    let name;
-    let date;
-    let list;
-    pdf.fromHTML(
-        source, // HTML string or DOM elem ref.
-        margins.left, // x coord
-        margins.top, { // y coord
-            'width': margins.width, // max width of content on PDF
-        },
-        function (dispose) {
-            // dispose: object with X, Y of the last line add to the PDF
-            //          this allow the insertion of new lines after html
-            pdf.save('Test.pdf');
-        }, margins);
+    $.get("/myname",function(myName) {
+        let doc = new jsPDF('p', 'pt', 'letter');
+        let user = $('#user_filter_user').find(":selected").text();
+        const margin = 50;
+        doc.setFont("arial", "bold");
+        doc.setFontSize(20);
+        doc.text(margin, 20, 'obEN Invoice Report');
+        doc.setFont("arial", "normal");
+        doc.setFontSize(10);
+        doc.text(margin, 40, 'Reporter: ' + myName);
+        if (user === 'me') {
+            doc.text(margin, 60, 'Employee/Department:' + myName); //TODO
+        }
+        else{
+            doc.text(margin, 60, 'Employee/Department:' + user); //TODO
+
+        }
+        doc.text(margin,80,'Total amount: ' + dispense);
+        doc.text(margin,100,'Date: ' + dispense);
+        doc.autoTable({
+            startY: 140,
+            html:"#list"
+        });
+        doc.save();
+    });
+
+
 
 }

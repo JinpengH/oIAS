@@ -48,14 +48,21 @@ html
                     canvas#pie_graph(width = 400 height= 400)
 
                 p#submission_text Submission History
-                ul.submissions#list
+
+                table.submissions#list
+                    tr.submission
+                        th Name
+                        th Date
+                        th dispense
+                        th Status
+                    .line
                     if list
                         each val in list
-                            li.submission
-                                p.submission_name=val.name
-                                p.submission_date=val.date
-                                p.submission_description=val.description
-                                p.submission_status=val.status
+                            tr.submission
+                                td.submission_name=val.name
+                                td.submission_date=val.date
+                                td.submission_dispense="$"+val.dispense
+                                td.submission_status=val.status
 
 
             .footer

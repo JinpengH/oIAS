@@ -174,4 +174,9 @@ router.post("/activate", (req, res) => {
     });
 });
 
+router.get("/myname", (req,res)=>{
+    console.log(req.session.loginUserName);
+    res.send(req.session.loginUserName);
+});
+
 module.exports = router;

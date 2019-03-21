@@ -4,7 +4,6 @@ body{
 }
 p{
     font-family: 'Raleway', sans-serif;
-    font-weight:bold;
 }
 .wrapper{
     position:absolute;
@@ -107,53 +106,59 @@ h1{
 #submission_text{
     float:left;
     font-size: 50px;
-    margin-left:calc(50% - 150px);
-
+    margin-left:calc(50% - 200px);
 }
+.line{
+    background-color:#808080;
+    width:100%;
+    height:3px;
+    float:left;
+    margin:0 0 20px 0px;
+}
+
 .submission{
     display:inline-block;
     position:relative;
     border-radius:5px;
+    margin-top:4px;
     margin-left:10px;
     width:100%;
     background-color:white;
     transition: transform 1.2s;
     -webkit-transition: transform .2s;
-
-
 }
-.submission p{
+.submission td,th{
+    text-align:left;
+    font-family:"Ubuntu",sans-serif;
     font-size:25px;
     font-weight:lighter;
     border:0;
     float:left;
     margin: 0 0 0 20px;
+    width:150px;
+}
+.submission th{
+
+    font-weight:bold;
+}
+tr:nth-child(odd) {
+    background-color: #ffffff;
 }
 
-.submission_name{
-    width:150px;
-}
-.submission_date{
-    width:150px;
-}
-.submission_description{
-    width:150px;
+tr:nth-child(even) {
+    background-color: #f5f5f5;
 }
 
 .submission:hover{
     box-shadow:1px 1px 50px #c3bfbf;
     transform:scale(1.01);
 }
-
-
 .footer{
     width:100%;
     background-color:white;
     box-shadow:1px 1px 20px #9c9c9c;
     display:inline-block;
     padding:10px;
-
-
 }
 
 .footer .download, .review{
@@ -172,9 +177,5 @@ h1{
     background-color:#8e8989;
     cursor:pointer;
 
-}
-
-.submission_status{
-    float:right
 }
 

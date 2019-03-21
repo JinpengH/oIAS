@@ -16,8 +16,9 @@
 }
 
 .header a{
+    text-decoration: none;
     color:#8e8989;
-    font-family:Ubuntu;
+    font-family: Ubuntu, sans-serif;
     font-size:30px;
     float:left;
     padding:20px;
