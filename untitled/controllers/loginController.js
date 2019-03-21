@@ -20,7 +20,8 @@ exports.index = function(req,res){
 
 exports.logout =  function(req,res){
     req.session.destroy();
-    res.redirect('/login');
+    res.render('login',{error:errors});
+    //res.redirect('/login');
 };
 
 
