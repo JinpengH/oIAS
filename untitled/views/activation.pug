@@ -21,16 +21,18 @@ html
             section.user
                 .user_options-container
                     #user_options-forms.user_options-forms.card
-                        .user_forms-signup.back
+                        .user_forms-login.front
                             img.logo(src="../images/obEN_logo.png" height=61 width=115 align="middle")
                             br
                             h2.forms_title Activation
-                            p.name=val.employeeId
-                            p.name=val.userGroup
-                            p.name=val.departmentId
-                            p.name=val.fullName
+                            h5=employeeId
+                            h5=userGroup
+                            h5=departmentId
+                            h5=fullName
                             form.forms_form(action="/activate" method="post")
                                 fieldset.forms_fieldset
+                                    .forms_field
+                                        input(type="hidden", name="employeeId", value=employeeId, required='')
                                     .forms_field
                                         input.forms_field-input(type='email', name="email", placeholder='Email', required='')
                                     .forms_field
@@ -39,7 +41,6 @@ html
                                         input.forms_field-input(type='checkbox', name="agreement", required='')
                                         | I agree to terms and conditions.
                                 .forms_buttons
-                                    button.forms_button-flip-back(type='button') Already have an account?
                                     input.forms_buttons-action(type='submit', value='Activate')
                                     if error
                                         p#error_message_signup= error.message
