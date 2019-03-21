@@ -1,8 +1,9 @@
 const User = require(".." + "/server/models/User");
 const Submission = require(".." + "/server/models/Submission");
 const cloudinary = require("cloudinary");
-let multiparty = require("connect-multiparty");
-const file_type = require("file-type");
+
+
+const moment = require("moment");
 
 cloudinary.config({
     cloud_name: 'oben',
@@ -34,8 +35,8 @@ exports.delete = (req, res) => {
 
 exports.submit = (req, res) => {
     // get fields
+    console.log("debug");
     const submissionFields = {};
-
     submissionFields.linkedUserId = req.session.loginUserId;
     submissionFields.name = req.session.loginUser.fullName;
     submissionFields.title = req.body.title;
@@ -43,12 +44,10 @@ exports.submit = (req, res) => {
     submissionFields.description = req.body.description;
     submissionFields.dispense = parseFloat(req.body.dispense);
     submissionFields.departmentId = req.session.loginUser.departmentId;
-
-    //req.session.loginUser.departmentId;
-
-    // if (req.body.dateTime) submission
-    // Fields.dateTime = req.body.dateTime;
-
+    console.log("debug");
+    submissionFields.date = moment().format('MMM Do YY').toString();
+    //console.log(moment(new date()).format('MM/DD/YYYY'));
+    console.log("debug");
     // save post
     new Submission(submissionFields).save().then(submission => {
         // update User Model
@@ -64,7 +63,6 @@ exports.submit = (req, res) => {
             }
         );
         // console.log(req);
-
         const filepath = req.files.file.path;
 
         //console.log("uploading...  " + filepath);
@@ -75,7 +73,6 @@ exports.submit = (req, res) => {
         User.findOne({ email }).then(user => {
             req.session.loginUser = user;
         });
-
         cloudinary.v2.uploader.upload(
             filepath,
             { public_id: submission.id },
@@ -83,7 +80,6 @@ exports.submit = (req, res) => {
                 // res.json(result);
                 //console.log(result, error);
                 let new_url = result.url;
-
                 Submission.findOneAndUpdate(
                     { _id: submission.id },
                     { $set: { file_url: new_url } },
@@ -94,4 +90,26 @@ exports.submit = (req, res) => {
                 // .catch(err => res.status(400).json(err));
             });
     });
+};
+
+exports.search = function(req,res){
+    let searchTerm = req.params.searchTerm;
+    console.log(searchTerm);
+
+    if(searchTerm === ""){
+        Submission.find().then(list=>{
+            return res.send(list);
+        })
+    }
+    else if(isNaN(searchTerm)){
+        Submission.find({linkedUserId:searchTerm}).then(list=>{
+            return res.send(list);
+        })
+    }
+    else{
+        Submission.find({departmentId:searchTerm}).then(list=>{
+            return res.send(list);
+        })
+    }
+
 };

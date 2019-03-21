@@ -29,6 +29,8 @@ router.delete(
     // passport.authenticate("jwt", { session: false }),
 );
 
-
+router.post(
+    "/search/:searchTerm",
+    submission_controller.search);
 //router.post("/find/:n",submission_controller.find);
 module.exports = router;

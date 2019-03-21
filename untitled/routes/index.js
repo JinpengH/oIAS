@@ -5,11 +5,16 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
-const constDepartment = require('../const/ConstDepartment');
+const fs = require('fs');
+const pdf = require('html-pdf');
+
+const options = { format: 'Letter' };
+
 mongoose.set('useFindAndModify', false);
 // Load User Model
 const login_controller = require("../controllers/loginController");
 const main_controller = require("../controllers/mainController");
+const statistic_controller = require("../controllers/statisticController");
 
 // Load Model
 const User = require(".." + "/server/models/User");
@@ -73,55 +78,11 @@ router.get('/profile', function(req, res, next) {
 
 router.get('/main',main_controller.index);
 
-router.get('/statistic', function(req, res, next) {
-    let user = req.session.loginUser;
-    if(typeof user === 'undefined'){
-        const errors = {message: ""};
-        res.redirect('/login');
-    }
-    else {
-        Submission.find({linkedUserId: req.session.loginUserId}).then(list => {
-            list.forEach(function(element){
-                element.date = moment(element.dateTime).format('MM/DD/YYYY');
-            });
-            return res.render('statistic', {title: 'stat', list: list});
-        });
-    }
-});
+router.get('/statistic', statistic_controller.index);
 
-router.get('/getChartData/:n',function(req,res){
-    let days = req.params.n;
-    let data = [];
-    let listOfTimes = [];
-    let dispense = 0;
-    let i = 1;
-    let d = new Date();
-    let before = new Date();
-    function asyncLoop(i, date, cb){
-        if(i <= days){
-            before = new Date(d.getTime()- (24 * 60 * 60 * 1000));
-            Submission.find({linkedUserId: req.session.loginUserId, dateTime: {$gte:before, $lte:d}}).then(list => {
-                listOfTimes.push(list.length);
-                for(let j=0; j<list.length; j++){
-                    dispense += list[j].dispense;
-                }
-                asyncLoop(i+1,cb);
-            });
-            d = before;
-        }else{
-            listOfTimes = listOfTimes.reverse();
-            data.push(listOfTimes);
-            data.push(dispense);
-            res.send(data);
-        }
-    }
-    asyncLoop(i,function(){
-        callback({'lists':listOfTimes, 'dispense': dispense});
-    });
+router.get('/getChartData/:n',statistic_controller.getChartData);
 
-});
-
-
+router.get("/getList", statistic_controller.getList);
 
 router.get('/profile', function(req, res, next) {
     res.render('profile', { title: 'Profile' });
@@ -129,7 +90,7 @@ router.get('/profile', function(req, res, next) {
 router.get('/resetPassword',function(req,res,next){
     res.render('resetPassword');
 });
-
+router.get("/download",statistic_controller.download);
 router.post('/changePassword',function(req,res,next){
     let originalPassword = req.body.oldPassword;
     let newPassword = req.body.newPassword;
@@ -138,7 +99,7 @@ router.post('/changePassword',function(req,res,next){
         res.render('resetPassword',{error:{message:"password can't be the same!"}})
     }
     else{
-        //TODO changepassword notworking miao
+        //TODO changepassword
         let id = req.session.loginUserId;
         let query = {id_:id};
         bcrypt.genSalt(10, (err, salt) => {
@@ -161,33 +122,7 @@ router.post('/changePassword',function(req,res,next){
     }
 });
 
-router.get("/getList", function(req,res){
-    let userGroup = req.session.loginUserGroup;
-    let myList = [];
-    //TODO add userGroup 3 and 4;
-    switch(userGroup){
-        case 1:
-            myList.push([req.session.loginUserId,"me"]);
-            res.send(myList);
-            break;
-        case 2:
-            myList.push([req.session.loginUserId,"me"]);
-            myList.push(["","------User------"]);
-            User.find({departmentId: req.session.departmentId}).then(list=>{
-                list.forEach(function(element){
-                    myList.push([element.id_,element.fullName]);
-                });
-                myList.push(['','-----Department-----']);
-                myList.push([req.session.departmentId,constDepartment.get(1)]);
-                res.send(myList);
-            });
-            break;
-        default:
-            myList.push([req.session.loginUserId,"me"]);
-            res.send(myList);
-            break;
-    }
-});
+
 
 router.get("/activation", (req, res) => {
     const employeeId = req.query.employeeId;
@@ -237,6 +172,11 @@ router.post("/activate", (req, res) => {
             res.render('/activation', { error: errors });
         }
     });
+});
+
+router.get("/myname", (req,res)=>{
+    console.log(req.session.loginUserName);
+    res.send(req.session.loginUserName);
 });
 
 module.exports = router;

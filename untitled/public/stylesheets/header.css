@@ -1,0 +1,40 @@
+
+.header {
+    display:inline-block;
+    left:0;
+    top:0;
+    width:100%;
+    border-radius:2px;
+    background-color:#313131;
+    height:auto;
+    box-shadow:1px 1px 20px #716464;
+}
+.header .logo{
+    float:left;
+    padding:20px;
+    /* left: 500px; */
+}
+
+.header a{
+    text-decoration: none;
+    color:#8e8989;
+    font-family: Ubuntu, sans-serif;
+    font-size:30px;
+    float:left;
+    padding:20px;
+}
+.header a:hover{
+    cursor:pointer;
+    color:#000000;
+}
+.header .header_logout:hover{
+    cursor:pointer;
+    color:#ff5a5a;
+}
+
+.header a{
+    color:#969696f2;
+}
+.header a:hover{
+    color:#c5c5c5f2;
+}

@@ -58,6 +58,7 @@ exports.login = function(req,res){
                 );
                 //save user to session
                 req.session.loginUser = user;
+                req.session.loginUserName = user.fullName;
                 req.session.loginUserId = user.id;
                 req.session.loginUserGroup = user.userGroup;
                 req.session.departmentId = user.departmentId;
