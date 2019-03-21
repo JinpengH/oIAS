@@ -1,8 +1,9 @@
 const User = require(".." + "/server/models/User");
 const Submission = require(".." + "/server/models/Submission");
 const cloudinary = require("cloudinary");
-let multiparty = require("connect-multiparty");
-const file_type = require("file-type");
+
+
+const moment = require("moment");
 
 cloudinary.config({
     cloud_name: 'oben',
@@ -43,11 +44,7 @@ exports.submit = (req, res) => {
     submissionFields.description = req.body.description;
     submissionFields.dispense = parseFloat(req.body.dispense);
     submissionFields.departmentId = req.session.loginUser.departmentId;
-
-    //req.session.loginUser.departmentId;
-
-    // if (req.body.dateTime) submission
-    // Fields.dateTime = req.body.dateTime;
+    submissionFields.date = moment(new date()).format('MM/DD/YYYY');
 
     // save post
     new Submission(submissionFields).save().then(submission => {
@@ -94,4 +91,26 @@ exports.submit = (req, res) => {
                 // .catch(err => res.status(400).json(err));
             });
     });
+};
+
+exports.search = function(req,res){
+    let searchTerm = req.params.searchTerm;
+    console.log(searchTerm);
+
+    if(searchTerm === ""){
+        Submission.find().then(list=>{
+            return res.send(list);
+        })
+    }
+    else if(isNaN(searchTerm)){
+        Submission.find({linkedUserId:searchTerm}).then(list=>{
+            return res.send(list);
+        })
+    }
+    else{
+        Submission.find({departmentId:searchTerm}).then(list=>{
+            return res.send(list);
+        })
+    }
+
 };

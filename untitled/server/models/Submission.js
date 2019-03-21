@@ -35,6 +35,10 @@ const SubmissionSchema = new Schema({
         type: Date,
         default: new Date()
     },
+    date: {
+        type:String
+
+    },
     dispense:{
         type: Number,
         required: true
