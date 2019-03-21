@@ -99,7 +99,7 @@ router.post('/changePassword',function(req,res,next){
         res.render('resetPassword',{error:{message:"password can't be the same!"}})
     }
     else{
-        //TODO changepassword notworking miao
+        //TODO changepassword
         let id = req.session.loginUserId;
         let query = {id_:id};
         bcrypt.genSalt(10, (err, salt) => {

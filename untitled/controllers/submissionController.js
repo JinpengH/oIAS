@@ -35,8 +35,8 @@ exports.delete = (req, res) => {
 
 exports.submit = (req, res) => {
     // get fields
+    console.log("debug");
     const submissionFields = {};
-
     submissionFields.linkedUserId = req.session.loginUserId;
     submissionFields.name = req.session.loginUser.fullName;
     submissionFields.title = req.body.title;
@@ -44,8 +44,10 @@ exports.submit = (req, res) => {
     submissionFields.description = req.body.description;
     submissionFields.dispense = parseFloat(req.body.dispense);
     submissionFields.departmentId = req.session.loginUser.departmentId;
-    submissionFields.date = moment(new date()).format('MM/DD/YYYY');
-
+    console.log("debug");
+    submissionFields.date = moment().format('MMM Do YY').toString();
+    //console.log(moment(new date()).format('MM/DD/YYYY'));
+    console.log("debug");
     // save post
     new Submission(submissionFields).save().then(submission => {
         // update User Model
@@ -61,7 +63,6 @@ exports.submit = (req, res) => {
             }
         );
         // console.log(req);
-
         const filepath = req.files.file.path;
 
         //console.log("uploading...  " + filepath);
@@ -72,7 +73,6 @@ exports.submit = (req, res) => {
         User.findOne({ email }).then(user => {
             req.session.loginUser = user;
         });
-
         cloudinary.v2.uploader.upload(
             filepath,
             { public_id: submission.id },
@@ -80,7 +80,6 @@ exports.submit = (req, res) => {
                 // res.json(result);
                 //console.log(result, error);
                 let new_url = result.url;
-
                 Submission.findOneAndUpdate(
                     { _id: submission.id },
                     { $set: { file_url: new_url } },
