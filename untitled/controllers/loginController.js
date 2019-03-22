@@ -32,46 +32,52 @@ exports.login = function(req,res){
     User.findOne({ email }).then(user => {
         // check for user
         if (!user) {
-            errors.message = "Email/Password combination incorrect, please check again";
+            errors.message = "Email/Password combination incorrect, please check again.";
             return res.render('login',{error: errors});
         }
-        // Check Password
-        bcrypt.compare(password, user.password).then(isMatch => {
-            if (isMatch) {
-                // User Matched
-                const payload = {
-                    id: user.id,
-                    name: user.fullName,
-                    avatar: user.avatar
-                };
-                // Sign Token
-                jwt.sign(
-                    payload,
-                    keys.secretOrKey,
-                    {expiresIn: 3600},
-                    (err, token) => {
-                        res.json({
-                            success: true,
-                            token: "Bearer " + token
-                        });
-                    }
-                );
-                //save user to session
-                req.session.loginUser = user;
-                req.session.loginUserName = user.fullName;
-                req.session.loginUserId = user.id;
-                req.session.loginUserGroup = user.userGroup;
-                req.session.departmentId = user.departmentId;
-                req.user = user;
-                return res.redirect('/main');
+        else if (!user.active) {
+            errors.message = "Your account has not been activated yet.";
+            return res.render('login',{error: errors});
+        }
+        else {
+            // Check Password
+            bcrypt.compare(password, user.password).then(isMatch => {
+                if (isMatch) {
+                    // User Matched
+                    const payload = {
+                        id: user.id,
+                        name: user.fullName,
+                        avatar: user.avatar
+                    };
+                    // Sign Token
+                    jwt.sign(
+                        payload,
+                        keys.secretOrKey,
+                        {expiresIn: 3600},
+                        (err, token) => {
+                            res.json({
+                                success: true,
+                                token: "Bearer " + token
+                            });
+                        }
+                    );
+                    //save user to session
+                    req.session.loginUser = user;
+                    req.session.loginUserName = user.fullName;
+                    req.session.loginUserId = user.id;
+                    req.session.loginUserGroup = user.userGroup;
+                    req.session.departmentId = user.departmentId;
+                    req.user = user;
+                    return res.redirect('/main');
 
 
-            } else {
-                errors.message = "Email/Password combination incorrect, please check again";
-                return res.render('login',{error:errors});
-                //return res.status(400).json(errors);
-            }
-        });
+                } else {
+                    errors.message = "Email/Password combination incorrect, please check again";
+                    return res.render('login', {error: errors});
+                    //return res.status(400).json(errors);
+                }
+            });
+        }
     });
 };
 function mainGet(req,res){
