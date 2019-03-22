@@ -19,14 +19,16 @@ exports.index =
         }
         else if(user.userGroup === 2){
             Submission.find({linkedUserId: sess.loginUserId}).then(list =>{
-                Submission.find({departmentId: sess.loginUser.departmentId}).then(departmentList=>{
+                Submission.find({departmentId: sess.loginUser.departmentId, status:'Pending'}).then(departmentList=>{
+                    console.log(departmentList[0]);
                     return res.render('main',{myList:list,departmentList:departmentList});
                 })
             });
         }
         else if(user.userGroup === 3){
-            Submission.find({departmentId: sess.loginUser.departmentId}).then(departmentList=>{
-                return res.render('main',{departmentList:departmentList});
+            Submission.find({departmentId: sess.loginUser.departmentId, status:'Pending'}).then(departmentList=>{
+
+                return res.render('main',{myList:{},departmentList:departmentList});
             })
         }
     };

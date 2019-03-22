@@ -1,8 +1,14 @@
 
 $(document).ready(function(){
 
-
-//adding tooltips
+    //when approved is clicked correctly remove them
+    $(".decline.list_button").click(function(){
+        $(this).parent().parent().css('display','none')
+    });
+    $(".approve.list_button").click(function(){
+        $(this).parent().parent().css('display','none')
+    });
+    //adding tooltips
     tippy('.name',{
         arrow:true,
         flip:true,
