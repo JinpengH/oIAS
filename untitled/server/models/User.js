@@ -32,7 +32,7 @@ const UserSchema = new Schema({
         required: true
     },
     userGroup:{
-        type: Number, // 0 = admin, 1 = VP, 2 = team lead, 3 = employee, 4 = contractor
+        type: Number, // 0 = admin, 3 = VP, 2 = team lead, 1 = employee, 4 = contractor
         required: true
     },
     departmentId:{
