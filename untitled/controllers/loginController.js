@@ -63,6 +63,7 @@ exports.login = function(req,res){
                 req.session.loginUserGroup = user.userGroup;
                 req.session.departmentId = user.departmentId;
                 req.user = user;
+                console.log("changePassword: " + req.session.loginUserId);
                 return res.redirect('/main');
 
 

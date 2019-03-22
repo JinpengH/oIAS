@@ -38,6 +38,13 @@ html
                         option(value = 7 selected='true') weekly
                         option(value = 30) monthly
 
+                    p Status:
+                    select#user_filter_status(name="status")
+                        option(value = 'All' selected='true') All
+                        option(value = 'Pending') Pending
+                        option(value = 'Approved') Approved
+                        option(value = 'Declined') Declined
+
 
                     button.user_filter_button(onclick="submitFilter()") submit
 

@@ -27,6 +27,7 @@ function submitFilter(){
     //$.post("/filter",function(data){
     let days = $("#user_filter_date").val();
     let searchTerm = $("#user_filter_user").val();
+    let status = $("#user_filter_status").val();
 
     $.post("/submission/search/" + searchTerm,function(data){
         let submissions = $(".submissions");
@@ -91,6 +92,7 @@ function generateForm(n){
             cutoutPercentage: 70
         });
         let line_graph_data = {datasets: [{
+                label: 'Applying Tasks',
                 data: submission,
                 borderColor:[
                     'rgba(255, 99, 132, 0.2)',
