@@ -94,7 +94,6 @@ exports.submit = (req, res) => {
 
 exports.search = function(req,res){
     let searchTerm = req.params.searchTerm;
-    console.log(searchTerm);
 
     if(searchTerm === ""){
         Submission.find().then(list=>{

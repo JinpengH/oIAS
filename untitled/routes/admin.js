@@ -123,6 +123,7 @@ router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
         else {
             const newUser = new User({
                 employeeId: req.body.employeeId,
+                active: false,
                 fullName: req.body.fullName,
                 userGroup: req.body.userGroup,
                 departmentId: req.body.departmentId,
@@ -147,7 +148,7 @@ router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
         to: email, // list of receivers
         subject: "[ACTION REQUIRED] Activate your ObEN Invoice Management System account", // Subject line
         html: "Hello " + fullName + ",<br><br>To activate your ObEN Invoice Management System account, please click the following link.<br><br>" +
-            "(http://localhost:3000/activation" + ":" + employeeId + ")"  + "<br>" +
+            "http://localhost:3000/activation?employeeId=" + employeeId + "<br>" +
             "<br><br>"+
             "Thank you,<br>" +
             "ObEN, Inc.<br>" // html body

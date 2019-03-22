@@ -17,10 +17,7 @@ $(document).ready(function(){
 });
 
 function download(){
-    console.log("HI");
     generatePDF();
-
-
 }
 
 function submitFilter(){
@@ -32,7 +29,7 @@ function submitFilter(){
     $.post("/submission/search/" + searchTerm,function(data){
         let submissions = $(".submissions");
         submissions.empty();
-        console.log(data);
+        //console.log(data);
         submissions.append( "<tbody>\r\n <tr class=\"submission\">\r\n  <th class=\"submission_name\"> "+"Name"+"<\/th>\r\n  <th class=\"submission_date\">"+"Date"+"<\/th>\r\n  <th class=\"submission_dispense\">"+"Dispense"+"<\/th>\r\n  <th class=\"submission_status\">"+"Status"+"<\/th>\r\n<\/tr>");
         data.forEach(function(element){
             submissions.append("<tr class=\"submission\">\r\n  <td class=\"submission_name\"> "+element.name+"<\/td>\r\n  <td class=\"submission_date\">"+element.date+"<\/td>\r\n  <td class=\"submission_dispense\">"+element.dispense+"<\/td>\r\n  <td class=\"submission_status\">"+element.status+"<\/td>\r\n<\/tr>");
@@ -45,9 +42,7 @@ function submitFilter(){
 }
 
 
-
 function generateForm(n){
-
     $.get("/getChartData/" + n,function (data){
         let submission = data[0];
         dispense = data[1];
@@ -173,7 +168,4 @@ function generatePDF(){
         });
         doc.save();
     });
-
-
-
 }
