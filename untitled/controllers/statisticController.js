@@ -34,8 +34,11 @@ exports.getChartData = function(req,res){
             before = new Date(d.getTime()- (24 * 60 * 60 * 1000));
             Submission.find({linkedUserId: req.session.loginUserId, dateTime: {$gte:before, $lte:d}}).then(list => {
                 listOfTimes.push(list.length);
-                for(let j=0; j<list.length; j++){
+                for(let j=0; j<list.length; j++) {
+                    if (list[j].status === 'Approved') {
+
                     dispense += list[j].dispense;
+                    }
                 }
                 asyncLoop(i+1,cb);
             });
@@ -61,11 +64,11 @@ exports.getList = function(req,res){
     //TODO add userGroup 3 and 4;
     switch(userGroup){
         case 1:
-            myList.push([req.session.loginUserId,"me"]);
+            myList.push([req.session.loginUserId,"Me"]);
             res.send(myList);
             break;
         case 2:
-            myList.push([req.session.loginUserId,"me"]);
+            myList.push([req.session.loginUserId,"Me"]);
             myList.push(["","------User------"]);
             User.find({departmentId: req.session.departmentId}).then(list=>{
                 list.forEach(function(element){
@@ -84,7 +87,6 @@ exports.getList = function(req,res){
 };
 
 exports.download = function(req,res){
-    console.log("hi");
     let doc = new jsPDF();
 
     doc.text('Hello world!', 10, 10);

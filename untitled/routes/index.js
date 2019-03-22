@@ -135,7 +135,7 @@ router.get("/activation", (req, res) => {
             const fullName = user.fullName;
             const userGroup = user.userGroup;
             const departmentId = user.departmentId;
-            console.log("Found user with employeeId " + employeeId);
+            //console.log("Found user with employeeId " + employeeId);
             return res.render('activation', { employeeId: employeeId, fullName: fullName, userGroup: userGroup, departmentId: departmentId });
         }
         else {
@@ -153,19 +153,17 @@ router.post("/activate", (req, res) => {
         if (user) {
             User.findOne({ email }).then(user1 => {
                 if (!user1 || user1.employeeId === employeeId){
-                    console.log("Set email, password, and active for employeeId " + employeeId);
                     // encrypt password
                     bcrypt.genSalt(10, (err, salt) => {
                         bcrypt.hash(req.body.password, salt, (err, hash) => {
                             if (err) { throw err; }
                             User.findOneAndUpdate({ employeeId : employeeId }, { $set : { email: email, password: hash, active: true } }, (err) => {
                                 if (err) {
-                                    console.log("Something wrong when updating data!");
                                 }
                             });
                         });
                     });
-                    console.log(employeeId + " is active now");
+                    //console.log(employeeId + " is active now");
                     res.redirect("/login");
                 }
                 else {
@@ -182,7 +180,6 @@ router.post("/activate", (req, res) => {
 });
 
 router.get("/myname", (req,res)=>{
-    console.log(req.session.loginUserName);
     res.send(req.session.loginUserName);
 });
 

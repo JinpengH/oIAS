@@ -30,7 +30,7 @@ router.delete(
 );
 
 router.post(
-    "/search/:searchTerm",
+    "/search/:searchTerm/:days/:status",
     submission_controller.search);
 //router.post("/find/:n",submission_controller.find);
 module.exports = router;

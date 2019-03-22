@@ -20,7 +20,6 @@ router.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
 // Checking if there is a valid logged in user
 const checkLoggedIn = function (req, res, next) {
-    console.log("Checking if there is a valid logged in user");
     if (!req.session) {
         alert("Your session has expired. Please login to continue.");
         res.redirect('/admin');
@@ -30,7 +29,6 @@ const checkLoggedIn = function (req, res, next) {
 
 // Checking if there is a valid admin user"
 const checkAdmin = function (req, res, next) {
-    console.log("Checking if there is a valid admin user");
     if (req.session.loginUserGroup !== 0) {
         alert("You don't have permissions. Please contact your admin.");
         req.session.destroy();
@@ -83,7 +81,6 @@ router.post("/login", (req, res) => {
                 req.session.loginUserId = user.id;
                 req.session.loginUserGroup = user.userGroup;
                 req.user = user;
-                console.log("admin login successful");
                 res.redirect('/admin/overview');
             }
             else {
@@ -96,7 +93,6 @@ router.post("/login", (req, res) => {
 
 // Go to admin overview page
 router.get("/overview", [checkLoggedIn, checkAdmin], (req, res) => {
-    console.log("In admin overview");
     User.find().then(list => {
         return res.render('overview', {title: 'Admin Overview', list: list});
     });
@@ -158,7 +154,6 @@ router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
         if (error) {
             return console.log(error);
         }
-        console.log("Message sent: %s", info.messageId);
     });
     return res.send({
         message: 'Activation email was successfully sent'

@@ -52,6 +52,7 @@ h1{
     padding:auto;
 }
 .user_filter select{
+    width:200px;
     float:left;
     margin-top:calc(50px - 20px);
     font-size:35px;

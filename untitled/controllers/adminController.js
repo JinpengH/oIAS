@@ -27,7 +27,6 @@ exports.login = function(req,res){
                 req.session.loginUserId = user.id;
                 req.session.loginUserGroup = user.userGroup;
                 req.user = user;
-                console.log("admin login successful");
                 User.find().then(list =>
                 {
                     return res.render('overview', {title: 'Admin Overview', user: user, list: list}); // TODO overview: landing page only for admin\

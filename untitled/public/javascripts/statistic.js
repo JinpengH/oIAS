@@ -1,4 +1,5 @@
-let dispense;
+let dispense = 0;
+let days = 7;
 $(document).ready(function(){
 
     //generating graph
@@ -22,11 +23,11 @@ function download(){
 
 function submitFilter(){
     //$.post("/filter",function(data){
-    let days = $("#user_filter_date").val();
+    days = $("#user_filter_date").val();
     let searchTerm = $("#user_filter_user").val();
     let status = $("#user_filter_status").val();
 
-    $.post("/submission/search/" + searchTerm,function(data){
+    $.post("/submission/search/" + searchTerm +"/" + days + "/" + status,function(data){
         let submissions = $(".submissions");
         submissions.empty();
         //console.log(data);
@@ -149,21 +150,27 @@ function generatePDF(){
         const margin = 50;
         doc.setFont("arial", "bold");
         doc.setFontSize(20);
-        doc.text(margin, 20, 'obEN Invoice Report');
+        doc.text(margin, 60, 'obEN Invoice Report');
         doc.setFont("arial", "normal");
         doc.setFontSize(10);
-        doc.text(margin, 40, 'Reporter: ' + myName);
+        doc.text(margin, 80, 'Reporter: ' + myName);
         if (user === 'me') {
-            doc.text(margin, 60, 'Employee/Department:' + myName); //TODO
+            doc.text(margin, 100, 'Employee/Department:' + myName); //TODO
         }
-        else{
-            doc.text(margin, 60, 'Employee/Department:' + user); //TODO
+        else {
+            doc.text(margin, 100, 'Employee/Department:' + user); //TODO
 
         }
-        doc.text(margin,80,'Total amount: ' + dispense);
-        doc.text(margin,100,'Date: ' + dispense);
+        doc.text(margin, 120, 'Total amount: ' + dispense);
+        let date = new Date();
+        let oldDate = new Date();
+        for (let i = 1; i < days; i++) {
+        oldDate.setDate(oldDate.getDate() - 1);
+        }
+
+        doc.text(margin,140,'Date: ' + oldDate.toLocaleDateString("en-US") + " to " + date.toLocaleDateString("en-US"));
         doc.autoTable({
-            startY: 140,
+            startY: 180,
             html:"#list"
         });
         doc.save();
