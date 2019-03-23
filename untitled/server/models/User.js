@@ -11,18 +11,20 @@ const UserSchema = new Schema({
     employeeId: {
         type: String,
         trim: true,
-        required: true,
+        required: true
+    },
+    active: {
+        type: Boolean, // false = not activated, true = active
+        required: true
     },
     email: {
         type: String,
         default: "",
-        trim: true,
-        required: true,
+        trim: true
     },
     password: {
         type: String,
-        default: "",
-        required: true
+        default: ""
     },
     fullName: {
         type: String,
@@ -30,13 +32,11 @@ const UserSchema = new Schema({
         required: true
     },
     userGroup:{
-        type: Number,
-        default: 1,
+        type: Number, // 0 = admin, 3 = VP, 2 = team lead, 1 = employee, 4 = contractor
         required: true
     },
     departmentId:{
         type: Number,
-        default: 0,
         required: true
     },
     submissions:{

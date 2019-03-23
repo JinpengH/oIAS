@@ -44,10 +44,8 @@ exports.submit = (req, res) => {
     submissionFields.description = req.body.description;
     submissionFields.dispense = parseFloat(req.body.dispense);
     submissionFields.departmentId = req.session.loginUser.departmentId;
-    console.log("debug");
     submissionFields.date = moment().format('MMM Do YY').toString();
     //console.log(moment(new date()).format('MM/DD/YYYY'));
-    console.log("debug");
     // save post
     new Submission(submissionFields).save().then(submission => {
         // update User Model
@@ -69,7 +67,6 @@ exports.submit = (req, res) => {
 
 
         const email = req.session.loginUser.email;
-        console.log(req.session.loginUser.fullName);
         User.findOne({ email }).then(user => {
             req.session.loginUser = user;
         });
@@ -94,22 +91,52 @@ exports.submit = (req, res) => {
 
 exports.search = function(req,res){
     let searchTerm = req.params.searchTerm;
-    console.log(searchTerm);
+    let days = req.params.days;
+    let statusQuery = req.params.status;
 
-    if(searchTerm === ""){
-        Submission.find().then(list=>{
-            return res.send(list);
-        })
+    let dateQuery = [];
+    let day = moment();
+    for(let i = 0; i < days; i++){
+        dateQuery.push(day.format('MMM Do YY').toString());
+        day = day.subtract(1, 'days');
+        console.log(day.format('MMM Do YY').toString());
     }
-    else if(isNaN(searchTerm)){
-        Submission.find({linkedUserId:searchTerm}).then(list=>{
-            return res.send(list);
-        })
+    let searchTermQuery;
+    let query;
+    if(isNaN(searchTerm)){
+        if(statusQuery === 'All') {
+            query = {
+                linkedUserId: searchTerm,
+
+                date: {$in: dateQuery}
+            };
+        }
+        else{
+            query = {
+                linkedUserId: searchTerm,
+                status: statusQuery,
+                date: {$in: dateQuery}
+            };
+        }
     }
-    else{
-        Submission.find({departmentId:searchTerm}).then(list=>{
-            return res.send(list);
-        })
+    else {
+        if (statusQuery === 'All') {
+        query = {
+            departmentId: searchTerm,
+
+            date: {$in: dateQuery}
+        };
     }
+        else{
+            query = {
+                departmentId: searchTerm,
+                status:statusQuery,
+                date: {$in: dateQuery}
+            };
+        }
+    }
+    Submission.find(query).then(list=>{res.send(list);})
+
+
 
 };

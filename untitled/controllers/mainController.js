@@ -12,21 +12,23 @@ exports.index =
             const errors = {message: ""};
             res.render('login',{error:errors});
         }
-        else if(user.userGroup === 1){
+        else if(user.userGroup === 1){ // employee
             Submission.find({linkedUserId: sess.loginUserId}).then(list =>{
                 return res.render('main',{myList:list});
             });
         }
-        else if(user.userGroup === 2){
+        else if(user.userGroup === 2){ // team lead
             Submission.find({linkedUserId: sess.loginUserId}).then(list =>{
-                Submission.find({departmentId: sess.loginUser.departmentId}).then(departmentList=>{
+                Submission.find({departmentId: sess.loginUser.departmentId, status:'Pending'}).then(departmentList=>{
+                    console.log(departmentList[0]);
                     return res.render('main',{myList:list,departmentList:departmentList});
                 })
             });
         }
-        else if(user.userGroup === 3){
-            Submission.find({departmentId: sess.loginUser.departmentId}).then(departmentList=>{
-                return res.render('main',{departmentList:departmentList});
+        else if(user.userGroup === 3){ // VP
+            Submission.find({departmentId: sess.loginUser.departmentId, status:'Pending', userGroup: 2}).then(departmentList=>{
+
+                return res.render('main',{myList:{},departmentList:departmentList});
             })
         }
     };

@@ -11,7 +11,7 @@ p{
     border:0;
     left:0;
     top:0;
-    height:100%;
+    height:110%;
     width:100%;
     background-color:#e0e0e0cf;
 }
@@ -33,7 +33,7 @@ h1{
     overflow:scroll;
     margin:0;
     padding:inherit;
-    height:90vh;
+    height:100vh;
 
 }
 .user_filter{
@@ -52,12 +52,19 @@ h1{
     padding:auto;
 }
 .user_filter select{
+    width:200px;
     float:left;
     margin-top:calc(50px - 20px);
     font-size:35px;
     padding:auto;
 }
 .user_filter_user{
+    width:auto;
+    padding:auto;
+    margin:auto;
+    left:auto;
+}
+.user_filter_status{
     width:auto;
     padding:auto;
     margin:auto;
@@ -116,24 +123,28 @@ h1{
     margin:0 0 20px 0px;
 }
 
-.submission{
-    display:inline-block;
-    position:relative;
+.submissions{
+    width:100%;
+    padding:20px;
+    background-color:transparent;
+
+}
+.submissions{
+    width:100%;
     border-radius:5px;
     margin-top:4px;
     margin-left:10px;
-    width:100%;
     background-color:white;
     transition: transform 1.2s;
     -webkit-transition: transform .2s;
 }
 .submission td,th{
+    float:left;
     text-align:left;
     font-family:"Ubuntu",sans-serif;
     font-size:25px;
     font-weight:lighter;
     border:0;
-    float:left;
     margin: 0 0 0 20px;
     width:150px;
 }
@@ -155,8 +166,7 @@ tr:nth-child(even) {
 }
 .footer{
     width:100%;
-    background-color:white;
-    box-shadow:1px 1px 20px #9c9c9c;
+    background-color:#f3f3f3;
     display:inline-block;
     padding:10px;
 }
