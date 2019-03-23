@@ -99,27 +99,34 @@ router.post('/changePassword',function(req,res,next){
         res.render('resetPassword',{error:{message:"password can't be the same!"}})
     }
     else{
-        //TODO changepassword
         let id = req.session.loginUserId;
-        let query = {id_:id};
-        bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(newPassword, salt, (err, hash) => {
-                if (err) throw err;
-                newPassword = hash;
-                console.log("new word hash is  " + hash);
-                User.findOneAndUpdate(
-                    query,
-                    { $set: { password: newPassword } },
-                    { new: true, useFindAndModify: false }
-                ).then(user =>{
-                    console.log(user);
+        console.log('id', id);
+        let query = {
+            _id:id
+        };
+        console.log('new',newPassword)
+        User.findOne(
+            query
+        ).then(user =>{
+            console.log('user',user);
+            bcrypt.genSalt(10, (err, salt) => {
+                console.log('salt', salt)
+                bcrypt.hash(newPassword, salt, (err, hash) => {
+                    if (err) throw err;
+                    user.password = hash;
+                    user
+                        .save()
+                        .then(user => res.json(user))
+                        .catch(err => console.log(err));
                 });
             });
+            console.log(user);
+            res.render('login');
         });
 
-        res.redirect('/login');
 
     }
+
 });
 
 
