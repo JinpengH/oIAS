@@ -164,19 +164,19 @@ router.post("/assign-user/:email/:team/:type", [checkLoggedIn, checkAdmin], (req
     let email = req.params.email;
     let team = req.params.team;
     let type = req.params.type;
-    console.log(team);
-    console.log(type);
+
     User.findOneAndUpdate(
         { email: email },
         {$set: {departmentId: team, userGroup: type}},
         (err) => {
             if(err){
-
+                console.log("something wrong happened");
             }else{
-
+                User.find().then(list => {
+                    return res.send(list);
+                });
             }
     });
-
 });
 
 router.get("/logout", (req, res) =>  {

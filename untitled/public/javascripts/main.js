@@ -80,13 +80,11 @@ function checkForm(){
     return true;
 }
 
-function assignUserGroup(email){
-    let team = $(".user_team").val();
-    let type = $(".user_type").val();
-    alert(team);
-    alert(type);
+
+function assignUserGroup(params,email){
+    let team = $("#department" + params).val();
+    let type = $("#group" + ((-1)*params)).val();
     $.post("/admin/assign-user/" + email + "/" + team + "/" + type, function(data){
 
     });
-
 }
