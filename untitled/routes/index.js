@@ -99,27 +99,32 @@ router.post('/changePassword',function(req,res,next){
         res.render('resetPassword',{error:{message:"password can't be the same!"}})
     }
     else{
-        //TODO changepassword
         let id = req.session.loginUserId;
-        let query = {id_:id};
-        bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(newPassword, salt, (err, hash) => {
-                if (err) throw err;
-                newPassword = hash;
-                console.log("new word hash is  " + hash);
-                User.findOneAndUpdate(
-                    query,
-                    { $set: { password: newPassword } },
-                    { new: true, useFindAndModify: false }
-                ).then(user =>{
-                    console.log(user);
+
+        let query = {
+            _id:id
+        };
+        User.findOne(
+            query
+        ).then(user =>{
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(newPassword, salt, (err, hash) => {
+                    if (err) throw err;
+                    user.password = hash;
+                    user
+                        .save()
+                        .then(user => res.json(user))
+                        .then(user => console.log(user))
+                        .catch(err => console.log(err));
                 });
             });
+            console.log(user);
+            res.render('login');
         });
 
-        res.redirect('/login');
 
     }
+
 });
 
 
@@ -132,7 +137,7 @@ router.get("/activation", (req, res) => {
             const fullName = user.fullName;
             const userGroup = user.userGroup;
             const departmentId = user.departmentId;
-            console.log("Found user with employeeId " + employeeId);
+            //console.log("Found user with employeeId " + employeeId);
             return res.render('activation', { employeeId: employeeId, fullName: fullName, userGroup: userGroup, departmentId: departmentId });
         }
         else {
@@ -150,19 +155,17 @@ router.post("/activate", (req, res) => {
         if (user) {
             User.findOne({ email }).then(user1 => {
                 if (!user1 || user1.employeeId === employeeId){
-                    console.log("Set email, password, and active for employeeId " + employeeId);
                     // encrypt password
                     bcrypt.genSalt(10, (err, salt) => {
                         bcrypt.hash(req.body.password, salt, (err, hash) => {
                             if (err) { throw err; }
                             User.findOneAndUpdate({ employeeId : employeeId }, { $set : { email: email, password: hash, active: true } }, (err) => {
                                 if (err) {
-                                    console.log("Something wrong when updating data!");
                                 }
                             });
                         });
                     });
-                    console.log(employeeId + " is active now");
+                    //console.log(employeeId + " is active now");
                     res.redirect("/login");
                 }
                 else {
@@ -179,7 +182,6 @@ router.post("/activate", (req, res) => {
 });
 
 router.get("/myname", (req,res)=>{
-    console.log(req.session.loginUserName);
     res.send(req.session.loginUserName);
 });
 
