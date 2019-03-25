@@ -72,6 +72,15 @@ function checkForm(){
     }
 
     return true;
-
 }
 
+function assignUserGroup(email){
+    let team = $(".user_team").val();
+    let type = $(".user_type").val();
+    alert(team);
+    alert(type);
+    $.post("/admin/assign-user/" + email + "/" + team + "/" + type, function(data){
+
+    });
+
+}

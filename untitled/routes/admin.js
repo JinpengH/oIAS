@@ -165,6 +165,25 @@ router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
     });
 });
 
+router.post("/assign-user/:email/:team/:type", [checkLoggedIn, checkAdmin], (req, res) => {
+    let email = req.params.email;
+    let team = req.params.team;
+    let type = req.params.type;
+    console.log(team);
+    console.log(type);
+    User.findOneAndUpdate(
+        { email: email },
+        {$set: {departmentId: team, userGroup: type}},
+        (err) => {
+            if(err){
+
+            }else{
+
+            }
+    });
+
+});
+
 router.get("/logout", (req, res) =>  {
     req.session.destroy();
     res.redirect('/login');
