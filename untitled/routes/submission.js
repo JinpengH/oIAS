@@ -33,4 +33,10 @@ router.post(
     "/search/:searchTerm/:days/:status",
     submission_controller.search);
 //router.post("/find/:n",submission_controller.find);
+
+router.post(
+    "/approve/:id",
+    submission_controller.approve);
+
+router.post("/decline/:id",submission_controller.decline);
 module.exports = router;

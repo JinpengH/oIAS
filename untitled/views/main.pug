@@ -31,20 +31,20 @@ html
                 .line
                 ul#list
                     if departmentList
-                        each val,index in departmentList
+                        each val in departmentList
                             li.tile
-                                p.name(data-tippy-content=val.title)=val.title
+                                p.name(data-tippy-content=val.title)=val.name
                                 p.type(data-tippy-content=val.type_)=val.type_
                                 p.description(data-tippy-content=val.description)=val.description
                                 .list_buttons
-                                    a.fas.fa-times.fa-2x.decline.list_button(id =index)
-                                    a.fas.fa-check.fa-2x.approve.list_button(id =-index)
+                                    a.fas.fa-times.fa-2x.decline.list_button(id=val._id)
+                                    a.fas.fa-check.fa-2x.approve.list_button(id=val._id)
                                     a.fas.fa-arrow-down.fa-2x.download.list_button(href=val.file_url download=val.file_url)
                                     a.fas.fa-eye.fa-2x.preview.list_button(href=val.file_url)
                     if myList
                         each val in myList
                             li.tile
-                                p.name(data-tippy-content=val.title)=val.title
+                                p.name(data-tippy-content=val.title)=val.name
                                 p.type(data-tippy-content=val.type_)=val.type_
                                 p.description(data-tippy-content=val.description)=val.description
                                 a.list_status=val.status

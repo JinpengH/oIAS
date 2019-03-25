@@ -129,7 +129,7 @@ function generateForm(n){
                 $(this).css('color','#F7AE51');
                 break;
             case "Approved":
-                $(this).css('color','#2FF75C');
+                $(this).css('color','#19a854');
                 break;
             case "Declined":
                 $(this).css('color','#f71b1b');
