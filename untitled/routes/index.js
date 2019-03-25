@@ -100,6 +100,7 @@ router.post('/changePassword',function(req,res,next){
     }
     else{
         let id = req.session.loginUserId;
+
         let query = {
             _id:id
         };
@@ -112,6 +113,7 @@ router.post('/changePassword',function(req,res,next){
                     user.password = hash;
                     user
                         .save()
+                        .then(user => res.json(user))
                         .then(user => console.log(user))
                         .catch(err => console.log(err));
                 });
