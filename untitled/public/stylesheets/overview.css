@@ -1,5 +1,10 @@
 body{
-
+    position:absolute;
+    margin:0;
+    border:0;
+    left:0;
+    top:0;
+    background-color:#eaeaeacf;
 }
 p{
     font-family:ubuntu;
@@ -9,7 +14,7 @@ a{
     text-decoration: none;
 }
 .wrapper{
-    position:absolute;
+    position:relative;
     margin:0;
     border:0;
     left:0;
@@ -161,10 +166,10 @@ a{
 .submission_form{
     display:none;
     background-color:#ffffffdb;
-    box-shadow:1px 1px 50px #a5a5a5;
-    border-radius:30px;
+    box-shadow:1px 1px 10px #a5a5a5;
+    border-radius:10px;
     position:fixed;
-    top:calc(50% - 410px);
+    top:calc(50% - 210px);
     left:calc(50% - 235px);
     padding:50px;
 

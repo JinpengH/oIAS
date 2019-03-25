@@ -10,7 +10,7 @@ html
         script(src="https://unpkg.com/tippy.js@4")
         script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
         script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
-        script(src='/javascripts/main.js')
+        script(src='/javascripts/overview.js')
         script(src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js")
     body
 
@@ -44,24 +44,20 @@ html
                     form.submission_form(action="/admin/add-employee", method="post")
                         fieldset.forms_fieldset
                             .forms_field
-                                p EmployeeId
-                                input.forms_field-input(type='text', name="employeeId", placeholder='', required='')
+                                input.forms_field-input(type='text', name="employeeId", placeholder='EmployeeId', required='')
                             .forms_field
-                                p Full Name
-                                input.forms_field-input(type='text', name="fullName", placeholder='', required='')
+                                input.forms_field-input(type='text', name="fullName", placeholder='Full Name', required='')
                             .forms_field
-                                p Email
-                                input.forms_field-input(type='email', name="email", placeholder='', required='')
+                                input.forms_field-input(type='email', name="email", placeholder='Email', required='')
                             .forms_field
-                                p User Group
-                                input.forms_field-input(type='number', name="userGroup", placeholder='', required='')
+                                input.forms_field-input(type='number', name="userGroup", placeholder='User Group', required='')
                             .forms_field
-                                p Department ID
-                                input.forms_field-input(type='number', name="departmentId", placeholder='', required='')
+                                input.forms_field-input(type='number', name="departmentId", placeholder='Department ID', required='')
                         .forms_buttons
                             input.forms_buttons-submit(type='submit', value='Submit')
                             br
-                            button.forms_buttons-cancel cancel
+                            button.forms_buttons-cancel Cancel
+
                     //form.submission_form(action="/admin/add-employee", method="post")
                     //    fieldset.forms_fieldset
                     //        .forms_field
