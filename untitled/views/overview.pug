@@ -32,13 +32,13 @@ html
                         each val,index in list
                             li.tile
                                 p.name=val.fullName
-                                select.user_team(name="department" id="department"+index default=val.userGroup)
-                                    option(value = 1) Finanace
-                                    option(value = 2) Nature Language processing
-                                    option(value = 3) Machine Learning
-                                select.user_type(name="group" id="group"+ (-index) default=val.departmentId)
-                                    option(value = 1) Employee
-                                    option(value = 2) Team Manager
+                                select.user_team(name="department" id="department"+index value=val.departmentId)
+                                    option(value = 1 selected=val.departmentId) Finanace
+                                    option(value = 2 selected=val.departmentId) Nature Language processing
+                                    option(value = 3 selected=val.departmentId) Machine Learning
+                                select.user_type(name="group" id="group"+ (-index) value=val.userGroup)
+                                    option(value = 1 selected=val.userGroup) Employee
+                                    option(value = 2 selected=val.userGroup) Team Manager
                                 button.user_filter_button(onclick='assignUserGroup(this.value, "'+ val.email + '")' value = index) Submit
                 .fas.fa-upload.fa-2x#float_button
                     form.submission_form(action="/admin/add-employee", method="post")
