@@ -88,10 +88,3 @@ function checkForm(){
 }
 
 
-function assignUserGroup(params,email){
-    let team = $("#department" + params).val();
-    let type = $("#group" + ((-1)*params)).val();
-    $.post("/admin/assign-user/" + email + "/" + team + "/" + type, function(data){
-
-    });
-}

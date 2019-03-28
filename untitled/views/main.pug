@@ -48,7 +48,8 @@ html
                                 p.type(data-tippy-content=val.type_)=val.type_
                                 p.description(data-tippy-content=val.description)=val.description
                                 a.list_status=val.status
-                .fas.fa-upload.fa-2x#float_button
+                if float
+                    .fas.fa-upload.fa-2x#float_button
 
 
 form.submission_form(name = "submission" action="/submission/create", method="post", enctype='multipart/form-data' onsubmit="return checkForm();")

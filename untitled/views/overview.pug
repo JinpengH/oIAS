@@ -11,7 +11,6 @@ html
         script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
         script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
         script(src='/javascripts/overview.js')
-        script(src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js")
     body
 
         .wrapper
@@ -41,7 +40,7 @@ html
                                     option(value = 2) Team Manager
                                 button.user_filter_button(onclick='assignUserGroup(this.value, "'+ val.email + '")' value = index) Submit
                 .fas.fa-upload.fa-2x#float_button
-                    form.submission_form(action="/admin/add-employee", method="post")
+form.submission_form(action="/admin/add-employee", method="post")
                         fieldset.forms_fieldset
                             .forms_field
                                 input.forms_field-input(type='text', name="employeeId", placeholder='EmployeeId', required='')
@@ -53,29 +52,8 @@ html
                                 input.forms_field-input(type='number', name="userGroup", placeholder='User Group', required='')
                             .forms_field
                                 input.forms_field-input(type='number', name="departmentId", placeholder='Department ID', required='')
+
                         .forms_buttons
                             input.forms_buttons-submit(type='submit', value='Submit')
                             br
                             button.forms_buttons-cancel Cancel
-
-                    //form.submission_form(action="/admin/add-employee", method="post")
-                    //    fieldset.forms_fieldset
-                    //        .forms_field
-                    //            p Name
-                    //            input.forms_field-input(type='text', name="name", placeholder='Name', required='')
-                    //        select.user_filter_user(name="department" id="department")
-                    //            option(value="1") Finanace
-                    //            option(value="2") Nature Language processing
-                    //            option(value="3") Machine Learning
-                    //        select.user_filter_user(name="group" id="group")
-                    //            option(value="1") Employee
-                    //            option(value="2") Team Manager
-                    //        .forms_field
-                    //            p Dispense
-                    //            input.forms_field-input(type='money', name="dispense", placeholder='EmployeeID', required='')
-                    //
-                    //    .forms_buttons
-                    //        input.forms_buttons-submit(type='submit', value='Submit')
-                    //        br
-                    //        button.forms_buttons-cancel cancel
-

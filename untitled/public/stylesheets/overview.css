@@ -79,6 +79,7 @@ a{
     position:relative;
     border-radius:5px;
     margin-left:20px;
+    margin-top:3px;
     width:98%;
     background-color:#fffffff2;
     transition: transform 1.2s;
@@ -95,7 +96,7 @@ a{
     font-weight:lighter;
     border:0;
     float:left;
-    margin: 0 0 0 20px;
+    margin:8px 0 0 20px;
 }
 
 .tile .name{
@@ -215,6 +216,13 @@ a{
 
 .modal{
     display:none;
+}
+
+select{
+    float:left;
+    font-size:15px;
+    padding:auto;
+    margin:10px 0 0 0;
 }
 
 

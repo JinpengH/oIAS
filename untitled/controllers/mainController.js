@@ -14,7 +14,7 @@ exports.index =
         }
         else if(user.userGroup === 1){ // employee
             Submission.find({linkedUserId: sess.loginUserId}).then(list =>{
-                return res.render('main',{myList:list});
+                return res.render('main',{myList:list,float:true});
             });
         }
         else if(user.userGroup === 2){ // team lead
@@ -32,7 +32,7 @@ exports.index =
                                 }
                             })
                         });
-                        return res.render('main',{myList:list,departmentList:employeeList});
+                        return res.render('main',{myList:list,departmentList:employeeList,float:true});
                     })
                 })
 
@@ -41,7 +41,7 @@ exports.index =
         else if(user.userGroup === 3){ // VP
             Submission.find({departmentId: sess.loginUser.departmentId, status:'Pending', userGroup: 2}).then(departmentList=>{
 
-                return res.render('main',{myList:{},departmentList:departmentList});
+                return res.render('main',{myList:{},departmentList:departmentList,float:false});
             })
         }
     };
