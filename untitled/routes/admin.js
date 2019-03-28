@@ -114,6 +114,7 @@ router.get("/overview", [checkLoggedIn, checkAdmin], (req, res) => {
 router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
     const employeeId = req.body.employeeId;
     User.findOne({ employeeId }).then(user => {
+        //TODO send an error message here;
         if (user) {
             alert("This employee ID already exists. No need to add it again.");
         }
@@ -160,7 +161,7 @@ router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
         message: 'Activation email was successfully sent'
     });
 });
-
+//TODO: check if multiple vp exist
 router.post("/assign-user/:email/:team/:type", [checkLoggedIn, checkAdmin], (req, res) => {
     let email = req.params.email;
     let team = req.params.team;

@@ -136,7 +136,16 @@ exports.search = function(req,res){
         }
     }
     Submission.find(query).then(list=>{res.send(list);})
+};
 
+exports.approve = function(req,res){
+    let id = req.params.id;
+    Submission.findOneAndUpdate({ _id : id }, { $set : { status:"Approved" } }).then(data=>{res.send(data);})
+};
 
-
+exports.decline = function(req,res){
+    let id = req.params.id;
+    Submission.findOneAndUpdate({ _id : id }, { $set : { status:"Declined" } }).then(data=>{
+        res.send(data);
+    })
 };

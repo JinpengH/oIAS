@@ -2,11 +2,20 @@
 $(document).ready(function(){
 
     //when approved is clicked correctly remove them
-    $(".decline.list_button").click(function(){
+    $(".decline").click(function(){
+        let id = $(this).attr('id');
         $(this).parent().parent().css('display','none')
+        $.post("submission/decline/" + id,function(data){
+
+        });
+
     });
-    $(".approve.list_button").click(function(){
+    $(".approve").click(function(){
+        let id = $(this).attr('id');
         $(this).parent().parent().css('display','none')
+        $.post("submission/approve/" + id,function(data){
+
+        });
     });
     //adding tooltips
     tippy('.name',{
@@ -23,26 +32,24 @@ $(document).ready(function(){
     });
 
 //changing status
-    let list_status_first = $(".list_status:first");
-    let list_status = $(".list_status");
-    switch(list_status_first.text()){
-        case "Pending":
-            list_status.css('color','#F7AE51');
-            break;
-        case "Approved":
-            list_status.css('color','#2FF75C');
-            break;
-        case "Declined":
-            list_status.css('color','#f71b1b');
-            break;
-        default:
-            list_status.css('color','#f71b1b');
-    }
 
-    $(".decline").on('click',function(){
-        let res = $(".decline").val();
-        console.log(res);
+    $(".list_status").each(function() {
+        switch($(this).text()){
+            case "Pending":
+                $(this).css('color','#F7AE51');
+                break;
+            case "Approved":
+                $(this).css('color','#19a854');
+                break;
+            case "Declined":
+                $(this).css('color','#f71b1b');
+                break;
+            default:
+                $(this).css('color','#000000');
+        }
     });
+
+
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
@@ -81,10 +88,3 @@ function checkForm(){
 }
 
 
-function assignUserGroup(params,email){
-    let team = $("#department" + params).val();
-    let type = $("#group" + ((-1)*params)).val();
-    $.post("/admin/assign-user/" + email + "/" + team + "/" + type, function(data){
-
-    });
-}
