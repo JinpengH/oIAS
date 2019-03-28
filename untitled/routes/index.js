@@ -9,6 +9,7 @@ const fs = require('fs');
 const pdf = require('html-pdf');
 
 const options = { format: 'Letter' };
+const multiparty = require("connect-multiparty")();
 
 mongoose.set('useFindAndModify', false);
 // Load User Model

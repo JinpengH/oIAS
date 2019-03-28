@@ -31,11 +31,11 @@ html
                         each val,index in list
                             li.tile
                                 p.name=val.fullName
-                                select.user_team(name="department" id="department"+index selected=val.departmentId)
-                                    option(value = 1) Finanace
-                                    option(value = 2) Nature Language processing
-                                    option(value = 3) Machine Learning
-                                select.user_type(name="group" id="group"+ (-index) selected=val.userGroup)
+                                select.user_team(name="department" id="department"+index value=val.departmentId)
+                                    option(value = 0) Finanace
+                                    option(value = 1) Nature Language processing
+                                    option(value = 2) Machine Learning
+                                select.user_type(name="group" id="group"+ (-index) value=val.userGroup)
                                     option(value = 1) Employee
                                     option(value = 2) Team Manager
                                     option(value = 3) VP
