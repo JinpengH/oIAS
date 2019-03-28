@@ -185,4 +185,41 @@ router.get("/myname", (req,res)=>{
     res.send(req.session.loginUserName);
 });
 
+router.post(
+    "/changeAvatar",
+    multiparty,
+    (req, res) => {
+        // console.log(req.files);
+        let id = req.session.loginUserId;
+        var filepath = req.files.file.path;
+        console.log(filepath);
+        if(filepath.contains('jpg') || filepath.contains('png') || filepath.contains('jpeg')){
+            cloudinary.v2.uploader.destroy(req.user.id, function(error, result) {
+                console.log(result, error);
+                // var filename = req.files.file.name;
+                cloudinary.v2.uploader.upload(
+                    filepath,
+                    { public_id: id },
+                    function(error, result) {
+                        res.json(result);
+                        console.log(result, error);
+                        var new_avatar = result.url;
+                        console.log(new_avatar);
+                        User.findOneAndUpdate(
+                            { _id: id },
+                            { $set: { avatar: new_avatar } },
+                            // { $set: postFields },
+                            { new: true, useFindAndModify: false }
+                        )
+                            .then(post => res.json(post))
+                            .catch(err => res.status(400).json(err));
+                    }
+                );
+            });
+        }else{
+            res.json('The file is in wrong format');
+        }
+
+    }
+);
 module.exports = router;
