@@ -24,7 +24,9 @@ function assignUserGroup(params,email){
     let team = $("#department" + params).val();
     let type = $("#group" + ((-1)*params)).val();
     $.post("/admin/assign-user/" + email + "/" + team + "/" + type, function(data){
-
+        if(data){
+            alert(data.err);
+        }
     });
 }
 
