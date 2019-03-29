@@ -1,6 +1,13 @@
 
 $(document).ready(function() {
-
+    $(".user_team").each(function(element){
+        let i = $(this).attr("value");
+        $(this).val(i);
+    });
+    $(".user_type").each(function(element){
+        let i = $(this).attr("value");
+        $(this).val(i);
+    });
     $('#float_button').on('click', function() {
         $('.submission_form').fadeIn();
     });

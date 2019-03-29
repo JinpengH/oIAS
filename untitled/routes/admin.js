@@ -57,7 +57,7 @@ router.get('/admin', function(req, res) {
         req.session.destroy();
         return res.render("admin");
     }
-    res.redirect('/admin/overview');
+    res.redirect('/admin/employees');
 });
 
 // Admin login
@@ -81,7 +81,7 @@ router.post("/login", (req, res) => {
                 req.session.loginUserId = user.id;
                 req.session.loginUserGroup = user.userGroup;
                 req.user = user;
-                res.redirect('/admin/overview');
+                res.redirect('/admin/employees');
             }
             else {
                 errors.message = "Username/Password combination incorrect, please check again";
@@ -91,10 +91,19 @@ router.post("/login", (req, res) => {
     });
 });
 
+
 // Go to admin overview page
 router.get("/overview", [checkLoggedIn, checkAdmin], (req, res) => {
-    User.find().then(list => {
+    User.find({userGroup:{$ne:0}}).then(list => {
+        console.log(list[3].fullName + " " + list[3].departmentId);
         return res.render('overview', {title: 'Admin Overview', list: list});
+
+// Go to admin employees page
+router.get("/employees", [checkLoggedIn, checkAdmin], (req, res) => {
+    User.find({ userGroup: { $ne: 0 }}).then(list => {
+        // console.log(list[3].fullName + " " + list[3].departmentId);
+        return res.render('employees', {list: list});
+
     });
 });
 
@@ -132,7 +141,7 @@ router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
                 .catch(err => console.log(err));
             next();
             User.find().then(list => {
-                return res.render('overview', {list: list});
+                return res.render('employees', {list: list});
             });
         }
     })
@@ -160,23 +169,53 @@ router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
         message: 'Activation email was successfully sent'
     });
 });
-//TODO: check if multiple vp exist
+
 router.post("/assign-user/:email/:team/:type", [checkLoggedIn, checkAdmin], (req, res) => {
     let email = req.params.email;
     let team = req.params.team;
     let type = req.params.type;
 
-    User.findOneAndUpdate(
-        { email: email },
-        {$set: {departmentId: team, userGroup: type}},
-        (err) => {
-            if(err){
-                console.log("something wrong happened");
-            }else{
-                User.find().then(list => {
+    if(type === "3"){
+        User.find().then(list =>{
+            for(let i=0; i<list.length; i++) {
+                if(list[i].email !== email && list[i].userGroup === 3){
+                    console.log(type);
+                    console.log("cannot have two VPs at the same time");
                     return res.send(list);
-                });
+                }
             }
+            User.findOneAndUpdate(
+                { email: email },
+                {$set: {departmentId: team, userGroup: type}},
+                (err) => {
+                    if(err){
+                        console.log("something wrong happened");
+                    }else{
+                        User.find().then(list => {
+                            return res.send(list);
+                        });
+                    }
+                });
+        });
+    }else{
+        User.findOneAndUpdate(
+            { email: email },
+            {$set: {departmentId: team, userGroup: type}},
+            (err) => {
+                if(err){
+                    console.log("something wrong happened");
+                }else{
+                    User.find().then(list => {
+                        return res.send(list);
+                    });
+                }
+            });
+    }
+});
+
+router.get("/submissions", [checkLoggedIn, checkAdmin], (req, res) => {
+    Submission.find().then(list => {
+        return res.render('submissions', {list: list});
     });
 });
 
