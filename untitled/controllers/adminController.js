@@ -3,9 +3,9 @@ User = require("../server/models/User");
 
 exports.index = function(req,res){
     if(req.session.loginUser){
-        res.render('overview');
+        res.render('employees');
     }
-    res.render('admin',{title: 'Admin Login'});
+    res.render('admin');
 };
 
 exports.login = function(req,res){
@@ -17,7 +17,7 @@ exports.login = function(req,res){
         // check admin
         if (!user) {
             errors.message = "Username/Password combination incorrect, please check again";
-            return res.render('admin',{ title: 'Admin Login', error: errors }); // TODO admin: login page only for admin
+            return res.render('admin',{error: errors }); // TODO admin: login page only for admin
         }
 
         // Check Password
@@ -29,12 +29,12 @@ exports.login = function(req,res){
                 req.user = user;
                 User.find().then(list =>
                 {
-                    return res.render('overview', {title: 'Admin Overview', user: user, list: list}); // TODO overview: landing page only for admin\
+                    return res.render('employees', {user: user, list: list}); // TODO overview: landing page only for admin\
                 });
             }
             else {
                 errors.message = "Username/Password combination incorrect, please check again";
-                return res.render('admin',{ title: 'Admin Login', error: errors });
+                return res.render('admin',{error: errors });
                 // return res.status(400).json(errors);
             }
         });
@@ -43,7 +43,7 @@ exports.login = function(req,res){
 
 exports.add = function(req,res){
     if (req.session.loginUserId == null) {
-        return res.render('admin', { title: 'Admin Login', error: errors });
+        return res.render('admin', {error: errors });
     }
     const id = req.session.loginUserId;
     const userGroup = req.session.loginUserGroup;
@@ -72,7 +72,7 @@ exports.add = function(req,res){
             }
             else {
                 errors.message = "You don't have permissions. Please contact your admin.";
-                res.render('login', { title: 'Login', error: errors });
+                res.render('login', {error: errors });
             }
 
         })

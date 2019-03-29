@@ -1,7 +1,7 @@
 doctype html
 html
     head
-        title="Admin Overview"
+        title="All Employees"
         link(rel='stylesheet', href='/stylesheets/overview.css')
         link(rel='stylesheet', href='/stylesheets/header.css')
         link(href="https://fonts.googleapis.com/css?family=PT+Serif|Poppins|Ubuntu" rel="stylesheet")
@@ -17,8 +17,9 @@ html
 
             .header
                 img.logo(src="../images/obEN_logo.png" height=31 width=62.5)
-                a.header_dashboard(href="/admin/overview") Dashboard
-                a.header_logout(href="/logout") Logout
+                a.header_dashboard(href="/admin/employees") Employees
+                a.header_dashboard(href="/admin/submissions") Submissions
+                a.header_logout(href="/admin/logout") Logout
 
             .content
                 .list_description

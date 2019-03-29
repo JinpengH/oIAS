@@ -1,0 +1,36 @@
+doctype html
+html
+    head
+        title= "All Submissions"
+        link(rel='stylesheet', href='/stylesheets/main.css')
+        link(rel='stylesheet', href='/stylesheets/header.css')
+        link(href="https://fonts.googleapis.com/css?family=PT+Serif|Poppins|Ubuntu" rel="stylesheet")
+        link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous")
+        script(src="https://code.getmdl.io/1.3.0/material.min.js")
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+        script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
+        script(src='/javascripts/main.js')
+        script(src="https://unpkg.com/popper.js@1/dist/umd/popper.min.js")
+        script(src="https://unpkg.com/tippy.js@4")
+        script(src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js")
+    body
+
+        .wrapper
+            .header
+                img.logo(src="../images/obEN_logo.png" height=31 width=62.5)
+                a.header_dashboard(href="/admin/employees") Employees
+                a.header_dashboard(href="/admin/submissions") Submissions
+                a.header_logout(href="/admin/logout") Logout
+            .content
+                .list_description
+                    p.list_description-name Name
+                    p.list_description-type Type
+                    p.list_description-description Description
+                .line
+                ul#list
+                    each val in list
+                        li.tile
+                            p.name(data-tippy-content=val.title)=val.name
+                            p.type(data-tippy-content=val.type_)=val.type_
+                            p.description(data-tippy-content=val.description)=val.description
+                            a.list_status=val.status
