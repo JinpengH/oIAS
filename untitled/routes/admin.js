@@ -97,7 +97,10 @@ router.get("/overview", [checkLoggedIn, checkAdmin], (req, res) => {
     User.find({userGroup:{$ne:0}}).then(list => {
         console.log(list[3].fullName + " " + list[3].departmentId);
         return res.render('overview', {title: 'Admin Overview', list: list});
+    })
 
+}
+    );
 // Go to admin employees page
 router.get("/employees", [checkLoggedIn, checkAdmin], (req, res) => {
     User.find({ userGroup: { $ne: 0 }}).then(list => {
