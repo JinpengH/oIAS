@@ -94,11 +94,12 @@ router.post("/login", (req, res) => {
 
 // Go to admin overview page
 router.get("/overview", [checkLoggedIn, checkAdmin], (req, res) => {
-    User.find({userGroup:{$ne:0}}).then(list => {
+    User.find({userGroup: {$ne: 0}}).then(list => {
         console.log(list[3].fullName + " " + list[3].departmentId);
         return res.render('overview', {title: 'Admin Overview', list: list});
-
-// Go to admin employees page
+    });
+});
+// Go to admin employees pa
 router.get("/employees", [checkLoggedIn, checkAdmin], (req, res) => {
     User.find({ userGroup: { $ne: 0 }}).then(list => {
         // console.log(list[3].fullName + " " + list[3].departmentId);
@@ -181,7 +182,7 @@ router.post("/assign-user/:email/:team/:type", [checkLoggedIn, checkAdmin], (req
                 if(list[i].email !== email && list[i].userGroup === 3){
                     console.log(type);
                     console.log("cannot have two VPs at the same time");
-                    return res.send(list);
+                    return res.send({err: "Cannot have two VPs at the same time!"});
                 }
             }
             User.findOneAndUpdate(
