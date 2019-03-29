@@ -6,6 +6,8 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const fs = require('fs');
+const multiparty = require("connect-multiparty")();
+
 const pdf = require('html-pdf');
 
 const options = { format: 'Letter' };
