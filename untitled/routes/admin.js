@@ -93,7 +93,7 @@ router.post("/login", (req, res) => {
 
 // Go to admin overview page
 router.get("/overview", [checkLoggedIn, checkAdmin], (req, res) => {
-    User.find().then(list => {
+    User.find({userGroup:{$ne:0}}).then(list => {
         console.log(list[3].fullName + " " + list[3].departmentId);
         return res.render('overview', {title: 'Admin Overview', list: list});
     });

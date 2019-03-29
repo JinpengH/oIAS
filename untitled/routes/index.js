@@ -44,6 +44,7 @@ router.get('/admin', function (req, res) {
 // Get Profile
 router.get('/profile', function(req, res, next) {
     let user = req.session.loginUser;
+    let id = req.session.loginUserId;
     if(typeof user === 'undefined'){
         const errors = {message: ""};
         res.render('login',{error:errors});
@@ -58,23 +59,26 @@ router.get('/profile', function(req, res, next) {
             position = "Team Manager";
             break;
         case 3:
-            position = "CFO";
+            position = "VP";
             break;
 
     }
     switch(user.departmentId){
-        case 1:
+        case 0:
             department = "Finance";
             break;
-        case 2:
+        case 1:
             department = "Machine Learning";
             break;
-        case 3:
+        case 2:
             department = "AI";
             break;
 
     }
-    res.render('profile', { title: 'Profile',user:user,position:position,department:department});
+    User.find({_id:id}).then(user=>{
+        res.render('profile', { title: 'Profile',user:user,position:position,department:department,avatar:user.avatar});
+
+    })
 });
 
 router.get('/main',main_controller.index);
@@ -192,7 +196,7 @@ router.post(
     (req, res) => {
         // console.log(req.files);
         let id = req.session.loginUserId;
-        var filepath = req.files.file.path;
+        let filepath = req.files.file.path;
         console.log(filepath);
         if(filepath.contains('jpg') || filepath.contains('png') || filepath.contains('jpeg')){
             cloudinary.v2.uploader.destroy(req.user.id, function(error, result) {
@@ -204,7 +208,7 @@ router.post(
                     function(error, result) {
                         res.json(result);
                         console.log(result, error);
-                        var new_avatar = result.url;
+                        let new_avatar = result.url;
                         console.log(new_avatar);
                         User.findOneAndUpdate(
                             { _id: id },

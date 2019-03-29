@@ -47,7 +47,7 @@ p{
     top:16%;
     transform:scale(3);
     position:relative;
-    z-index:100;
+    z-index:50;
     border-radius:30px;
     border:1px solid #a5a5a58c;
 }
@@ -67,6 +67,57 @@ p{
 
 .a{
     cursor:pointer;
+}
+
+.submission_form{
+    z-index:100;
+    display:none;
+    background-color:#ffffffdb;
+    box-shadow:1px 1px 50px #a5a5a5;
+    border-radius:30px;
+    position:fixed;
+    top: calc(50% - 240px);
+    left:calc(50% - 235px);
+    padding:50px;
+
+}
+
+.forms_fieldset{
+    border:0;
+    text-align:center;
+}
+.forms_field{
+    position:relative;
+}
+.list_title{
+    font-size:40px;
+
+
+}
+.forms_field-input{
+    background-color:transparent;
+    padding:10px 0px;
+    width:100%;
+    border-color: #ccc;
+    border-width: 0 0 2px 0;
+    box-shadow: none;
+    font-size:20px;
+
+}
+.forms_buttons{
+    text-align:center;
+}
+.forms_buttons input,button{
+    background-color:transparent;
+    padding:10px;
+    font-size:20px;
+    text-align:center;
+    border:0;
+
+}
+.forms_buttons input:hover,button:hover{
+    cursor:pointer;
+    color:#a2a2a2;
 }
 
 
