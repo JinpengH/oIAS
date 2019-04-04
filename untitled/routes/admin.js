@@ -4,7 +4,10 @@ const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const multiparty = require("connect-multiparty")();
 const errors = {message: "",};
+const cloudinary = require("cloudinary");
+const moment = require("moment");
 
 // Load User Model
 const User = require("../server/models/User");
@@ -94,14 +97,17 @@ router.post("/login", (req, res) => {
 
 // Go to admin overview page
 router.get("/overview", [checkLoggedIn, checkAdmin], (req, res) => {
-    User.find({userGroup:{$ne:0}}).then(list => {
+    User.find({userGroup: {$ne: 0}}).then(list => {
         console.log(list[3].fullName + " " + list[3].departmentId);
         return res.render('overview', {title: 'Admin Overview', list: list});
+
     })
 
 }
     );
 // Go to admin employees page
+
+// Go to admin employees pa
 router.get("/employees", [checkLoggedIn, checkAdmin], (req, res) => {
     User.find({ userGroup: { $ne: 0 }}).then(list => {
         // console.log(list[3].fullName + " " + list[3].departmentId);
@@ -172,24 +178,49 @@ router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
         message: 'Activation email was successfully sent'
     });
 });
-//TODO: check if multiple vp exist
+
 router.post("/assign-user/:email/:team/:type", [checkLoggedIn, checkAdmin], (req, res) => {
     let email = req.params.email;
     let team = req.params.team;
     let type = req.params.type;
 
-    User.findOneAndUpdate(
-        { email: email },
-        {$set: {departmentId: team, userGroup: type}},
-        (err) => {
-            if(err){
-                console.log("something wrong happened");
-            }else{
-                User.find().then(list => {
-                    return res.send(list);
-                });
+    if(type === "3"){
+        User.find().then(list =>{
+            for(let i=0; i<list.length; i++) {
+                if(list[i].email !== email && list[i].userGroup === 3){
+                    console.log(type);
+                    console.log("cannot have two VPs at the same time");
+                    return res.send({err: "Cannot have two VPs at the same time!"});
+                }
             }
-    });
+            User.findOneAndUpdate(
+                { email: email },
+                {$set: {departmentId: team, userGroup: type}},
+                (err) => {
+                    if(err){
+                        console.log("something wrong happened");
+                    }else{
+                        User.find().then(list => {
+                            return res.send(list);
+                        });
+                    }
+                });
+        });
+    }
+    else{
+        User.findOneAndUpdate(
+            { email: email },
+            {$set: {departmentId: team, userGroup: type}},
+            (err) => {
+                if(err){
+                    console.log("something wrong happened");
+                }else{
+                    User.find().then(list => {
+                        return res.send(list);
+                    });
+                }
+            });
+    }
 });
 
 router.get("/submissions", [checkLoggedIn, checkAdmin], (req, res) => {
@@ -202,5 +233,89 @@ router.get("/logout", (req, res) =>  {
     req.session.destroy();
     res.redirect('/login');
 });
+
+router.post("/submission/approve/:id", [checkLoggedIn, checkAdmin], (req,res) => {
+    let id = req.params.id;
+    Submission.findOneAndUpdate({ _id : id }, { $set : { status:"Approved" } }).then(data => {
+        res.send(data);
+    });
+});
+
+router.post("/submission/decline/:id",[checkLoggedIn, checkAdmin], (req,res) => {
+    let id = req.params.id;
+    Submission.findOneAndUpdate({ _id : id }, { $set : { status:"Declined" } }).then(data => {
+        res.send(data);
+    });
+});
+
+router.post("/submission/create", multiparty, [checkLoggedIn, checkAdmin], (req, res, next) => {
+    console.log("debug");
+    console.log(req.body);
+    const employeeId = req.body.employeeId;
+    console.log("employeeid", employeeId);
+    User.findOne({employeeId}).then(user => {
+        if (!user) {
+            console.log("cant found user id");
+            errors.message = "There is no employee associated with this employee ID.";
+            return res.redirect('/admin/submissions');
+            // return res.render('admin/submission', { error: errors });
+        } else {
+            console.log("found user id");
+            let fullName = user.fullName;
+            let departmentId = user.departmentId;
+            let linkedUserId = user._id;
+            console.log(fullName);
+            console.log(departmentId);
+
+            const submissionFields = {};
+            submissionFields.linkedUserId = linkedUserId;
+            submissionFields.name = fullName;
+            submissionFields.title = req.body.title;
+            submissionFields.type_ = req.body.type;
+            submissionFields.description = req.body.description;
+            submissionFields.departmentId = departmentId;
+            submissionFields.dispense = parseFloat(req.body.dispense);
+            submissionFields.date = moment().format('MMM Do YY').toString();
+
+            new Submission(submissionFields).save().then(submission => {
+                // update User Model
+                User.findOneAndUpdate(
+                    { _id: submissionFields.linkedUserId },
+                    { $push: { submissions: submission.id } },
+                    { safe: true, upsert: true, new: true, useFindAndModify: false },
+                    (err) => {
+                        if (err) return res.status(400).json(err);
+                        else {
+                            return res.redirect('/admin/submissions');
+                        }
+                    }
+                );
+                // console.log(req);
+                const filepath = req.files.file.path;
+
+                // const employeeId = req.body.employeeId;
+                // User.findOne({ employeeId }).then(user => {
+                //     req = user;
+                // });
+                cloudinary.v2.uploader.upload(
+                    filepath,
+                    { public_id: submission.id },
+                    function(error, result) {
+                        // res.json(result);
+                        //console.log(result, error);
+                        let new_url = result.url;
+                        Submission.findOneAndUpdate(
+                            { _id: submission.id },
+                            { $set: { file_url: new_url } },
+                            // { $set: postFields },
+                            { new: true, useFindAndModify: false }
+                        ).then(submission => console.log(submission))
+                        // .catch(err => res.status(400).json(err));
+                    });
+            });
+        }
+    });
+});
+
 
 module.exports = router;
