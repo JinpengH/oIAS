@@ -11,7 +11,6 @@ const Submission = require("../server/models/Submission");
 const submission_controller = require("../controllers/submissionController");
 
 
-
 // @route   POST submission/create
 // @desc    Create Submission
 // @access  Private

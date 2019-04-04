@@ -7,11 +7,10 @@ const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const fs = require('fs');
 const multiparty = require("connect-multiparty")();
-
+const cloudinary = require("cloudinary");
 const pdf = require('html-pdf');
 
 const options = { format: 'Letter' };
-const multiparty = require("connect-multiparty")();
 
 mongoose.set('useFindAndModify', false);
 // Load User Model
@@ -200,14 +199,17 @@ router.post(
         let id = req.session.loginUserId;
         let filepath = req.files.file.path;
         console.log(filepath);
-        if(filepath.contains('jpg') || filepath.contains('png') || filepath.contains('jpeg')){
-            cloudinary.v2.uploader.destroy(req.user.id, function(error, result) {
+        console.log('overoverover');
+        if(filepath.indexOf('jpg') !== 1 || filepath.indexOf('png') !== -1|| filepath.indexOf('jpeg') !== -1){
+
+            cloudinary.v2.uploader.destroy(id, function(error, result) {
                 console.log(result, error);
-                // var filename = req.files.file.name;
+                var filename = req.files.file.name;
                 cloudinary.v2.uploader.upload(
                     filepath,
                     { public_id: id },
                     function(error, result) {
+
                         res.json(result);
                         console.log(result, error);
                         let new_avatar = result.url;
