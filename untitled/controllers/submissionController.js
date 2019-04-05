@@ -92,6 +92,7 @@ exports.submit = (req, res) => {
 exports.search = function(req,res){
     let searchTerm = req.params.searchTerm;
     let days = req.params.days;
+    if(days === 0){days = 365;}//TODO
     let statusQuery = req.params.status;
 
     let dateQuery = [];

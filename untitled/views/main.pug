@@ -28,6 +28,9 @@ html
                     p.list_description-name Name
                     p.list_description-type Type
                     p.list_description-description Description
+                    .list_description-search
+                        input#search_term(type = 'text' placeholder = 'Search..' onclick='search()')
+                        button.fa.fa-search
                 .line
                 ul#list
                     if departmentList

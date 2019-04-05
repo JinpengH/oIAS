@@ -27,12 +27,12 @@ html
 
             .content
                 .card
-                    if(user.avatar)
+                    if(avatar)
                         img.avatar(src=avatar height=50 width=50)
                     else
                         img.avatar(src="../images/profile-picture.png" height=50 width=50)
                     .card_description
-                        p.card_name=user.fullName
+                        p.card_name=fullName
                         br
                         p.card_position=department
                         br

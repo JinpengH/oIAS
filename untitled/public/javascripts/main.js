@@ -87,4 +87,20 @@ function checkForm(){
     return true;
 }
 
+function search(){
+    let days = '0';
+    let status = 'All';
+    let searchTerm = 'Jinpeng He';
+    $.post("/submission/search/" + searchTerm +"/" + days + "/" + status,function(data){
+        let submissions = $("#list");
+        submissions.empty();
+        //console.log(data);
+        submissions.append( "<tr class=\"submission\">\r\n  <th class=\"submission_name\"> "+"Name"+"<\/th>\r\n  <th class=\"submission_date\">"+"Date"+"<\/th>\r\n  <th class=\"submission_dispense\">"+"Dispense"+"<\/th>\r\n  <th class=\"submission_status\">"+"Status"+"<\/th>\r\n<\/tr>");
+        data.forEach(function(element){
+            submissions.append("<tr class=\"submission\">\r\n  <td class=\"submission_name\"> "+element.name+"<\/td>\r\n  <td class=\"submission_date\">"+element.date+"<\/td>\r\n  <td class=\"submission_dispense\">"+element.dispense+"<\/td>\r\n  <td class=\"submission_status\">"+element.status+"<\/td>\r\n<\/tr>");
+        });
+        generateForm(days);
+
+    });
+}
 

@@ -39,6 +39,8 @@ router.post("/login", login_controller.login);
 
 // Go to admin login page
 router.get('/admin', function (req, res) {
+
+
     res.render('admin', {title: 'Admin Login'});
 });
 
@@ -76,10 +78,10 @@ router.get('/profile', function(req, res, next) {
             break;
 
     }
-    User.find({_id:id}).then(user=>{
-        res.render('profile', { title: 'Profile',user:user,position:position,department:department,avatar:user.avatar});
+    User.findOne({_id:id}).then(user=>{
+        res.render('profile', { title: 'Profile',fullName:user.fullName,position:position,department:department,avatar:user.avatar});
 
-    })
+    });
 });
 
 router.get('/main',main_controller.index);
@@ -90,9 +92,7 @@ router.get('/getChartData/:n',statistic_controller.getChartData);
 
 router.get("/getList", statistic_controller.getList);
 
-router.get('/profile', function(req, res, next) {
-    res.render('profile', { title: 'Profile' });
-});
+
 router.get('/resetPassword',function(req,res,next){
     res.render('resetPassword');
 });
@@ -210,7 +210,7 @@ router.post(
                     { public_id: id },
                     function(error, result) {
 
-                        res.json(result);
+                        //res.json(result);
                         console.log(result, error);
                         let new_avatar = result.url;
                         console.log(new_avatar);
@@ -220,7 +220,7 @@ router.post(
                             // { $set: postFields },
                             { new: true, useFindAndModify: false }
                         )
-                            .then(post => res.json(post))
+                            .then(post => console.log(post))
                             .catch(err => res.status(400).json(err));
                     }
                 );
