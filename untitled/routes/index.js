@@ -171,7 +171,7 @@ router.post("/activate", (req, res) => {
                             });
                         });
                     });
-                    //console.log(employeeId + " is active now");
+                    console.log(employeeId + " is active now");
                     res.redirect("/login");
                 }
                 else {

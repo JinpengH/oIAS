@@ -29,10 +29,12 @@ router.delete(
 );
 
 router.post(
-    "/search/:searchTerm/:days/:status",
-    submission_controller.search);
+    "/statSearch/:searchTerm/:days/:status",
+    submission_controller.statSearch);
 //router.post("/find/:n",submission_controller.find);
-
+router.post(
+    "/mainSearch/:searchTerm",
+    submission_controller.mainSearch);
 router.post(
     "/approve/:id",
     submission_controller.approve);

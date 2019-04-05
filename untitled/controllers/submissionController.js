@@ -88,11 +88,16 @@ exports.submit = (req, res) => {
             });
     });
 };
+exports.mainSearch = function(req,res){
+    let searchTerm = req.params.searchTerm;
+    let searchTermQuery;
+    let query;
 
-exports.search = function(req,res){
+    Submission.find(query).then(list=>{res.send(list);})
+};
+exports.statSearch = function(req,res){
     let searchTerm = req.params.searchTerm;
     let days = req.params.days;
-    if(days === 0){days = 365;}//TODO
     let statusQuery = req.params.status;
 
     let dateQuery = [];

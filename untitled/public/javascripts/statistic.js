@@ -27,7 +27,7 @@ function submitFilter(){
     let searchTerm = $("#user_filter_user").val();
     let status = $("#user_filter_status").val();
 
-    $.post("/submission/search/" + searchTerm +"/" + days + "/" + status,function(data){
+    $.post("/submission/statSearch/" + searchTerm +"/" + days + "/" + status,function(data){
         let submissions = $(".submissions");
         submissions.empty();
         //console.log(data);
