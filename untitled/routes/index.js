@@ -167,16 +167,18 @@ router.post("/activate", (req, res) => {
                             if (err) { throw err; }
                             User.findOneAndUpdate({ employeeId : employeeId }, { $set : { email: email, password: hash, active: true } }, (err) => {
                                 if (err) {
+                                    res.json("Unexpected error.");
                                 }
+                                res.redirect("/login");
                             });
                         });
                     });
                     //console.log(employeeId + " is active now");
-                    res.redirect("/login");
+
                 }
                 else {
                     errors.message = "This email is associated with an existing account.";
-                    res.render('login', { error: errors });
+                    res.render('/login', { error: errors });
                 }
             })
         }
