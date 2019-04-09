@@ -52,7 +52,7 @@ router.get('/profile', function(req, res, next) {
         res.render('login',{error:errors});
     }
     let position = "Admin";
-    let department = "Finanace";
+    let department = "Finance";
     switch(user.userGroup){
         case 1:
             position = "Employee";
@@ -63,7 +63,9 @@ router.get('/profile', function(req, res, next) {
         case 3:
             position = "VP";
             break;
-
+        case 4:
+            position = "Contractor";
+            break;
     }
     switch(user.departmentId){
         case 0:
@@ -75,7 +77,6 @@ router.get('/profile', function(req, res, next) {
         case 2:
             department = "AI";
             break;
-
     }
     User.findOne({_id:id}).then(user=>{
         res.render('profile', { title: 'Profile',fullName:user.fullName,position:position,department:department,avatar:user.avatar});
