@@ -179,10 +179,11 @@ router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
     });
 });
 
-router.post("/assign-user/:email/:team/:type", [checkLoggedIn, checkAdmin], (req, res) => {
+router.post("/assign-user/:email/:team/:type/:status", [checkLoggedIn, checkAdmin], (req, res) => {
     let email = req.params.email;
     let team = req.params.team;
     let type = req.params.type;
+    let status = req.params.status;
 
     if(type === "3"){
         User.find().then(list =>{
@@ -195,7 +196,7 @@ router.post("/assign-user/:email/:team/:type", [checkLoggedIn, checkAdmin], (req
             }
             User.findOneAndUpdate(
                 { email: email },
-                {$set: {departmentId: team, userGroup: type}},
+                {$set: {departmentId: team, userGroup: type, active: status}},
                 (err) => {
                     if(err){
                         console.log("something wrong happened");
