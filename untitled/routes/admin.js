@@ -184,6 +184,8 @@ router.post("/assign-user/:email/:team/:type/:status", [checkLoggedIn, checkAdmi
     let team = req.params.team;
     let type = req.params.type;
     let status = req.params.status;
+    console.log(email);
+    console.log(status);
 
     if(type === "3"){
         User.find().then(list =>{
@@ -196,7 +198,7 @@ router.post("/assign-user/:email/:team/:type/:status", [checkLoggedIn, checkAdmi
             }
             User.findOneAndUpdate(
                 { email: email },
-                {$set: {departmentId: team, userGroup: type, active: status}},
+                { $set: {departmentId: team, userGroup: type, active: status} },
                 (err) => {
                     if(err){
                         console.log("something wrong happened");
@@ -211,7 +213,7 @@ router.post("/assign-user/:email/:team/:type/:status", [checkLoggedIn, checkAdmi
     else{
         User.findOneAndUpdate(
             { email: email },
-            {$set: {departmentId: team, userGroup: type}},
+            { $set: {departmentId: team, userGroup: type, active: status} },
             (err) => {
                 if(err){
                     console.log("something wrong happened");

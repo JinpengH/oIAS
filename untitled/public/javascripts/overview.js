@@ -22,8 +22,31 @@ $(document).ready(function() {
 
 function assignUserGroup(params,email){
     let team = $("#department" + params).val();
+    console.log(team);
     let type = $("#group" + ((-1)*params)).val();
-    $.post("/admin/assign-user/" + email + "/" + team + "/" + type, function(data){
+    console.log(type);
+    let status = $("#active" + params).val();
+    if (status === true) {
+        console.log("true");
+    }
+    else if (status === false) {
+        console.log("false");
+    }
+    else if (status === "Inactive") {
+        status = false;
+        console.log("inactive");
+    }
+    else if (status === "Active") {
+        status = true;
+        console.log("active");
+    }
+    else {
+        console.log("unexpected");
+    }
+    console.log(status);
+    console.log(params);
+
+    $.post("/admin/assign-user/" + email + "/" + team + "/" + type + "/" + status, function(data){
         if(data){
             alert(data.err);
         }
