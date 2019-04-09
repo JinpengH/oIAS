@@ -12,7 +12,7 @@ exports.index =
             const errors = {message: ""};
             res.render('login',{error:errors});
         }
-        else if(user.userGroup === 1){ // employee
+        else if(user.userGroup === 1 || user.userGroup === 4){ // 1 = employee, 4 = contractor
             Submission.find({linkedUserId: sess.loginUserId}).then(list =>{
                 return res.render('main',{myList:list,float:true});
             });
