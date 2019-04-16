@@ -8,6 +8,17 @@ $(document).ready(function() {
         let i = $(this).attr("value");
         $(this).val(i);
     });
+    $(".user_status").each(function(element){
+        let i = $(this).attr("value");
+        console.log("debug", i);
+        // if (i === true) {
+        //     i = 1;
+        // }
+        // else {
+        //     i = 0;
+        // }
+        $(this).val(i);
+    });
     $('#float_button').on('click', function() {
         $('.submission_form').fadeIn();
     });
