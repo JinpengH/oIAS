@@ -183,9 +183,12 @@ router.post("/assign-user/:email/:team/:type/:status", [checkLoggedIn, checkAdmi
     let email = req.params.email;
     let team = req.params.team;
     let type = req.params.type;
-    let status = req.params.status;
+    let user_status = req.params.status;
+    let status = false;
     console.log(email);
     console.log(status);
+    if(user_status === 1){status = true;}
+    
 
     if(type === "3"){
         User.find().then(list =>{
