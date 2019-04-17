@@ -12,43 +12,17 @@ exports.index =
             const errors = {message: ""};
             res.render('login',{error:errors});
         }
-        else if(user.userGroup === 1 || user.userGroup === 4){ // 1 = employee, 4 = contractor
+        else{ // 1 = employee, 4 = contractor
             Submission.find({linkedUserId: sess.loginUserId}).then(list =>{
                 return res.render('main',{myList:list,float:true});
             });
         }
-        else if(user.userGroup === 2){ // team lead
-            Submission.find({linkedUserId: sess.loginUserId}).then(list =>{
-                User.find({userGroup: 1,departmentId: sess.loginUser.departmentId}).then(userList=>{
-                    Submission.find({departmentId: sess.loginUser.departmentId}).then(departmentList=>{
-                        let employeeList = [];
-                        userList.forEach(function(user){
-                            departmentList.forEach(function(submissions){
 
-                                if (submissions.linkedUserId.equals(user._id)){
-                                    employeeList.push(submissions);
-                                    console.log(user);
-                                    console.log(submissions);
-                                }
-                            })
-                        });
-                        return res.render('main',{myList:list,departmentList:employeeList,float:true});
-                    })
-                })
-
-            });
-        }
-        else if(user.userGroup === 3){ // VP
-            Submission.find({departmentId: sess.loginUser.departmentId, status:'Pending', userGroup: 2}).then(departmentList=>{
-
-                return res.render('main',{myList:{},departmentList:departmentList,float:false});
-            })
-        }
     };
 
 exports.other =
     function(req,res){
-        Submission.find({departmentId: sess.loginUser.departmentId, status:'Pending', userGroup: 2}).then(departmentList=>{
+        Submission.find({departmentId: req.session.departmentId, status:'Pending', userGroup: {$gte:1, $lte:2}}).then(departmentList=>{
 
             return res.render('other',{myList:{},departmentList:departmentList,float:false});
         })

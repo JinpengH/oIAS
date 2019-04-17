@@ -174,9 +174,7 @@ router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
             return console.log(error);
         }
     });
-    return res.send({
-        message: 'Activation email was successfully sent'
-    });
+    return res.redirect('/admin/employees');
 });
 
 router.post("/assign-user/:email/:team/:type", [checkLoggedIn, checkAdmin], (req, res) => {

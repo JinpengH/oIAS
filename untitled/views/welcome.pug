@@ -21,7 +21,7 @@ html
                 img.logo(src="../images/obEN_logo.png" height=31 width=62.5)
                 a.header_statistic(href="/statistic") Statistic
                 a.header_profile(href="/profile") Profile
-                a.header_dashboard(href="/main") Dashboard
+                a.header_dashboard(href="/welcome") Dashboard
                 a.header_logout(href="/logout") Logout
             .content
                 .card.profile
@@ -51,7 +51,7 @@ html
                         .line
                         p Recently, 10 requests need to be reviewed
                         p 3 requests are overdue
-                        a(href='/main/other') Click to see details
+                        a(href='/other') Click to see details
 form.submission_form(name = "submission" action="/submission/create", method="post", enctype='multipart/form-data' onsubmit="return checkForm();")
     fieldset.forms_fieldset
         .forms_field
