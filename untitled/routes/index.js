@@ -42,11 +42,31 @@ router.get('/admin', function (req, res) {
     res.render('admin', {title: 'Admin Login'});
 });
 
+
+
 router.get('/welcome', function (req, res) {
-    res.render('welcome', {title: 'Welcome'});
+    let d = new Date();
+    let before = new Date();
+    let approved = 0;
+    let declined = 0;
+    let overdue = 0;
+    before = new Date(d.getTime()- (7*24 * 60 * 60 * 1000));
+    Submission.find({linkedUserId: req.session.loginUserId, dateTime: {$gte:before, $lte:d}}).then(list => {
+        for(let j=0; j<list.length; j++) {
+            if (list[j].status === 'Approved') {
+                approved++;
+            }
+            if(list[j].status === 'Declined'){
+                declined++;
+            }
+        }
+        res.render('welcome', {title: 'Welcome', name: req.session.loginUserName,userGroup:req.session.loginUserGroup,approved:approved,declined:declined});
+    });
+
+
 });
 
-// Get Profile
+// Get Profile1
 router.get('/profile', function(req, res, next) {
     let user = req.session.loginUser;
     let id = req.session.loginUserId;
@@ -88,6 +108,8 @@ router.get('/profile', function(req, res, next) {
 });
 
 router.get('/main',main_controller.index);
+
+router.get('/other',main_controller.other);
 
 router.get('/statistic', statistic_controller.index);
 

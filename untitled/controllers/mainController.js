@@ -45,3 +45,11 @@ exports.index =
             })
         }
     };
+
+exports.other =
+    function(req,res){
+        Submission.find({departmentId: sess.loginUser.departmentId, status:'Pending', userGroup: 2}).then(departmentList=>{
+
+            return res.render('other',{myList:{},departmentList:departmentList,float:false});
+        })
+    };

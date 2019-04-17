@@ -28,26 +28,30 @@ html
                     p.title Profile
                     a(href = '/profile') (click here to edit your profile)
                     .line
-                    p Name: Jinpeng He
-                    p Address: 1248 W Adam Blvd
-                    p ...
+                    p=name
+                    p=position
+                    p=telephone
+                    p=address
+                if userGroup !== 3
                 .card.my_request
                     p.title My Request
                     .line
-                    p Recently, 5 quests have been proved
+                    p='Recently,' + approved + ' quests have been proved'
+                    p=declined + ' quests have been declined'
                     a(href='/main') Click to see details
+                if userGroup !== 3
                 .card.submit
                     p.title Submit a Request
                     .line
                     button#float_button click here to submit your request
 
-
-                .card.other
-                    p.title Other Request
-                    .line
-                    p Recently, 10 requests have been upload
-                    p 3 requests are overdue
-                    a(href='/main') Click to see details
+                if userGroup >= 2
+                    .card.other
+                        p.title Other Request
+                        .line
+                        p Recently, 10 requests need to be reviewed
+                        p 3 requests are overdue
+                        a(href='/main/other') Click to see details
 form.submission_form(name = "submission" action="/submission/create", method="post", enctype='multipart/form-data' onsubmit="return checkForm();")
     fieldset.forms_fieldset
         .forms_field
