@@ -188,7 +188,7 @@ router.post("/assign-user/:email/:team/:type/:status", [checkLoggedIn, checkAdmi
     console.log(email);
     console.log(status);
     if(user_status === 1){status = true;}
-    
+
 
     if(type === "3"){
         User.find().then(list =>{
