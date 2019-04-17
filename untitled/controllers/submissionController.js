@@ -56,7 +56,7 @@ exports.submit = (req, res) => {
             (err) => {
                 if (err) return res.status(400).json(err);
                 else {
-                    return res.redirect('/main');
+                    return res.redirect('/welcome');
                 }
             }
         );

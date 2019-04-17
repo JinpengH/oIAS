@@ -16,6 +16,7 @@ mongoose.set('useFindAndModify', false);
 const login_controller = require("../controllers/loginController");
 const main_controller = require("../controllers/mainController");
 const statistic_controller = require("../controllers/statisticController");
+const activation_controller = require("../controllers/activationController");
 
 // Load Model
 const User = require(".." + "/server/models/User");
@@ -38,9 +39,11 @@ router.post("/login", login_controller.login);
 
 // Go to admin login page
 router.get('/admin', function (req, res) {
-
-
     res.render('admin', {title: 'Admin Login'});
+});
+
+router.get('/welcome', function (req, res) {
+    res.render('welcome', {title: 'Welcome'});
 });
 
 // Get Profile
@@ -132,60 +135,9 @@ router.post('/changePassword',function(req,res,next){
 
 });
 
+router.get("/activation", activation_controller.activation);
 
-
-router.get("/activation", (req, res) => {
-    const employeeId = req.query.employeeId;
-
-    User.findOne({ employeeId }).then(user => {
-        if (user) {
-            const fullName = user.fullName;
-            const userGroup = user.userGroup;
-            const departmentId = user.departmentId;
-            //console.log("Found user with employeeId " + employeeId);
-            return res.render('activation', { employeeId: employeeId, fullName: fullName, userGroup: userGroup, departmentId: departmentId });
-        }
-        else {
-            alert("This employee ID does not exist in the system.");
-            res.redirect("/login");
-        }
-    });
-});
-
-router.post("/activate", (req, res) => {
-    const employeeId = req.body.employeeId;
-    const email = req.body.email;
-
-    User.findOne({ employeeId }).then(user => {
-        if (user) {
-            User.findOne({ email }).then(user1 => {
-                if (!user1 || user1.employeeId === employeeId){
-                    // encrypt password
-                    bcrypt.genSalt(10, (err, salt) => {
-                        bcrypt.hash(req.body.password, salt, (err, hash) => {
-                            if (err) { throw err; }
-                            User.findOneAndUpdate({ employeeId : employeeId }, { $set : { email: email, password: hash, active: true } }, (err) => {
-                                if (err) {
-                                    res.json("Unexpected error.");
-                                }
-                                console.log(employeeId + " is active now");
-                                res.redirect("/login");
-                            });
-                        });
-                    });
-                }
-                else {
-                    errors.message = "This email is associated with an existing account.";
-                    res.render('/login', { error: errors });
-                }
-            })
-        }
-        else {
-            errors.message = "This employee ID does not exist in the system.";
-            res.render('/activation', { error: errors });
-        }
-    });
-});
+router.post("/activate", activation_controller.activate);
 
 router.get("/myname", (req,res)=>{
     res.send(req.session.loginUserName);

@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const submissionRouter = require('./routes/submission');
 const adminRouter = require('./routes/admin');
 // const activationRouter = require('./routes/activation');
@@ -41,7 +40,6 @@ app.use(sassMiddleware({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/submission', submissionRouter);
 app.use('/admin', adminRouter);
 // app.use('/activation', activationRouter);

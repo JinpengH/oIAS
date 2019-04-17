@@ -20,7 +20,7 @@ exports.index =
         else if(user.userGroup === 2){ // team lead
             Submission.find({linkedUserId: sess.loginUserId}).then(list =>{
                 User.find({userGroup: 1,departmentId: sess.loginUser.departmentId}).then(userList=>{
-                    Submission.find({departmentId: sess.loginUser.departmentId, status:'Pending',}).then(departmentList=>{
+                    Submission.find({departmentId: sess.loginUser.departmentId}).then(departmentList=>{
                         let employeeList = [];
                         userList.forEach(function(user){
                             departmentList.forEach(function(submissions){
