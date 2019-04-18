@@ -1,4 +1,3 @@
-const User = require(".." + "/server/models/User");
 const errors = {message:"",};
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -7,7 +6,7 @@ const validateRegisterInput = require("../server/validation/register.validation.
 const nodemailer = require("nodemailer");
 const main_controller = require("../controllers/mainController");
 const Submission = require("../server/models/Submission");
-
+const User = require("../server/models/User");
 
 exports.index = function(req,res){
     if(req.session.loginUser){
@@ -150,16 +149,22 @@ exports.sendPassword = function(req, res) {
         }
     });
     const email = req.body.email;
+    // const employeeId = req.body.employeeId;
+    // const password = req.body.password;
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(req.body.email))
     {
         User.findOne({ email }).then(user => {
             if(user) {
+                let password = user.password;
+                let email = user.email;
                 let mailOptions = {
                     from: '"OIAS" <oics2019@gmail.com>', // sender address
                     to: email, // list of receivers
                     subject: "Notice from OIAS", // Subject line
                     html: "<br>Hi ObEN Invoice Management System user,<br>To rest your password, please click the following link.<br>" +
-                        "(http://localhost:3000/changePassword" + ":" + email + ")"  + "<br>" +
+                       `<a href = 'http://96.30.195.0:3000/resetpassword?email=${email}&password=${password}' style='color:dodgerblue'>Click here to reset your password</a>`+// html body
+
+                // "<a href = `http://96.30.195.0:3000/changePassword? + email >(" + ":" + email + ")"  + "<br>" +
                         "It you did not request a password reset, please disregard this email.<br>" +
                         "<br><br><br>"+
                         "Thank you,<br>" +
