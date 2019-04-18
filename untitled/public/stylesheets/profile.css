@@ -56,7 +56,6 @@ p,input{
 }
 [contenteditable] {
     white-space: nowrap;
-    width:200px;
     overflow: hidden;
 }
 [contenteditable] br {
@@ -79,7 +78,7 @@ p,input{
     max-lines:1;
 }
 .card a{
-    margin-top:30px;
+    margin-top:10px;
     display:inline-block;
     margin-left:20px;
     position:relative;

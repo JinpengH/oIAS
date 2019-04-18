@@ -50,8 +50,7 @@ html
                     .card.other
                         p.title Other Request
                         .line
-                        p Recently, 10 requests need to be reviewed
-                        p 3 requests are overdue
+                        p="Recently, "+10 + "requests need to be reviewed"
                         a(href='/other') Click to see details
 form.submission_form(name = "submission" action="/submission/create", method="post", enctype='multipart/form-data' onsubmit="return checkForm();")
     fieldset.forms_fieldset
