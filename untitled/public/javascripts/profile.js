@@ -8,10 +8,11 @@ $(document).ready(function() {
         $('.submission_form').fadeOut();
     });
 
-    $("#card_address").or("#card_telephone")
+    $("#card_address,#card_telephone")
         .focusout(function() {
             let address = $("#card_address").text();
             let telephone = $("#card_telephone").text();
+            console.log(address);
             $.get("/save/"+address+"/"+telephone, function(data){
 
             })
