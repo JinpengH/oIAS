@@ -1,5 +1,6 @@
 Submission = require("../server/models/Submission");
 User = require("../server/models/User");
+const constDepartment = require('../const/ConstDepartment');
 const bcrypt = require("bcryptjs");
 
 exports.activation = function(req, res){
@@ -8,13 +9,28 @@ exports.activation = function(req, res){
     User.findOne({ employeeId }).then(user => {
         if (user) {
             const fullName = user.fullName;
-            const userGroup = user.userGroup;
-            const departmentId = user.departmentId;
+            let userGroup = user.userGroup;
+            let departmentId = user.departmentId;
+            let userName = "";
             //console.log("Found user with employeeId " + employeeId);
-            return res.render('activation', { employeeId: employeeId, fullName: fullName, userGroup: userGroup, departmentId: departmentId });
+            switch(userGroup){
+                case 1:
+                    userName = "Employee";
+                    break;
+                case 2:
+                    userName = "Team Manager";
+                    break;
+                case 3:
+                    userName = "VP";
+                    break;
+                case 4:
+                    userName = "Contractor";
+                    break;
+            }
+            let departmentName = constDepartment.get(departmentId);
+            return res.render('activation', { employeeId: employeeId, fullName: fullName, userGroup: userName, departmentId: departmentName });
         }
         else {
-            // alert("This employee ID does not exist in the system.");
             res.redirect("/login");
         }
     });

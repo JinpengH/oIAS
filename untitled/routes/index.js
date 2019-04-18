@@ -219,6 +219,8 @@ router.get("/save/:address/:telephone", (req,res)=>{ //TODO
 
     let address = req.params.address;
     let telephone = req.params.telephone;
+    req.session.address = address;
+    req.session.telephone = telephone;
 
     let id = req.session.loginUserId;
     User.findOneAndUpdate(
