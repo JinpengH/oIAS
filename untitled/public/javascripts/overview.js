@@ -29,7 +29,6 @@ $(document).ready(function() {
     });
 
 
-
     $('.forms_buttons-cancel').on('click', function() {
         $('.submission_form').fadeOut();
     });
