@@ -31,7 +31,6 @@ exports.activation = function(req, res){
             return res.render('activation', { employeeId: employeeId, fullName: fullName, userGroup: userName, departmentId: departmentName });
         }
         else {
-            //alert("This employee ID does not exist in the system.");
             res.redirect("/login");
         }
     });
