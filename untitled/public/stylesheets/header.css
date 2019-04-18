@@ -38,3 +38,8 @@
 .header a:hover{
     color:#c5c5c5f2;
 }
+.header .header_logout{
+    float:right;
+    color:#ff8686;
+
+}

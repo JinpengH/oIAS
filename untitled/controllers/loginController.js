@@ -70,7 +70,7 @@ exports.login = function(req,res){
                     req.session.loginUserGroup = user.userGroup;
                     req.session.departmentId = user.departmentId;
                     req.user = user;
-                    return res.redirect('/main');
+                    return res.redirect('/welcome');
 
 
                 } else {

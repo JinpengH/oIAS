@@ -44,7 +44,19 @@ const UserSchema = new Schema({
     },
     avatar: {
         type: String
-    }
+    },
+    address: {
+        type:String,
+        default: 'Not filled'
+    },
+    postal: {
+        type:String,
+        default: '90007'
+    },
+    telephone: {
+        type:String,
+        default: '000-000-0000'
+    },
 });
 
 
