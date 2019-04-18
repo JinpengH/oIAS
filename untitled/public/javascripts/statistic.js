@@ -155,10 +155,10 @@ function generatePDF(){
         doc.setFontSize(10);
         doc.text(margin, 80, 'Reporter: ' + myName);
         if (user === 'me') {
-            doc.text(margin, 100, 'Employee/Department:' + myName); //TODO
+            doc.text(margin, 100, 'Employee/Department:' + myName);
         }
         else {
-            doc.text(margin, 100, 'Employee/Department:' + user); //TODO
+            doc.text(margin, 100, 'Employee/Department:' + user);
 
         }
         doc.text(margin, 120, 'Total amount: ' + dispense);

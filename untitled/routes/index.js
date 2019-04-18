@@ -109,6 +109,10 @@ router.get('/profile', function(req, res, next) {
     });
 });
 
+router.get("/resetPassword2", (req, res) => {
+    res.render('resetPassword2');
+});
+
 router.get('/main',main_controller.index);
 
 router.get('/other',main_controller.other);
@@ -125,9 +129,13 @@ router.get('/resetPassword',function(req,res,next){
 });
 router.get("/download",statistic_controller.download);
 //reset
-router.post("/resetpassword", (req, res) => {
-    email = req.body.email;
-    password = req.body.password;
+
+router.post("/resetpassword/:email/:oldPassword/:newPassword", (req, res) => {
+    let email = req.params.email;
+    let oldPassword = req.params.oldPassword;
+    let newPassword = req.params.newPassword; //new Password
+    console.log("password: " + newPassword);
+    console.log("email: " + email);
 
         // let id = req.session.loginUserId;
 

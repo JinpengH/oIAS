@@ -131,7 +131,6 @@ router.get("/employees", [checkLoggedIn, checkAdmin], (req, res) => {
 router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
     const employeeId = req.body.employeeId;
     User.findOne({ employeeId }).then(user => {
-        //TODO send an error message here;
         if (user) {
             alert("This employee ID already exists. No need to add it again.");
         }
