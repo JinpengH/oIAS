@@ -61,7 +61,10 @@ router.get('/welcome', function (req, res) {
             }
         }
         console.log(req.session.loginUser);
-        res.render('welcome', {title: 'Welcome', name: req.session.loginUserName,userGroup:req.session.loginUserGroup,telephone:req.session.loginUser.telephone,address:req.session.loginUser.address,postal:req.session.loginUser.postal,approved:approved,declined:declined});
+        User.findOne({_id:req.session.loginUserId}).then(user=>{
+            res.render('welcome', {title: 'Welcome', name: req.session.loginUserName,userGroup:req.session.loginUserGroup,telephone:user.telephone,address:user.address,postal:req.session.loginUser.postal,approved:approved,declined:declined});
+
+        });
     });
 
 
@@ -103,7 +106,6 @@ router.get('/profile', function(req, res, next) {
             break;
     }
     User.findOne({_id:id}).then(user=>{
-        console.log("DDDDDDD" + user.telephone);
         res.render('profile', { title: 'Profile',fullName:user.fullName,position:position,department:department,avatar:user.avatar,telephone:user.telephone,address:user.address});
 
     });
@@ -226,10 +228,8 @@ router.get("/save/:address/:telephone", (req,res)=>{ //TODO
     User.findOneAndUpdate(
         { _id: id },
         { $set: { address: address, telephone: telephone } },
-        // { $set: postFields },
-        { new: true, useFindAndModify: false }
-    )
-        .then(post => res.redirect("/welcome"))
+
+            post => res.redirect("/welcome"))
         .catch(err => res.status(400).json(err));
 
 });
