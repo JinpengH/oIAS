@@ -32,11 +32,26 @@ html
                     else
                         img.avatar(src="../images/profile-picture.png" height=50 width=50)
                     .card_description
-                        p.card_name=fullName
-                        br
-                        p.card_position=department
-                        br
-                        p.card_team_position=position
+                        .field
+                            p Name:&nbsp
+                            p#card_name=fullName
+
+                        .field
+                            p Department:&nbsp
+                            p#card_position=department
+
+                        .field
+                            p Position:&nbsp
+                            p#card_team_position=position
+
+                        .field
+                            p Address:&nbsp
+                            p#card_address(contenteditable)=address
+
+                        .field
+                            p Telephone: &nbsp
+                            p.fas.fa-key.fa#card_telephone(contenteditable)=telephone
+
                     a.change_password.fas.fa-key.fa-3x(href="/resetPassword")
                         p change your password
                     a.change_profile_image.fas.fa-user-circle.fa-3x

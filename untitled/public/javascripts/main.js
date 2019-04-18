@@ -4,7 +4,7 @@ $(document).ready(function(){
     //when approved is clicked correctly remove them
     $(".decline").click(function(){
         let id = $(this).attr('id');
-        $(this).parent().parent().css('display','none')
+        $(this).parent().parent().css('display','none');
         $.post("submission/decline/" + id,function(data){
 
         });
@@ -12,7 +12,7 @@ $(document).ready(function(){
     });
     $(".approve").click(function(){
         let id = $(this).attr('id');
-        $(this).parent().parent().css('display','none')
+        $(this).parent().parent().css('display','none');
         $.post("submission/approve/" + id,function(data){
 
         });
