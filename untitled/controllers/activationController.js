@@ -1,7 +1,7 @@
 Submission = require("../server/models/Submission");
 User = require("../server/models/User");
 const constDepartment = require('../const/ConstDepartment');
-
+const bcrypt = require("bcryptjs");
 
 exports.activation = function(req, res){
     const employeeId = req.query.employeeId;
