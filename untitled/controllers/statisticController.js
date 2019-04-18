@@ -79,6 +79,31 @@ exports.getList = function(req,res){
                 res.send(myList);
             });
             break;
+        case 3:
+            myList.push([req.session.loginUserId,"Me"]);
+            myList.push(["","------User------"]);
+            User.find({departmentId: req.session.departmentId}).then(list=>{
+                list.forEach(function(element){
+                    myList.push([element.id,element.fullName]);
+                });
+                myList.push(['','-----Department-----']);
+                myList.push([req.session.departmentId,constDepartment.get(req.session.departmentId)]);
+                res.send(myList);
+            });
+            break;
+        case 4:
+            myList.push([req.session.loginUserId,"Me"]);
+            myList.push(["","------User------"]);
+            for(let i = 0; i < constDepartment.size; i++)
+            User.find({departmentId: req.session.departmentId}).then(list=>{
+                list.forEach(function(element){
+                    myList.push([element.id,element.fullName]);
+                });
+                myList.push(['','-----Department-----']);
+                myList.push([req.session.departmentId,constDepartment.get(req.session.departmentId)]);
+                res.send(myList);
+            });
+            break;
         default:
             myList.push([req.session.loginUserId,"Me"]);
             res.send(myList);

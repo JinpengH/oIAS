@@ -145,8 +145,8 @@ router.post("/resetpassword/:email/:oldPassword/:newPassword", (req, res) => {
         User.findOne(
             {email}
         ).then(user =>{
-            if(user.password === password){
-                res.render('resetPassword',{error:{message:"password can't be the same!"}})
+            if(oldPassword === password){
+                res.render('resetPassword2',{error:{message:"password can't be the same!"}})
 
             }
             bcrypt.genSalt(10, (err, salt) => {
@@ -216,9 +216,20 @@ router.get("/myname", (req,res)=>{
 });
 
 router.get("/save/:address/:telephone", (req,res)=>{ //TODO
+
     let address = req.params.address;
     let telephone = req.params.telephone;
-    console.log(address);
+
+    let id = req.session.loginUserId;
+    User.findOneAndUpdate(
+        { _id: id },
+        { $set: { address: address, telephone: telephone } },
+        // { $set: postFields },
+        { new: true, useFindAndModify: false }
+    )
+        .then(post => res.redirect("/welcome"))
+        .catch(err => res.status(400).json(err));
+
 });
 
 router.post(
