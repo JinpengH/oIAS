@@ -182,9 +182,10 @@ router.post("/assign-user/:email/:team/:type/:status", [checkLoggedIn, checkAdmi
     let type = req.params.type;
     let user_status = req.params.status;
     let status = false;
-    console.log(email);
+    if(user_status === '1'){status = true;
+    console.log("passed");}
     console.log(status);
-    if(user_status === 1){status = true;}
+
 
 
     if(type === "3"){
