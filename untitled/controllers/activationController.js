@@ -1,6 +1,6 @@
 Submission = require("../server/models/Submission");
 User = require("../server/models/User");
-
+const bcrypt = require("bcryptjs");
 
 exports.activation = function(req, res){
     const employeeId = req.query.employeeId;
@@ -14,7 +14,7 @@ exports.activation = function(req, res){
             return res.render('activation', { employeeId: employeeId, fullName: fullName, userGroup: userGroup, departmentId: departmentId });
         }
         else {
-            alert("This employee ID does not exist in the system.");
+            // alert("This employee ID does not exist in the system.");
             res.redirect("/login");
         }
     });

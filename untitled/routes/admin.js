@@ -130,9 +130,13 @@ router.get("/employees", [checkLoggedIn, checkAdmin], (req, res) => {
 // request parameters: employeeId, fullName, userGroup, departmentId
 router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
     const employeeId = req.body.employeeId;
+    const email = req.body.email;
+    const fullName = req.body.fullName;
     User.findOne({ employeeId }).then(user => {
         if (user) {
-            alert("This employee ID already exists. No need to add it again.");
+            // todo
+            // res.render('login', { error: errors });
+            // alert("This employee ID already exists. No need to add it again.");
         }
         else {
             const newUser = new User({
@@ -145,35 +149,33 @@ router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
             });
             newUser
                 .save()
-                .then(user => res.json(user))
+                // .then(user => res.json(user))
                 .catch(err => console.log(err));
-            next();
-            User.find().then(list => {
-                return res.render('employees', {list: list});
+
+            // User.find().then(list => {
+            //     return res.render('employees', {list: list});
+            // });
+
+            let mailOptions = {
+                from: '"ObEN Invoice Management System" <oics2019@gmail.com>', // sender address
+                to: email, // list of receivers
+                subject: "[ACTION REQUIRED] Activate your ObEN Invoice Management System account", // Subject line
+                html: "Hello " + fullName + ",<br><br>To activate your ObEN Invoice Management System account, <br><br>" +
+                    `<a href = 'http://localhost:3000/activation?employeeId=${employeeId}' style='color:dodgerblue'>please click here.</a>` +
+                    // "http://localhost:3000/activation?employeeId=" + employeeId + "<br>" +
+                    "<br><br>"+
+                    "Thank you,<br>" +
+                    "ObEN, Inc.<br>" // html body
+            };
+            // send mail with defined transport object
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    return console.log(error);
+                }
             });
+            return res.redirect('/admin/employees');
         }
     })
-}, function(req, res) {
-    const email = req.body.email;
-    const fullName = req.body.fullName;
-    const employeeId = req.body.employeeId;
-    let mailOptions = {
-        from: '"ObEN Invoice Management System" <oics2019@gmail.com>', // sender address
-        to: email, // list of receivers
-        subject: "[ACTION REQUIRED] Activate your ObEN Invoice Management System account", // Subject line
-        html: "Hello " + fullName + ",<br><br>To activate your ObEN Invoice Management System account, please click the following link.<br><br>" +
-            "http://localhost:3000/activation?employeeId=" + employeeId + "<br>" +
-            "<br><br>"+
-            "Thank you,<br>" +
-            "ObEN, Inc.<br>" // html body
-    };
-    // send mail with defined transport object
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return console.log(error);
-        }
-    });
-    return res.redirect('/admin/employees');
 });
 
 router.post("/assign-user/:email/:team/:type/:status", [checkLoggedIn, checkAdmin], (req, res) => {
