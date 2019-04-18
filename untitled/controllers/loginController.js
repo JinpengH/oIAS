@@ -161,11 +161,10 @@ exports.sendPassword = function(req, res) {
                     from: '"OIAS" <oics2019@gmail.com>', // sender address
                     to: email, // list of receivers
                     subject: "Notice from OIAS", // Subject line
-                    html: "<br>Hi ObEN Invoice Management System user,<br>To rest your password, please click the following link.<br>" +
-                       `<a href = 'http://96.30.195.0:3000/resetpassword2?email=${email}&password=${password}' style='color:dodgerblue'>Click here to reset your password</a>`+// html body
-
-                // "<a href = `http://96.30.195.0:3000/changePassword? + email >(" + ":" + email + ")"  + "<br>" +
-                        "It you did not request a password reset, please disregard this email.<br>" +
+                    html: "<br>Hi ObEN Invoice Management System user,<br>To reset your password, <br>" +
+                        `<a href = 'http://96.30.195.0:3000/resetpassword2?email=${email}&password=${password}' style='color:dodgerblue'>please click here.</a>`+// html body
+                        // "<a href = `http://96.30.195.0:3000/changePassword? + email >(" + ":" + email + ")"  + "<br>" +
+                        "If you did not request a password reset, please disregard this email.<br>" +
                         "<br><br><br>"+
                         "Thank you,<br>" +
                         "ObEN, Inc.<br>" // html body
