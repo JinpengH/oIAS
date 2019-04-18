@@ -124,6 +124,45 @@ router.get('/resetPassword',function(req,res,next){
     res.render('resetPassword');
 });
 router.get("/download",statistic_controller.download);
+//reset
+router.post("/resetpassword", (req, res) => {
+    email = req.body.email;
+    password = req.body.password;
+
+        // let id = req.session.loginUserId;
+
+        // let query = {
+        //     email:email;
+        // };
+        User.findOne(
+            {email}
+        ).then(user =>{
+            if(user.password === password){
+                res.render('resetPassword',{error:{message:"password can't be the same!"}})
+
+            }
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(newPassword, salt, (err, hash) => {
+                    if (err) throw err;
+                    user.password = hash;
+                    user
+                        .save()
+                        .then(user => res.json(user))
+                        .then(user => console.log(user))
+                        .catch(err => console.log(err));
+                });
+            });
+            console.log(user);
+            res.render('login');
+        });
+
+
+
+    // email = req.body.email;
+    // oldpsw = req.body.oldpsw;
+
+    console.log(email);
+});
 router.post('/changePassword',function(req,res,next){
     let originalPassword = req.body.oldPassword;
     let newPassword = req.body.newPassword;
