@@ -8,6 +8,22 @@ $(document).ready(function() {
         let i = $(this).attr("value");
         $(this).val(i);
     });
+    $(".user_status").each(function(element){
+        let i = $(this).attr("value");
+        if(typeof i === 'undefined'){
+            $(this).val(0);
+        }
+        else{
+            $(this).val(1);
+        }
+        // if (i === true) {
+        //     i = 1;
+        // }
+        // else {
+        //     i = 0;
+        // }
+
+    });
     $('#float_button').on('click', function() {
         $('.submission_form').fadeIn();
     });
@@ -22,10 +38,16 @@ $(document).ready(function() {
 
 function assignUserGroup(params,email){
     let team = $("#department" + params).val();
+    console.log(team);
     let type = $("#group" + ((-1)*params)).val();
-    $.post("/admin/assign-user/" + email + "/" + team + "/" + type, function(data){
+    console.log(type);
+    let status = $("#active" + params).val();
+
+    console.log(status);
+
+    $.post("/admin/assign-user/" + email + "/" + team + "/" + type + "/" + status, function(data){
         if(data){
-            alert(data.err);
+            alert("Successfully submitted!");
         }
     });
 }

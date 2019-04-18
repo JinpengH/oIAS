@@ -22,7 +22,7 @@ html
                 img.logo(src="../images/obEN_logo.png" height=31 width=62.5)
                 a.header_statistic(href="/statistic") Statistic
                 a.header_profile(href="/profile") Profile
-                a.header_dashboard(href="/main") Dashboard
+                a.header_dashboard(href="/welcome") Dashboard
                 a.header_logout(href="/logout") Logout
 
             .content
@@ -32,17 +32,30 @@ html
                     else
                         img.avatar(src="../images/profile-picture.png" height=50 width=50)
                     .card_description
-                        p.card_name=fullName
-                        br
-                        p.card_position=department
-                        br
-                        p.card_team_position=position
+                        .field
+                            p Name:&nbsp
+                            p#card_name=fullName
+
+                        .field
+                            p Department:&nbsp
+                            p#card_position=department
+
+                        .field
+                            p Position:&nbsp
+                            p#card_team_position=position
+
+                        .field
+                            p Address:&nbsp
+                            p#card_address(contenteditable)=address
+
+                        .field
+                            p Telephone: &nbsp
+                            p.fas.fa-key.fa#card_telephone(contenteditable)=telephone
+
                     a.change_password.fas.fa-key.fa-3x(href="/resetPassword")
                         p change your password
                     a.change_profile_image.fas.fa-user-circle.fa-3x
                         p change your profile image
-                    a.toggle_day.fas.fa-moon.fa-3x
-                        p change your theme
 form.submission_form(name = "submission" action="/changeAvatar", method="post", enctype='multipart/form-data' onsubmit="return checkForm();")
     fieldset.forms_fieldset
         .forms_field

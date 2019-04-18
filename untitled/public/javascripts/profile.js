@@ -8,6 +8,15 @@ $(document).ready(function() {
         $('.submission_form').fadeOut();
     });
 
+    $("#card_address").or("#card_telephone")
+        .focusout(function() {
+            let address = $("#card_address").text();
+            let telephone = $("#card_telephone").text();
+            $.get("/save/"+address+"/"+telephone, function(data){
+
+            })
+        })
+
 });
 
 

@@ -16,6 +16,7 @@ mongoose.set('useFindAndModify', false);
 const login_controller = require("../controllers/loginController");
 const main_controller = require("../controllers/mainController");
 const statistic_controller = require("../controllers/statisticController");
+const activation_controller = require("../controllers/activationController");
 
 // Load Model
 const User = require(".." + "/server/models/User");
@@ -38,12 +39,35 @@ router.post("/login", login_controller.login);
 
 // Go to admin login page
 router.get('/admin', function (req, res) {
-
-
     res.render('admin', {title: 'Admin Login'});
 });
 
-// Get Profile
+
+
+router.get('/welcome', function (req, res) {
+    let d = new Date();
+    let before = new Date();
+    let approved = 0;
+    let declined = 0;
+    let overdue = 0;
+    before = new Date(d.getTime()- (7*24 * 60 * 60 * 1000));
+    Submission.find({linkedUserId: req.session.loginUserId, dateTime: {$gte:before, $lte:d}}).then(list => {
+        for(let j=0; j<list.length; j++) {
+            if (list[j].status === 'Approved') {
+                approved++;
+            }
+            if(list[j].status === 'Declined'){
+                declined++;
+            }
+        }
+        console.log(req.session.loginUser);
+        res.render('welcome', {title: 'Welcome', name: req.session.loginUserName,userGroup:req.session.loginUserGroup,telephone:req.session.loginUser.telephone,address:req.session.loginUser.address,postal:req.session.loginUser.postal,approved:approved,declined:declined});
+    });
+
+
+});
+
+// Get Profile1
 router.get('/profile', function(req, res, next) {
     let user = req.session.loginUser;
     let id = req.session.loginUserId;
@@ -79,12 +103,15 @@ router.get('/profile', function(req, res, next) {
             break;
     }
     User.findOne({_id:id}).then(user=>{
-        res.render('profile', { title: 'Profile',fullName:user.fullName,position:position,department:department,avatar:user.avatar});
+        console.log("DDDDDDD" + user.telephone);
+        res.render('profile', { title: 'Profile',fullName:user.fullName,position:position,department:department,avatar:user.avatar,telephone:user.telephone,address:user.address});
 
     });
 });
 
 router.get('/main',main_controller.index);
+
+router.get('/other',main_controller.other);
 
 router.get('/statistic', statistic_controller.index);
 
@@ -172,63 +199,19 @@ router.post('/changePassword',function(req,res,next){
 
 });
 
+router.get("/activation", activation_controller.activation);
 
-
-router.get("/activation", (req, res) => {
-    const employeeId = req.query.employeeId;
-
-    User.findOne({ employeeId }).then(user => {
-        if (user) {
-            const fullName = user.fullName;
-            const userGroup = user.userGroup;
-            const departmentId = user.departmentId;
-            //console.log("Found user with employeeId " + employeeId);
-            return res.render('activation', { employeeId: employeeId, fullName: fullName, userGroup: userGroup, departmentId: departmentId });
-        }
-        else {
-            alert("This employee ID does not exist in the system.");
-            res.redirect("/login");
-        }
-    });
-});
-
-router.post("/activate", (req, res) => {
-    const employeeId = req.body.employeeId;
-    const email = req.body.email;
-
-    User.findOne({ employeeId }).then(user => {
-        if (user) {
-            User.findOne({ email }).then(user1 => {
-                if (!user1 || user1.employeeId === employeeId){
-                    // encrypt password
-                    bcrypt.genSalt(10, (err, salt) => {
-                        bcrypt.hash(req.body.password, salt, (err, hash) => {
-                            if (err) { throw err; }
-                            User.findOneAndUpdate({ employeeId : employeeId }, { $set : { email: email, password: hash, active: true } }, (err) => {
-                                if (err) {
-                                    res.json("Unexpected error.");
-                                }
-                                console.log(employeeId + " is active now");
-                                res.redirect("/login");
-                            });
-                        });
-                    });
-                }
-                else {
-                    errors.message = "This email is associated with an existing account.";
-                    res.render('/login', { error: errors });
-                }
-            })
-        }
-        else {
-            errors.message = "This employee ID does not exist in the system.";
-            res.render('/activation', { error: errors });
-        }
-    });
-});
+router.post("/activate", activation_controller.activate);
 
 router.get("/myname", (req,res)=>{
     res.send(req.session.loginUserName);
+});
+
+router.get("/save/:address/:telephone", (req,res)=>{ //TODO
+    let address = req.params.address;
+    let telephone = req.params.telephone;
+
+
 });
 
 router.post(
@@ -260,7 +243,7 @@ router.post(
                             // { $set: postFields },
                             { new: true, useFindAndModify: false }
                         )
-                            .then(post => console.log(post))
+                            .then(post => res.redirect("/profile"))
                             .catch(err => res.status(400).json(err));
                     }
                 );
