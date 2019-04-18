@@ -131,7 +131,6 @@ router.get("/employees", [checkLoggedIn, checkAdmin], (req, res) => {
 router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
     const employeeId = req.body.employeeId;
     User.findOne({ employeeId }).then(user => {
-        //TODO send an error message here;
         if (user) {
             alert("This employee ID already exists. No need to add it again.");
         }
@@ -177,10 +176,17 @@ router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
     return res.redirect('/admin/employees');
 });
 
-router.post("/assign-user/:email/:team/:type", [checkLoggedIn, checkAdmin], (req, res) => {
+router.post("/assign-user/:email/:team/:type/:status", [checkLoggedIn, checkAdmin], (req, res) => {
     let email = req.params.email;
     let team = req.params.team;
     let type = req.params.type;
+    let user_status = req.params.status;
+    let status = false;
+    if(user_status === '1'){status = true;
+    console.log("passed");}
+    console.log(status);
+
+
 
     if(type === "3"){
         User.find().then(list =>{
@@ -193,7 +199,7 @@ router.post("/assign-user/:email/:team/:type", [checkLoggedIn, checkAdmin], (req
             }
             User.findOneAndUpdate(
                 { email: email },
-                {$set: {departmentId: team, userGroup: type}},
+                { $set: {departmentId: team, userGroup: type, active: status} },
                 (err) => {
                     if(err){
                         console.log("something wrong happened");
@@ -208,7 +214,7 @@ router.post("/assign-user/:email/:team/:type", [checkLoggedIn, checkAdmin], (req
     else{
         User.findOneAndUpdate(
             { email: email },
-            {$set: {departmentId: team, userGroup: type}},
+            { $set: {departmentId: team, userGroup: type, active: status} },
             (err) => {
                 if(err){
                     console.log("something wrong happened");

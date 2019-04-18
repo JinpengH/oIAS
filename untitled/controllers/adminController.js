@@ -17,7 +17,7 @@ exports.login = function(req,res){
         // check admin
         if (!user) {
             errors.message = "Username/Password combination incorrect, please check again";
-            return res.render('admin',{error: errors }); // TODO admin: login page only for admin
+            return res.render('admin',{error: errors });
         }
 
         // Check Password
@@ -29,7 +29,7 @@ exports.login = function(req,res){
                 req.user = user;
                 User.find().then(list =>
                 {
-                    return res.render('employees', {user: user, list: list}); // TODO overview: landing page only for admin\
+                    return res.render('employees', {user: user, list: list});
                 });
             }
             else {

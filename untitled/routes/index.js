@@ -60,7 +60,8 @@ router.get('/welcome', function (req, res) {
                 declined++;
             }
         }
-        res.render('welcome', {title: 'Welcome', name: req.session.loginUserName,userGroup:req.session.loginUserGroup,approved:approved,declined:declined});
+        console.log(req.session.loginUser);
+        res.render('welcome', {title: 'Welcome', name: req.session.loginUserName,userGroup:req.session.loginUserGroup,telephone:req.session.loginUser.telephone,address:req.session.loginUser.address,postal:req.session.loginUser.postal,approved:approved,declined:declined});
     });
 
 
@@ -102,9 +103,14 @@ router.get('/profile', function(req, res, next) {
             break;
     }
     User.findOne({_id:id}).then(user=>{
-        res.render('profile', { title: 'Profile',fullName:user.fullName,position:position,department:department,avatar:user.avatar});
+        console.log("DDDDDDD" + user.telephone);
+        res.render('profile', { title: 'Profile',fullName:user.fullName,position:position,department:department,avatar:user.avatar,telephone:user.telephone,address:user.address});
 
     });
+});
+
+router.get("/resetPassword2", (req, res) => {
+    res.render('resetPassword2');
 });
 
 router.get('/main',main_controller.index);
@@ -122,6 +128,49 @@ router.get('/resetPassword',function(req,res,next){
     res.render('resetPassword');
 });
 router.get("/download",statistic_controller.download);
+//reset
+
+router.post("/resetpassword/:email/:oldPassword/:newPassword", (req, res) => {
+    let email = req.params.email;
+    let oldPassword = req.params.oldPassword;
+    let newPassword = req.params.newPassword; //new Password
+    console.log("password: " + newPassword);
+    console.log("email: " + email);
+
+        // let id = req.session.loginUserId;
+
+        // let query = {
+        //     email:email;
+        // };
+        User.findOne(
+            {email}
+        ).then(user =>{
+            if(oldPassword === password){
+                res.render('resetPassword2',{error:{message:"password can't be the same!"}})
+
+            }
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(newPassword, salt, (err, hash) => {
+                    if (err) throw err;
+                    user.password = hash;
+                    user
+                        .save()
+                        .then(user => res.json(user))
+                        .then(user => console.log(user))
+                        .catch(err => console.log(err));
+                });
+            });
+            console.log(user);
+            res.render('login');
+        });
+
+
+
+    // email = req.body.email;
+    // oldpsw = req.body.oldpsw;
+
+    console.log(email);
+});
 router.post('/changePassword',function(req,res,next){
     let originalPassword = req.body.oldPassword;
     let newPassword = req.body.newPassword;
@@ -166,6 +215,23 @@ router.get("/myname", (req,res)=>{
     res.send(req.session.loginUserName);
 });
 
+router.get("/save/:address/:telephone", (req,res)=>{ //TODO
+
+    let address = req.params.address;
+    let telephone = req.params.telephone;
+
+    let id = req.session.loginUserId;
+    User.findOneAndUpdate(
+        { _id: id },
+        { $set: { address: address, telephone: telephone } },
+        // { $set: postFields },
+        { new: true, useFindAndModify: false }
+    )
+        .then(post => res.redirect("/welcome"))
+        .catch(err => res.status(400).json(err));
+
+});
+
 router.post(
     "/changeAvatar",
     multiparty,
@@ -195,7 +261,7 @@ router.post(
                             // { $set: postFields },
                             { new: true, useFindAndModify: false }
                         )
-                            .then(post => console.log(post))
+                            .then(post => res.redirect("/profile"))
                             .catch(err => res.status(400).json(err));
                     }
                 );
