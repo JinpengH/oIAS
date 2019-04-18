@@ -208,9 +208,18 @@ router.get("/myname", (req,res)=>{
 });
 
 router.get("/save/:address/:telephone", (req,res)=>{ //TODO
+
     let address = req.params.address;
     let telephone = req.params.telephone;
-
+    let id = req.session.loginUserId;
+    User.findOneAndUpdate(
+        { _id: id },
+        { $set: { address: address, telephone: telephone } },
+        // { $set: postFields },
+        { new: true, useFindAndModify: false }
+    )
+        .then(post => res.redirect("/welcome"))
+        .catch(err => res.status(400).json(err));
 
 });
 
