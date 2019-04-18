@@ -18,18 +18,7 @@ $(document).ready(function(){
         });
     });
     //adding tooltips
-    tippy('.name',{
-        arrow:true,
-        flip:true,
-    });
-    tippy('.type',{
-        arrow:true,
-        flip:true,
-    });
-    tippy('.description',{
-        arrow:true,
-        flip:true,
-    });
+
 
 //changing status
 
