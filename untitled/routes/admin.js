@@ -161,7 +161,7 @@ router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
                 to: email, // list of receivers
                 subject: "[ACTION REQUIRED] Activate your ObEN Invoice Management System account", // Subject line
                 html: "Hello " + fullName + ",<br><br>To activate your ObEN Invoice Management System account, <br><br>" +
-                    `<a href = 'http://96.30.195.0:3000/activation?employeeId=${employeeId}' style='color:dodgerblue'>please click here.</a>` +
+                    `<a href = 'http://localhost:3000/activation?employeeId=${employeeId}' style='color:dodgerblue'>please click here.</a>` +
                     // "http://localhost:3000/activation?employeeId=" + employeeId + "<br>" +
                     "<br><br>"+
                     "Thank you,<br>" +
