@@ -323,5 +323,44 @@ router.post("/submission/create", multiparty, [checkLoggedIn, checkAdmin], (req,
     });
 });
 
+router.get("/adminProfile", [checkLoggedIn, checkAdmin], (req, res) => {
+    return res.render("adminProfile");
+});
+
+router.get("/adminResetPassword", [checkLoggedIn, checkAdmin], (req, res) => {
+    return res.render("adminResetPassword");
+});
+
+router.post('/changePassword',function(req,res,next){
+    let originalPassword = req.body.oldPassword;
+    let newPassword = req.body.newPassword;
+
+    if(originalPassword === newPassword){
+        res.render('resetPassword',{error:{message:"password can't be the same!"}})
+    }
+    else{
+        let id = req.session.loginUserId;
+
+        let query = {
+            _id:id
+        };
+        User.findOne(
+            query
+        ).then(user =>{
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(newPassword, salt, (err, hash) => {
+                    if (err) throw err;
+                    user.password = hash;
+                    user
+                        .save()
+                        .then(user => console.log(user))
+                        .catch(err => console.log(err));
+                });
+            });
+            console.log(user);
+            res.redirect('/admin');
+        });
+    }
+});
 
 module.exports = router;
