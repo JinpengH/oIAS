@@ -22,7 +22,7 @@ exports.index =
 
 exports.other =
     function(req,res){
-        Submission.find({departmentId: req.session.departmentId, status:'Pending', userGroup: {$gte:1, $lte:2}}).then(departmentList=>{
+        Submission.find({departmentId: req.session.departmentId, status:'Pending'}).then(departmentList=>{
 
             return res.render('other',{myList:{},departmentList:departmentList,float:false});
         })
