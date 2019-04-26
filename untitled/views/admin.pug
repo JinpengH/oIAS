@@ -12,7 +12,7 @@ html
         script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
         script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
         script(src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js")
-
+        script(src='/javascripts/admin.js')
 
 
 
@@ -28,10 +28,12 @@ html
                         form#form_login.forms_form(action="/admin/login" method="post")
                             fieldset.forms_fieldset
                                 .forms_field
-                                    input.forms_field-input#login_email(type='text', name="username", placeholder='Username', required='', autofocus='')
+                                    input.forms_field-input#username(type='text', name="username", placeholder='Username', required='', autofocus='')
                                 .forms_field
                                     input.forms_field-input#login_password(type='password', name="password", placeholder='Password', required='')
                             .forms_buttons
+                                button.forms_buttons-forgot#login_forget_password(type='button') Forgot password?
+                                br
                                 input.forms_buttons-action(type='submit', value='Log In')
                                 if error
                                     p#error_message_login= error.message
