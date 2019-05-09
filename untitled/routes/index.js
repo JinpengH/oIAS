@@ -173,6 +173,7 @@ router.post("/resetpassword/:email/:oldPassword/:newPassword", (req, res) => {
 
     console.log(email);
 });
+
 router.post('/changePassword',function(req,res,next){
     let originalPassword = req.body.oldPassword;
     let newPassword = req.body.newPassword;

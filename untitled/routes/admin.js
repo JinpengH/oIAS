@@ -161,7 +161,7 @@ router.post("/add-employee", [checkLoggedIn, checkAdmin], (req, res, next) => {
                 to: email, // list of receivers
                 subject: "[ACTION REQUIRED] Activate your ObEN Invoice Management System account", // Subject line
                 html: "Hello " + fullName + ",<br><br>To activate your ObEN Invoice Management System account, <br><br>" +
-                    `<a href = 'http://96.30.195.0:3000/activation?employeeId=${employeeId}' style='color:dodgerblue'>please click here.</a>` +
+                    `<a href = 'http://localhost:3000/activation?employeeId=${employeeId}' style='color:dodgerblue'>please click here.</a>` +
                     // "http://localhost:3000/activation?employeeId=" + employeeId + "<br>" +
                     "<br><br>"+
                     "Thank you,<br>" +
@@ -322,6 +322,108 @@ router.post("/submission/create", multiparty, [checkLoggedIn, checkAdmin], (req,
         }
     });
 });
+
+router.get("/adminProfile", [checkLoggedIn, checkAdmin], (req, res) => {
+    return res.render("adminProfile");
+});
+
+router.get("/adminResetPassword", [checkLoggedIn, checkAdmin], (req, res) => {
+    return res.render("adminResetPassword");
+});
+
+router.post('/changePassword',function(req,res,next){
+    let originalPassword = req.body.oldPassword;
+    let newPassword = req.body.newPassword;
+
+    if(originalPassword === newPassword){
+        res.render('resetPassword',{error:{message:"password can't be the same!"}})
+    }
+    else{
+        let id = req.session.loginUserId;
+
+        let query = {
+            _id:id
+        };
+        User.findOne(
+            query
+        ).then(user =>{
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(newPassword, salt, (err, hash) => {
+                    if (err) throw err;
+                    user.password = hash;
+                    user
+                        .save()
+                        .then(user => console.log(user))
+                        .catch(err => console.log(err));
+                });
+            });
+            console.log(user);
+            res.redirect('/admin');
+        });
+    }
+});
+
+router.post("/reset", function(req, res) {
+    // Set up transporter for resetting email
+    let transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        port: 465, // SMTP
+        secureConnection: true,
+        auth: {
+            user: 'oics2019@gmail.com',
+            pass: 'oics@1234'
+        }
+    });
+    const username = req.body.username;
+    // const employeeId = req.body.employeeId;
+    // const password = req.body.password;
+    if (username === "admin") {
+        User.findOne({ username : "admin" }).then(user => {
+            if(user) {
+                let password = user.password;
+                let email = user.email;
+                console.log(email);
+                let mailOptions = {
+                    from: '"OIAS" <oics2019@gmail.com>', // sender address
+                    to: email, // list of receivers
+                    subject: "Reset Password", // Subject line
+                    html: "<br>Hi ObEN Invoice Management System user,<br>To reset your password, <br>" +
+                        `<a href = 'http://localhost:3000/resetpassword2?email=${email}&password=${password}' style='color:dodgerblue'>please click here.</a>`+// html body
+                        // "<a href = `http://96.30.195.0:3000/changePassword? + email >(" + ":" + email + ")"  + "<br>" +
+                        "If you did not request a password reset, please disregard this email.<br>" +
+                        "<br><br><br>"+
+                        "Thank you,<br>" +
+                        "ObEN, Inc.<br>" // html body
+                };
+                // send mail with defined transport object
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    //console.log("Message sent: %s", info.messageId);
+                });
+
+                return res.send({
+                    message: 'Reset email is successfully sent'
+                });
+
+            }
+            else{
+                return res.send({
+                    message: 'User not found'
+                });
+            }
+        });
+    }
+    else {
+        return res.send({
+            message: 'This is an error!'
+        });
+    }
+
+});
+
+
 
 
 module.exports = router;
