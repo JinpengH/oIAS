@@ -1,7 +1,7 @@
 let dispense = 0;
 let days = 7;
 $(document).ready(function(){
-
+    $(".header_statistic").css("color","#c5c5c5f2");
     //generating graph
     generateForm(7);
     $.get("/getList",function(data){

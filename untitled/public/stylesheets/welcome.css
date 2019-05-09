@@ -44,7 +44,15 @@ a{
     flex-wrap: wrap;
 }
 
-
+.profile, .my_request{
+    background: linear-gradient(0deg, #ffffff 70%, #2f2f2f 20%);
+}
+.submit, .other{
+    background: linear-gradient(0deg, #ffffff 75%, #2f2f2f 25%);
+}
+.profile a{
+    color:#d4d4d4;
+}
 
 .forms_fieldset{
     border:0;
@@ -53,8 +61,9 @@ a{
 .forms_field{
     position:relative;
 }
-.list_title{
+.title{
     font-size:40px;
+    color:#d4d4d4;
 
 
 }
@@ -94,9 +103,6 @@ a{
     margin-top:20px;
     background-color:#f9f9f9;
     border-radius:5px;
-    border-color:darkgrey;
-    border-style: dashed;
-    border-width: 1px;
 }
 .submit #float_button:hover{
     pointer:cursor;

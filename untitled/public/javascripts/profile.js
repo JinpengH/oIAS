@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    $(".header_profile").css("color","#c5c5c5f2");
     $('.change_profile_image').on('click', function () {
         $('.submission_form').fadeIn();
     });

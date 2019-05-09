@@ -19,9 +19,9 @@ html
         .wrapper
             .header
                 img.logo(src="../images/obEN_logo.png" height=31 width=62.5)
-                a.header_statistic(href="/statistic") Statistic
-                a.header_profile(href="/profile") Profile
                 a.header_dashboard(href="/welcome") Dashboard
+                a.header_profile(href="/profile") Profile
+                a.header_statistic(href="/statistic") Report
                 a.header_logout(href="/logout") Logout
             .content
                 .card.profile
@@ -37,20 +37,20 @@ html
                 .card.my_request
                     p.title My Request
                     .line
-                    p='Recently,' + approved + ' quests have been proved'
+                    p='Recently, ' + approved + ' quests have been proved'
                     p=declined + ' quests have been declined'
                     a(href='/main') Click to see details
                 if userGroup !== 3
                 .card.submit
                     p.title Submit a Request
                     .line
-                    button#float_button click here to submit your request
+                    button#float_button Submit Request
 
                 if userGroup >= 2
                     .card.other
                         p.title Other Request
                         .line
-                        p="Recently, "+10 + "requests need to be reviewed"
+                        p="Recently, "+ 10 + " requests need to be reviewed"
                         a(href='/other') Click to see details
 form.submission_form(name = "submission" action="/submission/create", method="post", enctype='multipart/form-data' onsubmit="return checkForm();")
     fieldset.forms_fieldset

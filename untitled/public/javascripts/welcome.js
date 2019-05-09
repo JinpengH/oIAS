@@ -1,6 +1,6 @@
 
 $(document).ready(function(){
-
+    $(".header_dashboard").css("color","#c5c5c5f2");
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
 
