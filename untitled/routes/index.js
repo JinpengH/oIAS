@@ -28,7 +28,7 @@ router.get('/favicon.ico', (req, res) => res.sendStatus(204));
 router.get('/', login_controller.index);
 router.get('/login', login_controller.index);
 // Register a new user
-router.post("/register", login_controller.register);
+// router.post("/register", login_controller.register);
 // Reset password by email
 router.post('/reset', login_controller.sendPassword);
 // Logout current user and go to login page
@@ -85,10 +85,10 @@ router.get('/profile', function(req, res, next) {
             position = "Employee";
             break;
         case 2:
-            position = "Team Manager";
+            position = "Team Leader";
             break;
         case 3:
-            position = "VP";
+            position = "Company Leader";
             break;
         case 4:
             position = "Contractor";
@@ -132,46 +132,92 @@ router.get('/resetPassword',function(req,res,next){
 router.get("/download",statistic_controller.download);
 //reset
 
-router.post("/resetpassword/:email/:oldPassword/:newPassword", (req, res) => {
-    let email = req.params.email;
-    let oldPassword = req.params.oldPassword;
+// router.post("/resetpassword/:email/:oldPassword/:newPassword", (req, res) => {
+//     let email = req.params.email;
+//     let oldPassword = req.params.oldPassword;
+//     let newPassword = req.params.newPassword; //new Password
+//     console.log("password: " + newPassword);
+//     console.log("email: " + email);
+//
+//         // let id = req.session.loginUserId;
+//
+//         // let query = {
+//         //     email:email;
+//         // };
+//         User.findOne(
+//             {email}
+//         ).then(user =>{
+//             if(oldPassword === password){
+//                 res.render('resetPassword2',{error:{message:"password can't be the same!"}})
+//
+//             }
+//             bcrypt.genSalt(10, (err, salt) => {
+//                 bcrypt.hash(newPassword, salt, (err, hash) => {
+//                     if (err) throw err;
+//                     user.password = hash;
+//                     user
+//                         .save()
+//                         .then(user => res.json(user))
+//                         .then(user => console.log(user))
+//                         .catch(err => console.log(err));
+//                 });
+//             });
+//             console.log(user);
+//             res.render('login');
+//         });
+//
+//
+//
+//     // email = req.body.email;
+//     // oldpsw = req.body.oldpsw;
+//
+//     console.log(email);
+// });
+
+router.post("/resetpassword/:_id/:newPassword", (req, res) => {
+    // let email = req.params.email;
+    // let oldPassword = req.params.oldPassword;
+    let _id = req.params._id;
     let newPassword = req.params.newPassword; //new Password
     console.log("password: " + newPassword);
-    console.log("email: " + email);
+    // console.log("email: " + email);
+    console.log(_id);
+    // let id = req.session.loginUserId;
 
-        // let id = req.session.loginUserId;
+    // let query = {
+    //     email:email;
+    // };
+    User.findOne(
+        { _id }
+    ).then(user =>{
+        // if(oldPassword === password){
+        //     res.render('resetPassword2',{error:{message:"password can't be the same!"}})
+        //
+        // }
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(newPassword, salt, (err, hash) => {
+                if (err) throw err;
+                user.password = hash;
+                user
+                    .save()
+                    // .then(user => res.json(user))
+                    // .then(user => console.log(user))
+                    .catch(err => console.log(err));
 
-        // let query = {
-        //     email:email;
-        // };
-        User.findOne(
-            {email}
-        ).then(user =>{
-            if(oldPassword === password){
-                res.render('resetPassword2',{error:{message:"password can't be the same!"}})
-
-            }
-            bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(newPassword, salt, (err, hash) => {
-                    if (err) throw err;
-                    user.password = hash;
-                    user
-                        .save()
-                        .then(user => res.json(user))
-                        .then(user => console.log(user))
-                        .catch(err => console.log(err));
-                });
             });
-            console.log(user);
-            res.render('login');
+            // res.redirect('/login');
         });
+        // console.log(user);
+        res.redirect('/admin');
+    });
 
 
 
     // email = req.body.email;
     // oldpsw = req.body.oldpsw;
 
-    console.log(email);
+    // console.log(email);
+    // res.redirect('/login');
 });
 
 router.post('/changePassword',function(req,res,next){

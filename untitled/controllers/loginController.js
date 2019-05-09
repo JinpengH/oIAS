@@ -12,7 +12,10 @@ exports.index = function(req,res){
     if(req.session.loginUser){
         res.redirect('/main');
     }
-    else res.render('login',{error:errors});
+    else {
+        console.log("here")
+        res.render('login',{error:errors});
+    }
 
 };
 
@@ -87,55 +90,55 @@ function mainGet(req,res){
         return list;
     });
 }
-exports.register = function(req,res){
-    const { errors, isValid } = validateRegisterInput(req.body);
-    if (!isValid) {
-        res.render('login', { error: errors });
-        //return res.status(400).json(errors);
-    }
-
-    const employeeId = req.body.employeeId;
-    const email = req.body.email;
-
-    User.findOne({ employeeId }).then(user => {
-        if (user) {
-            errors.message = "This employee ID is associated with an existing account.";
-            res.render('login', { error: errors });
-            //return res.status(400).json({ email: "This employee ID is associated with an existing account." });
-        }
-        else {
-            User.findOne({ email }).then(user1 => {
-                if (user1){
-                    errors.message = "This email is associated with an existing account.";
-                    res.render('login', { error: errors });
-                    //return res.status(400).json({ email: "This email address is associated with an existing account." });
-                }
-                else {
-                    // create User object
-                    const newUser = new User({
-                        employeeId: req.body.employeeId,
-                        fullName: req.body.fullName,
-                        password: req.body.password,
-                        email: req.body.email,
-                        // avatar
-                    });
-
-                    // encrypt
-                    bcrypt.genSalt(10, (err, salt) => {
-                        bcrypt.hash(newUser.password, salt, (err, hash) => {
-                            if (err) throw err;
-                            newUser.password = hash;
-                            newUser
-                                .save()
-                                .catch(err => console.log(err));
-                        });
-                    });
-                    return res.render('login', {error: errors});
-                }
-            })
-        }
-    });
-};
+// exports.register = function(req,res){
+//     const { errors, isValid } = validateRegisterInput(req.body);
+//     if (!isValid) {
+//         res.render('login', { error: errors });
+//         //return res.status(400).json(errors);
+//     }
+//
+//     const employeeId = req.body.employeeId;
+//     const email = req.body.email;
+//
+//     User.findOne({ employeeId }).then(user => {
+//         if (user) {
+//             errors.message = "This employee ID is associated with an existing account.";
+//             res.render('login', { error: errors });
+//             //return res.status(400).json({ email: "This employee ID is associated with an existing account." });
+//         }
+//         else {
+//             User.findOne({ email }).then(user1 => {
+//                 if (user1){
+//                     errors.message = "This email is associated with an existing account.";
+//                     res.render('login', { error: errors });
+//                     //return res.status(400).json({ email: "This email address is associated with an existing account." });
+//                 }
+//                 else {
+//                     // create User object
+//                     const newUser = new User({
+//                         employeeId: req.body.employeeId,
+//                         fullName: req.body.fullName,
+//                         password: req.body.password,
+//                         email: req.body.email,
+//                         // avatar
+//                     });
+//
+//                     // encrypt
+//                     bcrypt.genSalt(10, (err, salt) => {
+//                         bcrypt.hash(newUser.password, salt, (err, hash) => {
+//                             if (err) throw err;
+//                             newUser.password = hash;
+//                             newUser
+//                                 .save()
+//                                 .catch(err => console.log(err));
+//                         });
+//                     });
+//                     return res.render('login', {error: errors});
+//                 }
+//             })
+//         }
+//     });
+// };
 
 exports.sendPassword = function(req, res) {
     // Set up transporter for resetting email

@@ -358,7 +358,7 @@ router.post('/changePassword',function(req,res,next){
                 });
             });
             console.log(user);
-            res.redirect('/admin');
+            res.redirect('/login');
         });
     }
 });
@@ -380,15 +380,17 @@ router.post("/reset", function(req, res) {
     if (username === "admin") {
         User.findOne({ username : "admin" }).then(user => {
             if(user) {
-                let password = user.password;
+                // let password = user.password;
                 let email = user.email;
+                let _id = user._id;
                 console.log(email);
                 let mailOptions = {
                     from: '"OIAS" <oics2019@gmail.com>', // sender address
                     to: email, // list of receivers
                     subject: "Reset Password", // Subject line
                     html: "<br>Hi ObEN Invoice Management System user,<br>To reset your password, <br>" +
-                        `<a href = 'http://localhost:3000/resetpassword2?email=${email}&password=${password}' style='color:dodgerblue'>please click here.</a>`+// html body
+                        // `<a href = 'http://localhost:3000/resetpassword2?email=${email}&password=${password}' style='color:dodgerblue'>please click here.</a>`+// html body
+                        `<a href = 'http://localhost:3000/resetpassword2?_id=${_id}' style='color:dodgerblue'>please click here.</a>`+// html body
                         // "<a href = `http://96.30.195.0:3000/changePassword? + email >(" + ":" + email + ")"  + "<br>" +
                         "If you did not request a password reset, please disregard this email.<br>" +
                         "<br><br><br>"+
