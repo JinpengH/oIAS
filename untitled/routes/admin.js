@@ -401,7 +401,7 @@ router.post("/reset", function(req, res) {
                     subject: "Reset Password", // Subject line
                     html: "<br>Hi ObEN Invoice Management System user,<br>To reset your password, <br>" +
                         // `<a href = 'http://localhost:3000/resetpassword2?email=${email}&password=${password}' style='color:dodgerblue'>please click here.</a>`+// html body
-                        `<a href = 'http://localhost:3000/forgotPassword?_id=${_id}' style='color:dodgerblue'>please click here.</a>`+// html body
+                        `<a href = 'http://96.30.195.0:3000/forgotPassword?_id=${_id}' style='color:dodgerblue'>please click here.</a>`+// html body
                         // "<a href = `http://96.30.195.0:3000/changePassword? + email >(" + ":" + email + ")"  + "<br>" +
                         "If you did not request a password reset, please disregard this email.<br>" +
                         "<br><br><br>"+
