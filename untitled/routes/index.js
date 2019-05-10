@@ -106,13 +106,13 @@ router.get('/profile', function(req, res, next) {
             break;
     }
     User.findOne({_id:id}).then(user=>{
-        res.render('profile', { title: 'Profile',fullName:user.fullName,position:position,department:department,avatar:user.avatar,telephone:user.telephone,address:user.address});
+        res.render('profile', { title: 'Profile',fullName:user.fullName,position:position,department:department,avatar:user.avatar,telephone:user.telephone,address:user.address,email:user.email});
 
     });
 });
 
-router.get("/resetPassword2", (req, res) => {
-    res.render('resetPassword2');
+router.get("/forgotPassword", (req, res) => {
+    res.render('forgotPassword');
 });
 
 router.get('/main',main_controller.index);
@@ -208,19 +208,13 @@ router.post("/resetpassword/:_id/:newPassword", (req, res) => {
             // res.redirect('/login');
         });
         // console.log(user);
-        res.redirect('/admin');
+        // return res.redirect('/login');
+        return res.render('login');
     });
-
-
-
-    // email = req.body.email;
-    // oldpsw = req.body.oldpsw;
-
-    // console.log(email);
-    // res.redirect('/login');
+        // .catch(err => res.status(400).json(err));
 });
 
-router.post('/changePassword',function(req,res,next){
+router.post('/changePassword',function(req,res){
     let originalPassword = req.body.oldPassword;
     let newPassword = req.body.newPassword;
 
@@ -242,18 +236,50 @@ router.post('/changePassword',function(req,res,next){
                     user.password = hash;
                     user
                         .save()
-                        .then(user => res.json(user))
-                        .then(user => console.log(user))
+                        // .then(user => res.json(user))
+                        // .then(user => console.log(user))
                         .catch(err => console.log(err));
                 });
             });
-            console.log(user);
-            res.render('login');
+            // console.log(user);
+            // res.render('login');
         });
-
-
+        return res.redirect('/profile');
+            // .catch(err => res.status(400).json(err));
     }
 
+});
+
+router.post('/changeEmail',function(req,res){
+    if (req.session.loginUser){
+        let newEmail = req.body.newEmail;
+        let _id = req.session.loginUserId;
+
+        User.findOneAndUpdate(
+            { _id: _id },
+            { $set: { email: newEmail} },
+            (err) => {
+                if(err){
+                    console.log("something wrong happened");
+                }
+                else {
+                    req.session.loginUserEmail = newEmail.email;
+                }
+            });
+        return res.redirect('/profile');
+            // .catch(err => res.status(400).json(err));
+    }
+    else {
+        console.log("This user did not log in");
+    }
+    // let originalPassword = req.body.oldPassword;
+});
+
+router.get("/changeEmail", (req,res)=>{
+    if (req.session.loginUser){
+        let oldEmail = req.session.loginUserEmail;
+        res.render('changeEmail', { email : oldEmail});
+    }
 });
 
 router.get("/activation", activation_controller.activation);
@@ -281,10 +307,7 @@ router.get("/save/:address/:telephone", (req,res)=>{ //TODO
 
 });
 
-router.post(
-    "/changeAvatar",
-    multiparty,
-    (req, res) => {
+router.post("/changeAvatar", multiparty, (req, res) => {
         // console.log(req.files);
         let id = req.session.loginUserId;
         let filepath = req.files.file.path;

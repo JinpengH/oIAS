@@ -2,7 +2,7 @@ doctype html
 
 html
     head
-        title= title
+        title= "Profile"
         link(rel='stylesheet', href='/stylesheets/profile.css')
         link(rel='stylesheet', href='/stylesheets/header.css')
         link(href="https://fonts.googleapis.com/css?family=PT+Serif|Poppins|Ubuntu" rel="stylesheet")
@@ -49,13 +49,18 @@ html
                             p#card_address(contenteditable)=address
 
                         .field
-                            p Telephone: &nbsp
+                            p Phone: &nbsp
                             p#card_telephone(contenteditable)=telephone
+                        .field
+                            p Email: &nbsp
+                            p#card_email=email
 
+                    a.change_password.fas.fa-envelope.fa-3x(href="/changeEmail")
+                        p Change your email
                     a.change_password.fas.fa-key.fa-3x(href="/resetPassword")
-                        p change your password
+                        p Change your password
                     a.change_profile_image.fas.fa-user-circle.fa-3x
-                        p change your profile image
+                        p Change your profile image
 form.submission_form(name = "submission" action="/changeAvatar", method="post", enctype='multipart/form-data' onsubmit="return checkForm();")
     fieldset.forms_fieldset
         .forms_field

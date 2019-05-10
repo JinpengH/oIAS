@@ -22,8 +22,7 @@ exports.index = function(req,res){
 
 exports.logout =  function(req,res){
     req.session.destroy();
-    res.render('login',{error:errors});
-    //res.redirect('/login');
+    return res.render('login');
 };
 
 
@@ -68,6 +67,7 @@ exports.login = function(req,res){
                     //save user to session
                     req.session.loginUser = user;
                     req.session.loginUserName = user.fullName;
+                    req.session.loginUserEmail= user.email;
                     req.session.loginUserId = user.id;
                     req.session.loginUserGroup = user.userGroup;
                     req.session.departmentId = user.departmentId;
@@ -89,56 +89,7 @@ function mainGet(req,res){
     Submission.find({linkedUserId: req.session.loginUserId}).then(list =>{
         return list;
     });
-}
-// exports.register = function(req,res){
-//     const { errors, isValid } = validateRegisterInput(req.body);
-//     if (!isValid) {
-//         res.render('login', { error: errors });
-//         //return res.status(400).json(errors);
-//     }
-//
-//     const employeeId = req.body.employeeId;
-//     const email = req.body.email;
-//
-//     User.findOne({ employeeId }).then(user => {
-//         if (user) {
-//             errors.message = "This employee ID is associated with an existing account.";
-//             res.render('login', { error: errors });
-//             //return res.status(400).json({ email: "This employee ID is associated with an existing account." });
-//         }
-//         else {
-//             User.findOne({ email }).then(user1 => {
-//                 if (user1){
-//                     errors.message = "This email is associated with an existing account.";
-//                     res.render('login', { error: errors });
-//                     //return res.status(400).json({ email: "This email address is associated with an existing account." });
-//                 }
-//                 else {
-//                     // create User object
-//                     const newUser = new User({
-//                         employeeId: req.body.employeeId,
-//                         fullName: req.body.fullName,
-//                         password: req.body.password,
-//                         email: req.body.email,
-//                         // avatar
-//                     });
-//
-//                     // encrypt
-//                     bcrypt.genSalt(10, (err, salt) => {
-//                         bcrypt.hash(newUser.password, salt, (err, hash) => {
-//                             if (err) throw err;
-//                             newUser.password = hash;
-//                             newUser
-//                                 .save()
-//                                 .catch(err => console.log(err));
-//                         });
-//                     });
-//                     return res.render('login', {error: errors});
-//                 }
-//             })
-//         }
-//     });
-// };
+};
 
 exports.sendPassword = function(req, res) {
     // Set up transporter for resetting email
@@ -158,14 +109,17 @@ exports.sendPassword = function(req, res) {
     {
         User.findOne({ email }).then(user => {
             if(user) {
-                let password = user.password;
+                // let password = user.password;
                 let email = user.email;
+                let _id = user._id;
+                // console.log(email);
                 let mailOptions = {
                     from: '"OIAS" <oics2019@gmail.com>', // sender address
                     to: email, // list of receivers
                     subject: "Notice from OIAS", // Subject line
                     html: "<br>Hi ObEN Invoice Management System user,<br>To reset your password, <br>" +
-                        `<a href = 'http://localhost:3000/resetpassword2?email=${email}&password=${password}' style='color:dodgerblue'>please click here.</a>`+// html body
+                        // `<a href = 'http://localhost:3000/resetpassword2?email=${email}&password=${password}' style='color:dodgerblue'>please click here.</a>`+// html body
+                        `<a href = 'http://localhost:3000/forgotPassword?_id=${_id}' style='color:dodgerblue'>please click here.</a>`+// html body
                         // "<a href = `http://96.30.195.0:3000/changePassword? + email >(" + ":" + email + ")"  + "<br>" +
                         "If you did not request a password reset, please disregard this email.<br>" +
                         "<br><br><br>"+

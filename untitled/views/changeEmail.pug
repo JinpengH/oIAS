@@ -2,7 +2,7 @@ doctype html
 
 html
     head
-        title= title
+        title= "Change Email"
         link(rel='stylesheet', href='/stylesheets/profile.css')
         link(rel='stylesheet', href='/stylesheets/header.css')
         link(rel='stylesheet', href='/stylesheets/resetPassword.css')
@@ -13,33 +13,28 @@ html
         script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous")
         script(src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js")
         script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js")
+
+
     body
 
         .wrapper
 
             .header
                 img.logo(src="../images/obEN_logo.png" height=31 width=62.5)
-                //a.header_statistic(href="/statistic") Statistic
-                //a.header_profile(href="/profile") Profile
-                //a.header_dashboard(href="/main") Dashboard
-                //a.header_logout(href="/login") Logout
 
             .content
+                .card_description
+                    .field
+                        p Current email:&nbsp
+                        p#card_name=email
                 .card
-                    form.forms_form(action="/changePassword" method="post")
+                    form.forms_form(action="/changeEmail" method="post")
                         fieldset.forms_fieldset
                             .forms_field
-                                input.forms_field-input(type='password', name="oldPassword", placeholder='Original Password', required='')
-                            .forms_field
-                                input.forms_field-input(type='password', name="newPassword", placeholder='New Password', required='')
+                                input.forms_field-input(type='email', name="newEmail", placeholder='New Email', required='')
                         .forms_buttons
-                            input.forms_buttons-action(type='submit', value='Change Password')
+                            input.forms_buttons-action(type='submit', value='Change Email')
                             if error
                                 p.error=error.message
-
-
-
-
-
 
 
