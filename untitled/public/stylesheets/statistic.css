@@ -47,7 +47,13 @@ h1{
 }
 .user_filter p{
     float:left;
-    margin-left:100px;
+    margin-left: 10%;
+    font-size:35px;
+    padding:auto;
+}
+.user_filter p:first-child{
+    float:left;
+    margin-left: 0;
     font-size:35px;
     padding:auto;
 }
