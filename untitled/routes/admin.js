@@ -63,6 +63,10 @@ router.get('/admin', function(req, res) {
     res.redirect('/admin/employees');
 });
 
+router.get("/adminChangeEmail", function(req, res) {
+    return res.render("adminChangeEmail", { email: req.session.loginUserEmail });
+});
+
 // Admin login
 // request parameter: username, password
 
@@ -83,6 +87,7 @@ router.post("/login", (req, res) => {
                 req.session.loginUser = user;
                 req.session.loginUserId = user.id;
                 req.session.loginUserGroup = user.userGroup;
+                req.session.loginUserEmail = user.email;
                 req.user = user;
                 res.redirect('/admin/employees');
             }
@@ -205,7 +210,8 @@ router.post("/assign-user/:email/:team/:type/:status", [checkLoggedIn, checkAdmi
                 (err) => {
                     if(err){
                         console.log("something wrong happened");
-                    }else{
+                    }
+                    else{
                         User.find().then(list => {
                             return res.send(list);
                         });
@@ -324,7 +330,12 @@ router.post("/submission/create", multiparty, [checkLoggedIn, checkAdmin], (req,
 });
 
 router.get("/adminProfile", [checkLoggedIn, checkAdmin], (req, res) => {
-    return res.render("adminProfile");
+    User.findOne({ username: "admin" }).then(user => {
+        if (user) {
+            req.session.loginUserEmail = user.email;
+            res.render("adminProfile", { email: req.session.loginUserEmail });
+        }
+    });
 });
 
 router.get("/adminResetPassword", [checkLoggedIn, checkAdmin], (req, res) => {
@@ -358,7 +369,7 @@ router.post('/changePassword',function(req,res,next){
                 });
             });
             console.log(user);
-            res.redirect('/admin');
+            res.redirect('/login');
         });
     }
 });
@@ -380,15 +391,17 @@ router.post("/reset", function(req, res) {
     if (username === "admin") {
         User.findOne({ username : "admin" }).then(user => {
             if(user) {
-                let password = user.password;
+                // let password = user.password;
                 let email = user.email;
-                console.log(email);
+                let _id = user._id;
+                // console.log(email);
                 let mailOptions = {
                     from: '"OIAS" <oics2019@gmail.com>', // sender address
                     to: email, // list of receivers
                     subject: "Reset Password", // Subject line
                     html: "<br>Hi ObEN Invoice Management System user,<br>To reset your password, <br>" +
-                        `<a href = 'http://localhost:3000/resetpassword2?email=${email}&password=${password}' style='color:dodgerblue'>please click here.</a>`+// html body
+                        // `<a href = 'http://localhost:3000/resetpassword2?email=${email}&password=${password}' style='color:dodgerblue'>please click here.</a>`+// html body
+                        `<a href = 'http://localhost:3000/forgotPassword?_id=${_id}' style='color:dodgerblue'>please click here.</a>`+// html body
                         // "<a href = `http://96.30.195.0:3000/changePassword? + email >(" + ":" + email + ")"  + "<br>" +
                         "If you did not request a password reset, please disregard this email.<br>" +
                         "<br><br><br>"+
@@ -423,7 +436,20 @@ router.post("/reset", function(req, res) {
 
 });
 
-
+router.post('/changeEmail', [checkLoggedIn, checkAdmin], function(req,res){
+    let newEmail = req.body.newEmail;
+    let _id = req.session.loginUserId;
+    User.findOneAndUpdate(
+        { _id: _id },
+        { $set: { email: newEmail} },
+        (err) => {
+            if(err){
+                console.log("something wrong happened");
+            }
+        });
+    // req.session.loginUserEmail = newEmail;
+    return res.redirect('/admin/adminProfile');
+});
 
 
 module.exports = router;

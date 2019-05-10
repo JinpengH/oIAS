@@ -31,7 +31,11 @@ html
                         .field
                             p Name:&nbsp
                             p#card_name="Admin"
-
+                        .field
+                            p Name:&nbsp
+                            p#card_email=email
+                    a.change_password.fas.fa-envelope.fa-3x(href="/admin/adminChangeEmail")
+                        p Change your email
                     a.change_password.fas.fa-key.fa-3x(href="/admin/adminResetPassword")
                         p change your password
 

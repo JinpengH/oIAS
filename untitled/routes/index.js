@@ -28,7 +28,7 @@ router.get('/favicon.ico', (req, res) => res.sendStatus(204));
 router.get('/', login_controller.index);
 router.get('/login', login_controller.index);
 // Register a new user
-router.post("/register", login_controller.register);
+// router.post("/register", login_controller.register);
 // Reset password by email
 router.post('/reset', login_controller.sendPassword);
 // Logout current user and go to login page
@@ -85,10 +85,10 @@ router.get('/profile', function(req, res, next) {
             position = "Employee";
             break;
         case 2:
-            position = "Team Manager";
+            position = "Team Leader";
             break;
         case 3:
-            position = "VP";
+            position = "Company Leader";
             break;
         case 4:
             position = "Contractor";
@@ -106,13 +106,13 @@ router.get('/profile', function(req, res, next) {
             break;
     }
     User.findOne({_id:id}).then(user=>{
-        res.render('profile', { title: 'Profile',fullName:user.fullName,position:position,department:department,avatar:user.avatar,telephone:user.telephone,address:user.address});
+        res.render('profile', { title: 'Profile',fullName:user.fullName,position:position,department:department,avatar:user.avatar,telephone:user.telephone,address:user.address,email:user.email});
 
     });
 });
 
-router.get("/resetPassword2", (req, res) => {
-    res.render('resetPassword2');
+router.get("/forgotPassword", (req, res) => {
+    res.render('forgotPassword');
 });
 
 router.get('/main',main_controller.index);
@@ -132,49 +132,89 @@ router.get('/resetPassword',function(req,res,next){
 router.get("/download",statistic_controller.download);
 //reset
 
-router.post("/resetpassword/:email/:oldPassword/:newPassword", (req, res) => {
-    let email = req.params.email;
-    let oldPassword = req.params.oldPassword;
+// router.post("/resetpassword/:email/:oldPassword/:newPassword", (req, res) => {
+//     let email = req.params.email;
+//     let oldPassword = req.params.oldPassword;
+//     let newPassword = req.params.newPassword; //new Password
+//     console.log("password: " + newPassword);
+//     console.log("email: " + email);
+//
+//         // let id = req.session.loginUserId;
+//
+//         // let query = {
+//         //     email:email;
+//         // };
+//         User.findOne(
+//             {email}
+//         ).then(user =>{
+//             if(oldPassword === password){
+//                 res.render('resetPassword2',{error:{message:"password can't be the same!"}})
+//
+//             }
+//             bcrypt.genSalt(10, (err, salt) => {
+//                 bcrypt.hash(newPassword, salt, (err, hash) => {
+//                     if (err) throw err;
+//                     user.password = hash;
+//                     user
+//                         .save()
+//                         .then(user => res.json(user))
+//                         .then(user => console.log(user))
+//                         .catch(err => console.log(err));
+//                 });
+//             });
+//             console.log(user);
+//             res.render('login');
+//         });
+//
+//
+//
+//     // email = req.body.email;
+//     // oldpsw = req.body.oldpsw;
+//
+//     console.log(email);
+// });
+
+router.post("/resetpassword/:_id/:newPassword", (req, res) => {
+    // let email = req.params.email;
+    // let oldPassword = req.params.oldPassword;
+    let _id = req.params._id;
     let newPassword = req.params.newPassword; //new Password
     console.log("password: " + newPassword);
-    console.log("email: " + email);
+    // console.log("email: " + email);
+    console.log(_id);
+    // let id = req.session.loginUserId;
 
-        // let id = req.session.loginUserId;
+    // let query = {
+    //     email:email;
+    // };
+    User.findOne(
+        { _id }
+    ).then(user =>{
+        // if(oldPassword === password){
+        //     res.render('resetPassword2',{error:{message:"password can't be the same!"}})
+        //
+        // }
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(newPassword, salt, (err, hash) => {
+                if (err) throw err;
+                user.password = hash;
+                user
+                    .save()
+                    // .then(user => res.json(user))
+                    // .then(user => console.log(user))
+                    .catch(err => console.log(err));
 
-        // let query = {
-        //     email:email;
-        // };
-        User.findOne(
-            {email}
-        ).then(user =>{
-            if(oldPassword === password){
-                res.render('resetPassword2',{error:{message:"password can't be the same!"}})
-
-            }
-            bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(newPassword, salt, (err, hash) => {
-                    if (err) throw err;
-                    user.password = hash;
-                    user
-                        .save()
-                        .then(user => res.json(user))
-                        .then(user => console.log(user))
-                        .catch(err => console.log(err));
-                });
             });
-            console.log(user);
-            res.render('login');
+            // res.redirect('/login');
         });
-
-
-
-    // email = req.body.email;
-    // oldpsw = req.body.oldpsw;
-
-    console.log(email);
+        // console.log(user);
+        // return res.redirect('/login');
+        return res.render('login');
+    });
+        // .catch(err => res.status(400).json(err));
 });
 
-router.post('/changePassword',function(req,res,next){
+router.post('/changePassword',function(req,res){
     let originalPassword = req.body.oldPassword;
     let newPassword = req.body.newPassword;
 
@@ -196,18 +236,50 @@ router.post('/changePassword',function(req,res,next){
                     user.password = hash;
                     user
                         .save()
-                        .then(user => res.json(user))
-                        .then(user => console.log(user))
+                        // .then(user => res.json(user))
+                        // .then(user => console.log(user))
                         .catch(err => console.log(err));
                 });
             });
-            console.log(user);
-            res.render('login');
+            // console.log(user);
+            // res.render('login');
         });
-
-
+        return res.redirect('/profile');
+            // .catch(err => res.status(400).json(err));
     }
 
+});
+
+router.post('/changeEmail',function(req,res){
+    if (req.session.loginUser){
+        let newEmail = req.body.newEmail;
+        let _id = req.session.loginUserId;
+
+        User.findOneAndUpdate(
+            { _id: _id },
+            { $set: { email: newEmail} },
+            (err) => {
+                if(err){
+                    console.log("something wrong happened");
+                }
+                else {
+                    req.session.loginUserEmail = newEmail.email;
+                }
+            });
+        return res.redirect('/profile');
+            // .catch(err => res.status(400).json(err));
+    }
+    else {
+        console.log("This user did not log in");
+    }
+    // let originalPassword = req.body.oldPassword;
+});
+
+router.get("/changeEmail", (req,res)=>{
+    if (req.session.loginUser){
+        let oldEmail = req.session.loginUserEmail;
+        res.render('changeEmail', { email : oldEmail});
+    }
 });
 
 router.get("/activation", activation_controller.activation);
@@ -235,10 +307,7 @@ router.get("/save/:address/:telephone", (req,res)=>{ //TODO
 
 });
 
-router.post(
-    "/changeAvatar",
-    multiparty,
-    (req, res) => {
+router.post("/changeAvatar", multiparty, (req, res) => {
         // console.log(req.files);
         let id = req.session.loginUserId;
         let filepath = req.files.file.path;
